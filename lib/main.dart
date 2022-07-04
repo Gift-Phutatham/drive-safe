@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'map_screen.dart';
 import 'dashboard_screen.dart';
-import 'constant.dart';
+import 'constants.dart';
 
 void main() {
   if (defaultTargetPlatform == TargetPlatform.android) {
