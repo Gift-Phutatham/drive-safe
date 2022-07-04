@@ -1,7 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'map.dart';
+import 'map_screen.dart';
+import 'dashboard_screen.dart';
+import 'constant.dart';
 
 void main() {
   if (defaultTargetPlatform == TargetPlatform.android) {
@@ -32,7 +34,10 @@ class MyStatefulWidget extends StatefulWidget {
 class _MyStatefulWidgetState extends State<MyStatefulWidget> {
   int _selectedIndex = 0;
 
-  static const List<Widget> _widgetOptions = <Widget>[MapSample(), MapSample()];
+  static const List<Widget> _widgetOptions = <Widget>[
+    MapSample(),
+    DashBoardScreen()
+  ];
 
   void _onItemTapped(int index) {
     setState(() {
@@ -45,18 +50,20 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
     return Scaffold(
       body: _widgetOptions.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: kBackgroundColor,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.map),
-            label: 'Map',
+            icon: Icon(Icons.place),
+            label: 'แผนที่',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.map),
-            label: 'Map',
+            icon: Icon(Icons.bar_chart),
+            label: 'สถิติ',
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.amber,
+        selectedLabelStyle: const TextStyle(fontFamily: 'Prompt'),
+        selectedItemColor: Colors.white,
         onTap: _onItemTapped,
       ),
     );

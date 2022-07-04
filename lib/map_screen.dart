@@ -1,11 +1,6 @@
-// Copyright 2013 The Flutter Authors. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
-
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'constant.dart';
 
 class MapSample extends StatefulWidget {
   const MapSample({Key? key}) : super(key: key);
@@ -28,8 +23,12 @@ class MapSampleState extends State<MapSample> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Maps Sample App'),
-          backgroundColor: Colors.green[700],
+          centerTitle: true,
+          title: const Text(
+            "แผนที่",
+            style: TextStyle(fontFamily: 'Prompt'),
+          ),
+          backgroundColor: kBackgroundColor,
         ),
         body: GoogleMap(
           onMapCreated: _onMapCreated,
