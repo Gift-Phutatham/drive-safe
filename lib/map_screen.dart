@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'constants.dart';
+import 'favorite_screen.dart';
 
 class MapSample extends StatefulWidget {
   const MapSample({Key? key}) : super(key: key);
@@ -35,6 +36,19 @@ class MapSampleState extends State<MapSample> {
           initialCameraPosition: CameraPosition(
             target: _center,
             zoom: 11.0,
+          ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const FavoriteScreen(),
+            ),
+          ),
+          backgroundColor: kBackgroundColor,
+          child: const Icon(
+            Icons.favorite,
+            color: Colors.white,
           ),
         ),
       ),

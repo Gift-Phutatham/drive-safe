@@ -2,6 +2,7 @@ import 'package:drive_safe/record_model.dart';
 import 'package:flutter/material.dart';
 import 'constants.dart';
 import 'api_service.dart';
+import 'dashboard_details_screen.dart';
 
 class DashBoardScreen extends StatefulWidget {
   const DashBoardScreen({Key? key}) : super(key: key);
@@ -58,84 +59,93 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
               itemCount: map.length,
               itemBuilder: (context, index) {
                 ExpwStep key = map.keys.elementAt(index);
-                return Container(
-                  padding: const EdgeInsets.all(12.0),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(
-                      color: kBackgroundColor,
-                      width: 1,
-                    ),
-                    color: Colors.white,
-                  ),
+                return GestureDetector(
+                  onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => DashboardDetailsScreen(
+                              name: expwStepValues.getValue(key),
+                              records: map[key]!))),
                   child: Container(
-                    padding: const EdgeInsets.all(5.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Align(
-                              alignment: Alignment.topLeft,
-                              child: Text(
-                                expwStepValues.getValue(key),
-                                style: const TextStyle(
-                                  fontFamily: 'Prompt',
-                                  color: kTextColor,
+                    padding: const EdgeInsets.all(12.0),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      border: Border.all(
+                        color: kBackgroundColor,
+                        width: 1,
+                      ),
+                      color: Colors.white,
+                    ),
+                    child: Container(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Align(
+                                alignment: Alignment.topLeft,
+                                child: Text(
+                                  expwStepValues.getValue(key),
+                                  style: const TextStyle(
+                                    fontFamily: 'Prompt',
+                                    color: kTextColor,
+                                  ),
                                 ),
                               ),
-                            ),
-                            const SizedBox(
-                              height: 8,
-                            ),
-                            Container(
-                              padding: const EdgeInsets.fromLTRB(
-                                  0.0, 20.0, 0.0, 20.0),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: kBoxColor,
+                              const SizedBox(
+                                height: 8,
                               ),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  Column(
-                                    children: const [
-                                      Text(
-                                        'จำนวนอุบัติเหตุทั้งหมด',
-                                        style: TextStyle(
-                                            fontFamily: 'Prompt',
-                                            color: Colors.white),
-                                      ),
-                                      Text(
-                                        '(2563 - ปัจจุบัน)',
-                                        style: TextStyle(
-                                            fontFamily: 'Prompt',
-                                            color: Colors.white),
-                                      ),
-                                    ],
-                                  ),
-                                  Text(
-                                    map[key]!.length.toString(),
-                                    style: const TextStyle(
-                                        fontSize: 24,
-                                        fontFamily: 'Prompt',
-                                        color: Colors.white),
-                                  ),
-                                ],
+                              Container(
+                                padding: const EdgeInsets.fromLTRB(
+                                    0.0, 20.0, 0.0, 20.0),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: kBoxColor,
+                                ),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Column(
+                                      children: const [
+                                        Text(
+                                          'จำนวนอุบัติเหตุทั้งหมด',
+                                          style: TextStyle(
+                                              fontFamily: 'Prompt',
+                                              color: Colors.white),
+                                        ),
+                                        Text(
+                                          '(2563 - ปัจจุบัน)',
+                                          style: TextStyle(
+                                              fontFamily: 'Prompt',
+                                              color: Colors.white),
+                                        ),
+                                      ],
+                                    ),
+                                    Text(
+                                      map[key]!.length.toString(),
+                                      style: const TextStyle(
+                                          fontSize: 24,
+                                          fontFamily: 'Prompt',
+                                          color: Colors.white),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ],
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 );
               },
               separatorBuilder: (context, index) => const SizedBox(
-                    height: 10,
-                  )),
+                height: 10,
+              ),
+            ),
     );
   }
 }
