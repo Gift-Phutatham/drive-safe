@@ -80,17 +80,21 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                               alignment: Alignment.topLeft,
                               child: Text(
                                 expwStepValues.getValue(key),
-                                style: const TextStyle(fontFamily: 'Prompt'),
+                                style: const TextStyle(
+                                  fontFamily: 'Prompt',
+                                  color: kTextColor,
+                                ),
                               ),
                             ),
                             const SizedBox(
                               height: 8,
                             ),
                             Container(
-                              padding: const EdgeInsets.all(10.0),
+                              padding: const EdgeInsets.fromLTRB(
+                                  0.0, 20.0, 0.0, 20.0),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
-                                color: kBackgroundColor,
+                                color: kBoxColor,
                               ),
                               child: Row(
                                 mainAxisAlignment:
@@ -115,7 +119,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                   Text(
                                     map[key]!.length.toString(),
                                     style: const TextStyle(
-                                        fontSize: 20,
+                                        fontSize: 24,
                                         fontFamily: 'Prompt',
                                         color: Colors.white),
                                   ),

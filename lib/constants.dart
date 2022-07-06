@@ -1,6 +1,8 @@
 import 'dart:ui';
 
 const kBackgroundColor = Color(0xFF51087E);
+const kBoxColor = Color(0xFF6A2D94);
+const kTextColor = Color(0xFF4B0082);
 
 class ApiConstants {
   static const String baseUrl = 'https://opend.data.go.th/get-ckan';
