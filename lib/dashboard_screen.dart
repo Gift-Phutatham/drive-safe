@@ -39,6 +39,19 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
         }));
   }
 
+  Map<WeatherState, int> getWeatherStat(ExpwStep name) {
+    List<Record> thisRecords = map[name]!;
+    Map<WeatherState, int> weatherStat = {};
+    for (var weatherState in WeatherState.values) {
+      weatherStat[weatherState] = 0;
+    }
+    for (var element in thisRecords) {
+      weatherStat.update(element.weatherState,
+          (value) => weatherStat[element.weatherState]! + 1);
+    }
+    return weatherStat;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,7 +78,8 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                       MaterialPageRoute(
                           builder: (context) => DashboardDetailsScreen(
                               name: expwStepValues.getValue(key),
-                              records: map[key]!))),
+                              records: map[key]!,
+                              weatherStat: getWeatherStat(key)))),
                   child: Container(
                     padding: const EdgeInsets.all(12.0),
                     decoration: BoxDecoration(
