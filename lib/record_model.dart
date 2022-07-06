@@ -199,8 +199,16 @@ class EnumValues<T> {
 
   EnumValues(this.map);
 
+  String getValue(T key) {
+    if (reverse.containsKey(key)) {
+      return reverse[key]!;
+    } else {
+      return "";
+    }
+  }
+
   Map<T, String> get reverse {
-    if (reverseMap == null) {
+    if (reverseMap.isEmpty) {
       reverseMap = map.map((k, v) => new MapEntry(v, k));
     }
     return reverseMap;

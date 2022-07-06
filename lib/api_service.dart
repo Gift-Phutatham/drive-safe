@@ -4,11 +4,11 @@ import 'constants.dart';
 import 'record_model.dart';
 
 class ApiService {
-  Future<RecordModel?> getUsers() async {
+  Future<RecordModel?> getRecord() async {
     try {
       var url =
           Uri.parse(ApiConstants.baseUrl + ApiConstants.accidents2565Endpoint);
-      var response = await http.get(url);
+      var response = await http.get(url, headers: {'api-key': 's7IMbGHOxg05wJVaFCNerLAWto2Hmy2n'});
       if (response.statusCode == 200) {
         RecordModel _model = recordModelFromJson(response.body);
         return _model;
