@@ -174,7 +174,8 @@ enum ExpwStep {
   FLUFFY,
   TENTACLED,
   STICKY,
-  S1
+  S1,
+  A
 }
 
 final expwStepValues = EnumValues({
@@ -185,7 +186,8 @@ final expwStepValues = EnumValues({
   "S1": ExpwStep.S1,
   "อุดรรัถยา": ExpwStep.STICKY,
   "เฉลิมมหานคร": ExpwStep.TENTACLED,
-  "ทางหลวงพิเศษหมายเลข 37": ExpwStep.THE_37
+  "ทางหลวงพิเศษหมายเลข 37": ExpwStep.THE_37,
+  "ศรีรัช-วงแหวนรอบนอก": ExpwStep.A
 });
 
 enum WeatherState { EMPTY, WEATHER_STATE }

@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'constants.dart';
 import 'package:drive_safe/record_model.dart';
+import 'package:drive_safe/statistic_model.dart';
 
 class DashboardDetailsScreen extends StatelessWidget {
-  const DashboardDetailsScreen(
-      {required this.name, required this.records, required this.weatherStat});
+  const DashboardDetailsScreen({required this.name, required this.statistic});
   final String name;
-  final List<Record> records;
-  final Map<WeatherState, int> weatherStat;
+  final Statistic statistic;
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +47,7 @@ class DashboardDetailsScreen extends StatelessWidget {
                     ],
                   ),
                   Text(
-                    records.length.toString(),
+                    statistic.totalAccidents.toString(),
                     style: const TextStyle(
                         fontSize: 24,
                         fontFamily: 'Prompt',
@@ -96,7 +95,8 @@ class DashboardDetailsScreen extends StatelessWidget {
                                 fontFamily: 'Prompt', color: Colors.white),
                           ),
                           Text(
-                            weatherStat[WeatherState.EMPTY].toString(),
+                            statistic.weatherStat[WeatherState.EMPTY]
+                                .toString(),
                             style: TextStyle(
                                 fontFamily: 'Prompt', color: Colors.white),
                           )
@@ -114,7 +114,7 @@ class DashboardDetailsScreen extends StatelessWidget {
                                 fontFamily: 'Prompt', color: Colors.white),
                           ),
                           Text(
-                              weatherStat[WeatherState.WEATHER_STATE]
+                              statistic.weatherStat[WeatherState.WEATHER_STATE]
                                   .toString(),
                               style: TextStyle(
                                   fontFamily: 'Prompt', color: Colors.white))
@@ -125,6 +125,38 @@ class DashboardDetailsScreen extends StatelessWidget {
                 ],
               ),
             ),
+            SizedBox(
+              height: 10,
+            ),
+            Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 20.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: kBoxColor,
+                  ),
+                  child: Text(
+                    statistic.totalDead.toString(),
+                    style: TextStyle(fontFamily: 'Prompt', color: Colors.white),
+                  ),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                Container(
+                  padding: const EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 20.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: kBoxColor,
+                  ),
+                  child: Text(
+                    statistic.totalInjured.toString(),
+                    style: TextStyle(fontFamily: 'Prompt', color: Colors.white),
+                  ),
+                ),
+              ],
+            )
           ],
         ),
       ),

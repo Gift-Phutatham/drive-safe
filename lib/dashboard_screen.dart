@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'constants.dart';
 import 'api_service.dart';
 import 'dashboard_details_screen.dart';
+import 'package:drive_safe/statistic_model.dart';
 
 class DashBoardScreen extends StatefulWidget {
   const DashBoardScreen({Key? key}) : super(key: key);
@@ -24,11 +25,16 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
   }
 
   void _getData() async {
-    RecordModel _recordModel = (await ApiService().getRecord())!;
+    List<RecordModel?> _record = (await ApiService().getAllRecords())!;
 
     // Simulate QUERY time for the real API call
     Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {
-          records = _recordModel.result.records;
+          for (var year in _record) {
+            print(year?.result.total);
+            if (year != null) {
+              records.addAll(year.result.records);
+            }
+          }
           for (var element in records) {
             if (map.containsKey(element.expwStep)) {
               map[element.expwStep]?.add(element);
@@ -39,17 +45,27 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
         }));
   }
 
-  Map<WeatherState, int> getWeatherStat(ExpwStep name) {
+  Statistic getStatistic(ExpwStep name) {
     List<Record> thisRecords = map[name]!;
     Map<WeatherState, int> weatherStat = {};
+    int totalDead = 0;
+    int totalInjured = 0;
     for (var weatherState in WeatherState.values) {
       weatherStat[weatherState] = 0;
     }
     for (var element in thisRecords) {
       weatherStat.update(element.weatherState,
           (value) => weatherStat[element.weatherState]! + 1);
+      totalDead += element.deadMan;
+      totalDead += element.deadFemel;
+      totalInjured += element.injurMan;
+      totalInjured += element.deadFemel;
     }
-    return weatherStat;
+    return Statistic(
+        totalAccidents: thisRecords.length,
+        weatherStat: weatherStat,
+        totalDead: totalDead,
+        totalInjured: totalInjured);
   }
 
   @override
@@ -77,15 +93,19 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => DashboardDetailsScreen(
-                              name: expwStepValues.getValue(key),
-                              records: map[key]!,
-                              weatherStat: getWeatherStat(key)))),
+                                name: expwStepValues.getValue(key),
+                                statistic: getStatistic(key),
+                              ))),
                   child: Container(
                     padding: const EdgeInsets.all(12.0),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       border: Border.all(
-                        color: kBackgroundColor,
+                        color: map[key]!.length >= 50
+                            ? kRedColor
+                            : map[key]!.length >= 20
+                                ? kOrangeColor
+                                : kYellowColor,
                         width: 1,
                       ),
                       color: Colors.white,
@@ -102,9 +122,13 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                 alignment: Alignment.topLeft,
                                 child: Text(
                                   expwStepValues.getValue(key),
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     fontFamily: 'Prompt',
-                                    color: kTextColor,
+                                    color: map[key]!.length >= 50
+                                        ? kRedColor
+                                        : map[key]!.length >= 20
+                                            ? kOrangeColor
+                                            : kYellowColor,
                                   ),
                                 ),
                               ),
@@ -116,7 +140,11 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                     0.0, 20.0, 0.0, 20.0),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
-                                  color: kBoxColor,
+                                  color: map[key]!.length >= 50
+                                      ? kRedColor
+                                      : map[key]!.length >= 20
+                                          ? kOrangeColor
+                                          : kYellowColor,
                                 ),
                                 child: Row(
                                   mainAxisAlignment:
