@@ -22,18 +22,30 @@ class ApiService {
 
   Future<List<RecordModel?>?> getAllRecords() async {
     try {
-      RecordModel? endpoint2563 =
-          await getRecord(ApiConstants.accidents2563Endpoint);
-      RecordModel? endpoint2564 =
-          await getRecord(ApiConstants.accidents2564Endpoint);
-      RecordModel? endpoint2565 =
-          await getRecord(ApiConstants.accidents2565Endpoint);
-
-      List<RecordModel?> allRecords = [
-        endpoint2563,
-        endpoint2564,
-        endpoint2565
+      List<String> endpoint = [
+        ApiConstants.accidents2563Endpoint,
+        ApiConstants.accidents2564Endpoint,
+        ApiConstants.accidents2565Endpoint
       ];
+      List<RecordModel?> allRecords = [];
+      for (String e in endpoint) {
+        for (var i = 0; i < 10; i++) {
+          RecordModel? _model = await getRecord('$e&offset=${i * 100}');
+          allRecords.add(_model);
+        }
+      }
+      // RecordModel? endpoint2563 =
+      //     await getRecord(ApiConstants.accidents2563Endpoint);
+      // RecordModel? endpoint2564 =
+      //     await getRecord(ApiConstants.accidents2564Endpoint);
+      // RecordModel? endpoint2565 =
+      //     await getRecord(ApiConstants.accidents2565Endpoint);
+      //
+      // List<RecordModel?> allRecords = [
+      //   endpoint2563,
+      //   endpoint2564,
+      //   endpoint2565
+      // ];
       print(allRecords.length);
       return allRecords;
     } catch (e) {

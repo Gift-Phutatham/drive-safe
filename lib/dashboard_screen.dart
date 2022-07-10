@@ -124,9 +124,9 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                   expwStepValues.getValue(key),
                                   style: TextStyle(
                                     fontFamily: 'Prompt',
-                                    color: map[key]!.length >= 50
+                                    color: map[key]!.length >= 200
                                         ? kRedColor
-                                        : map[key]!.length >= 20
+                                        : map[key]!.length >= 50
                                             ? kOrangeColor
                                             : kYellowColor,
                                   ),
@@ -140,9 +140,9 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                     0.0, 20.0, 0.0, 20.0),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
-                                  color: map[key]!.length >= 50
+                                  color: map[key]!.length >= 200
                                       ? kRedColor
-                                      : map[key]!.length >= 20
+                                      : map[key]!.length >= 50
                                           ? kOrangeColor
                                           : kYellowColor,
                                 ),

@@ -27,7 +27,7 @@ class DashboardDetailsScreen extends StatelessWidget {
               padding: const EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 20.0),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                color: kBoxColor,
+                border: Border.all(color: kBoxColor, width: 1),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -36,22 +36,29 @@ class DashboardDetailsScreen extends StatelessWidget {
                     children: const [
                       Text(
                         'จำนวนอุบัติเหตุทั้งหมด',
-                        style: TextStyle(
-                            fontFamily: 'Prompt', color: Colors.white),
+                        style:
+                            TextStyle(fontFamily: 'Prompt', color: kTextColor),
                       ),
                       Text(
                         '(2563 - ปัจจุบัน)',
-                        style: TextStyle(
-                            fontFamily: 'Prompt', color: Colors.white),
+                        style:
+                            TextStyle(fontFamily: 'Prompt', color: kTextColor),
                       ),
                     ],
                   ),
-                  Text(
-                    statistic.totalAccidents.toString(),
-                    style: const TextStyle(
-                        fontSize: 24,
-                        fontFamily: 'Prompt',
-                        color: Colors.white),
+                  Container(
+                    padding: const EdgeInsets.all(12.0),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: kBoxColor,
+                    ),
+                    child: Text(
+                      statistic.totalAccidents.toString(),
+                      style: const TextStyle(
+                          fontSize: 24,
+                          fontFamily: 'Prompt',
+                          color: Colors.white),
+                    ),
                   ),
                 ],
               ),
@@ -60,67 +67,80 @@ class DashboardDetailsScreen extends StatelessWidget {
               height: 15,
             ),
             Container(
-              padding: const EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 20.0),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                color: kBoxColor,
+                border: Border.all(color: kBoxColor, width: 1),
               ),
               child: Column(
                 children: [
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'สภาพอากาศ',
-                      style: const TextStyle(
-                        fontFamily: 'Prompt',
-                        color: Colors.white,
+                  Container(
+                    padding: const EdgeInsets.fromLTRB(10.0, 10.0, 10.0, 10.0),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(10.0),
+                        topRight: Radius.circular(10.0),
+                      ),
+                      color: kBoxColor,
+                    ),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'จำนวนอุบัติเหตุตามสภาพอากาศ',
+                        style: const TextStyle(
+                          fontFamily: 'Prompt',
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ),
                   SizedBox(
                     height: 10,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Column(
-                        children: [
-                          Icon(
-                            Icons.sunny,
-                            color: Colors.white,
-                          ),
-                          Text(
-                            'ปกติ',
-                            style: TextStyle(
-                                fontFamily: 'Prompt', color: Colors.white),
-                          ),
-                          Text(
-                            statistic.weatherStat[WeatherState.EMPTY]
-                                .toString(),
-                            style: TextStyle(
-                                fontFamily: 'Prompt', color: Colors.white),
-                          )
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          Icon(
-                            Icons.thunderstorm,
-                            color: Colors.white,
-                          ),
-                          Text(
-                            'ฝนตก',
-                            style: TextStyle(
-                                fontFamily: 'Prompt', color: Colors.white),
-                          ),
-                          Text(
-                              statistic.weatherStat[WeatherState.WEATHER_STATE]
+                  Container(
+                    padding: EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 5.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Column(
+                          children: [
+                            Icon(
+                              Icons.sunny,
+                              color: kTextColor,
+                            ),
+                            Text(
+                              'ปกติ',
+                              style: TextStyle(
+                                  fontFamily: 'Prompt', color: kTextColor),
+                            ),
+                            Text(
+                              statistic.weatherStat[WeatherState.EMPTY]
                                   .toString(),
                               style: TextStyle(
-                                  fontFamily: 'Prompt', color: Colors.white))
-                        ],
-                      ),
-                    ],
+                                  fontFamily: 'Prompt', color: kTextColor),
+                            )
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            Icon(
+                              Icons.thunderstorm,
+                              color: kTextColor,
+                            ),
+                            Text(
+                              'ฝนตก',
+                              style: TextStyle(
+                                  fontFamily: 'Prompt', color: kTextColor),
+                            ),
+                            Text(
+                                statistic
+                                    .weatherStat[WeatherState.WEATHER_STATE]
+                                    .toString(),
+                                style: TextStyle(
+                                    fontFamily: 'Prompt', color: kTextColor))
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -131,30 +151,48 @@ class DashboardDetailsScreen extends StatelessWidget {
             Row(
               children: [
                 Container(
-                  padding: const EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 20.0),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: kBoxColor,
-                  ),
-                  child: Text(
-                    statistic.totalDead.toString(),
-                    style: TextStyle(fontFamily: 'Prompt', color: Colors.white),
-                  ),
-                ),
+                    padding: const EdgeInsets.fromLTRB(40.0, 30.0, 40.0, 30.0),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: kBoxColor,
+                    ),
+                    child: Column(
+                      children: [
+                        Text(
+                          'จำนวนผู้บาดเจ็บ',
+                          style: TextStyle(
+                              fontFamily: 'Prompt', color: Colors.white),
+                        ),
+                        Text(
+                          statistic.totalInjured.toString(),
+                          style: TextStyle(
+                              fontFamily: 'Prompt', color: Colors.white),
+                        ),
+                      ],
+                    )),
                 SizedBox(
                   width: 10,
                 ),
                 Container(
-                  padding: const EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 20.0),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: kBoxColor,
-                  ),
-                  child: Text(
-                    statistic.totalInjured.toString(),
-                    style: TextStyle(fontFamily: 'Prompt', color: Colors.white),
-                  ),
-                ),
+                    padding: const EdgeInsets.fromLTRB(40.0, 30.0, 40.0, 30.0),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: kBoxColor,
+                    ),
+                    child: Column(
+                      children: [
+                        Text(
+                          'จำนวนผู้เสียชีวิต',
+                          style: TextStyle(
+                              fontFamily: 'Prompt', color: Colors.white),
+                        ),
+                        Text(
+                          statistic.totalDead.toString(),
+                          style: TextStyle(
+                              fontFamily: 'Prompt', color: Colors.white),
+                        ),
+                      ],
+                    )),
               ],
             )
           ],
