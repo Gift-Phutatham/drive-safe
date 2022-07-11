@@ -1,11 +1,14 @@
 import 'dart:ui';
 
+import 'package:flutter/material.dart';
+
 const kBackgroundColor = Color(0xFF51087E);
 const kBoxColor = Color(0xFF6A2D94);
 const kTextColor = Color(0xFF4B0082);
 const kRedColor = Color(0xFFC7261C);
 const kOrangeColor = Color(0xFFEB781D);
 const kYellowColor = Color(0xFFF4B000);
+const kTextStyle = TextStyle(fontFamily: 'Prompt', color: Colors.white);
 
 class ApiConstants {
   static const String baseUrl = 'https://opend.data.go.th/get-ckan';

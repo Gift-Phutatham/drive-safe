@@ -160,13 +160,11 @@ class DashboardDetailsScreen extends StatelessWidget {
                       children: [
                         Text(
                           'จำนวนผู้บาดเจ็บ',
-                          style: TextStyle(
-                              fontFamily: 'Prompt', color: Colors.white),
+                          style: kTextStyle,
                         ),
                         Text(
                           statistic.totalInjured.toString(),
-                          style: TextStyle(
-                              fontFamily: 'Prompt', color: Colors.white),
+                          style: kTextStyle,
                         ),
                       ],
                     )),
@@ -183,13 +181,11 @@ class DashboardDetailsScreen extends StatelessWidget {
                       children: [
                         Text(
                           'จำนวนผู้เสียชีวิต',
-                          style: TextStyle(
-                              fontFamily: 'Prompt', color: Colors.white),
+                          style: kTextStyle,
                         ),
                         Text(
                           statistic.totalDead.toString(),
-                          style: TextStyle(
-                              fontFamily: 'Prompt', color: Colors.white),
+                          style: kTextStyle,
                         ),
                       ],
                     )),

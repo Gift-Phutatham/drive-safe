@@ -154,15 +154,11 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                       children: const [
                                         Text(
                                           'จำนวนอุบัติเหตุทั้งหมด',
-                                          style: TextStyle(
-                                              fontFamily: 'Prompt',
-                                              color: Colors.white),
+                                          style: kTextStyle,
                                         ),
                                         Text(
                                           '(2563 - ปัจจุบัน)',
-                                          style: TextStyle(
-                                              fontFamily: 'Prompt',
-                                              color: Colors.white),
+                                          style: kTextStyle,
                                         ),
                                       ],
                                     ),
