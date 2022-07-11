@@ -1,4 +1,4 @@
-import 'package:drive_safe/record_model.dart';
+import 'record_model.dart';
 
 class Statistic {
   Statistic(
@@ -13,5 +13,4 @@ class Statistic {
   int totalDead;
   int totalInjured;
   Map<String, double> causes;
-  // Map<String, int> causes;
 }

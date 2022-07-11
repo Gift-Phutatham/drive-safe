@@ -1,9 +1,10 @@
-import 'package:drive_safe/record_model.dart';
 import 'package:flutter/material.dart';
-import 'constants.dart';
+
 import 'api_service.dart';
+import 'constants.dart';
 import 'dashboard_details_screen.dart';
-import 'package:drive_safe/statistic_model.dart';
+import 'record_model.dart';
+import 'statistic_model.dart';
 
 class DashBoardScreen extends StatefulWidget {
   const DashBoardScreen({Key? key}) : super(key: key);
@@ -13,7 +14,7 @@ class DashBoardScreen extends StatefulWidget {
 }
 
 class _DashBoardScreenState extends State<DashBoardScreen> {
-  // instance variables
+  // Instance variables
   late List<Record> records = [];
   late Map<ExpwStep, List<Record>> map = {};
 
@@ -27,7 +28,9 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
     List<RecordModel?> _record = (await ApiService().getAllRecords())!;
 
     // Simulate QUERY time for the real API call
-    Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {
+    Future.delayed(const Duration(seconds: 1)).then(
+      (value) => setState(
+        () {
           for (var year in _record) {
             print(year?.result.total);
             if (year != null) {
@@ -41,7 +44,9 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
               map[element.expwStep] = [element];
             }
           }
-        }));
+        },
+      ),
+    );
   }
 
   Statistic getStatistic(ExpwStep name) {
@@ -76,11 +81,12 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
     causes2['อื่นๆ'] = sum;
     print(causes2);
     return Statistic(
-        totalAccidents: thisRecords.length,
-        weatherStat: weatherStat,
-        totalDead: totalDead,
-        totalInjured: totalInjured,
-        causes: causes2);
+      totalAccidents: thisRecords.length,
+      weatherStat: weatherStat,
+      totalDead: totalDead,
+      totalInjured: totalInjured,
+      causes: causes2,
+    );
   }
 
   @override
@@ -105,17 +111,19 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                 ExpwStep key = map.keys.elementAt(index);
                 return GestureDetector(
                   onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => DashboardDetailsScreen(
-                                name: expwStepValues.getValue(key),
-                                statistic: getStatistic(key),
-                                themeColor: map[key]!.length >= 200
-                                    ? kRedColor
-                                    : map[key]!.length >= 50
-                                        ? kOrangeColor
-                                        : kYellowColor,
-                              ))),
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => DashboardDetailsScreen(
+                        name: expwStepValues.getValue(key),
+                        statistic: getStatistic(key),
+                        themeColor: map[key]!.length >= 200
+                            ? kRedColor
+                            : map[key]!.length >= 50
+                                ? kOrangeColor
+                                : kYellowColor,
+                      ),
+                    ),
+                  ),
                   child: Container(
                     padding: const EdgeInsets.all(12.0),
                     decoration: BoxDecoration(
@@ -157,7 +165,11 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                               ),
                               Container(
                                 padding: const EdgeInsets.fromLTRB(
-                                    0.0, 20.0, 0.0, 20.0),
+                                  0.0,
+                                  20.0,
+                                  0.0,
+                                  20.0,
+                                ),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
                                   color: map[key]!.length >= 200
@@ -185,9 +197,10 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                     Text(
                                       map[key]!.length.toString(),
                                       style: const TextStyle(
-                                          fontSize: 32,
-                                          fontFamily: 'Prompt',
-                                          color: Colors.white),
+                                        fontSize: 32,
+                                        fontFamily: 'Prompt',
+                                        color: Colors.white,
+                                      ),
                                     ),
                                   ],
                                 ),

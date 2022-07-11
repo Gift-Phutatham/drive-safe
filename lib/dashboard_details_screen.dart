@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import 'constants.dart';
-import 'package:drive_safe/record_model.dart';
-import 'package:drive_safe/statistic_model.dart';
 import 'package:pie_chart/pie_chart.dart';
+
+import 'constants.dart';
+import 'record_model.dart';
+import 'statistic_model.dart';
 
 class DashboardDetailsScreen extends StatelessWidget {
   DashboardDetailsScreen(
       {required this.name, required this.statistic, required this.themeColor});
+
   final String name;
   final Statistic statistic;
   final Color themeColor;
@@ -69,15 +71,16 @@ class DashboardDetailsScreen extends StatelessWidget {
                     child: Text(
                       statistic.totalAccidents.toString(),
                       style: const TextStyle(
-                          fontSize: 28,
-                          fontFamily: 'Prompt',
-                          color: Colors.white),
+                        fontSize: 28,
+                        fontFamily: 'Prompt',
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
             Container(
@@ -90,28 +93,28 @@ class DashboardDetailsScreen extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
+                      borderRadius: const BorderRadius.only(
                         topLeft: Radius.circular(10.0),
                         topRight: Radius.circular(10.0),
                       ),
                       color: themeColor,
                     ),
-                    child: Align(
+                    child: const Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
                         'จำนวนอุบัติเหตุตามสภาพอากาศ',
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontFamily: 'Prompt',
                           color: Colors.white,
                         ),
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Container(
-                    padding: EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 10.0),
+                    padding: const EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 10.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -124,13 +127,17 @@ class DashboardDetailsScreen extends StatelessWidget {
                             Text(
                               'ปกติ',
                               style: TextStyle(
-                                  fontFamily: 'Prompt', color: lightThemeColor),
+                                fontFamily: 'Prompt',
+                                color: lightThemeColor,
+                              ),
                             ),
                             Text(
                               statistic.weatherStat[WeatherState.EMPTY]
                                   .toString(),
                               style: TextStyle(
-                                  fontFamily: 'Prompt', color: lightThemeColor),
+                                fontFamily: 'Prompt',
+                                color: lightThemeColor,
+                              ),
                             )
                           ],
                         ),
@@ -143,15 +150,18 @@ class DashboardDetailsScreen extends StatelessWidget {
                             Text(
                               'ฝนตก',
                               style: TextStyle(
-                                  fontFamily: 'Prompt', color: lightThemeColor),
+                                fontFamily: 'Prompt',
+                                color: lightThemeColor,
+                              ),
                             ),
                             Text(
-                                statistic
-                                    .weatherStat[WeatherState.WEATHER_STATE]
-                                    .toString(),
-                                style: TextStyle(
-                                    fontFamily: 'Prompt',
-                                    color: lightThemeColor))
+                              statistic.weatherStat[WeatherState.WEATHER_STATE]
+                                  .toString(),
+                              style: TextStyle(
+                                fontFamily: 'Prompt',
+                                color: lightThemeColor,
+                              ),
+                            )
                           ],
                         ),
                       ],
@@ -160,7 +170,7 @@ class DashboardDetailsScreen extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Row(
@@ -177,13 +187,13 @@ class DashboardDetailsScreen extends StatelessWidget {
                         padding:
                             const EdgeInsets.fromLTRB(38.0, 10.0, 38.0, 10.0),
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(
+                          borderRadius: const BorderRadius.only(
                             topLeft: Radius.circular(10.0),
                             topRight: Radius.circular(10.0),
                           ),
                           color: themeColor,
                         ),
-                        child: Align(
+                        child: const Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
                             'จำนวนผู้บาดเจ็บ',
@@ -197,16 +207,17 @@ class DashboardDetailsScreen extends StatelessWidget {
                         child: Text(
                           statistic.totalInjured.toString(),
                           style: TextStyle(
-                              fontFamily: 'Prompt',
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                              color: lightThemeColor),
+                            fontFamily: 'Prompt',
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: lightThemeColor,
+                          ),
                         ),
                       ),
                     ],
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 10,
                 ),
                 Container(
@@ -221,13 +232,13 @@ class DashboardDetailsScreen extends StatelessWidget {
                         padding:
                             const EdgeInsets.fromLTRB(38.0, 10.0, 38.0, 10.0),
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(
+                          borderRadius: const BorderRadius.only(
                             topLeft: Radius.circular(10.0),
                             topRight: Radius.circular(10.0),
                           ),
                           color: themeColor,
                         ),
-                        child: Align(
+                        child: const Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
                             'จำนวนผู้เสียชีวิต',
@@ -241,10 +252,11 @@ class DashboardDetailsScreen extends StatelessWidget {
                         child: Text(
                           statistic.totalDead.toString(),
                           style: TextStyle(
-                              fontFamily: 'Prompt',
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                              color: lightThemeColor),
+                            fontFamily: 'Prompt',
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: lightThemeColor,
+                          ),
                         ),
                       ),
                     ],
@@ -252,7 +264,7 @@ class DashboardDetailsScreen extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Container(
@@ -266,13 +278,13 @@ class DashboardDetailsScreen extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
+                      borderRadius: const BorderRadius.only(
                         topLeft: Radius.circular(10.0),
                         topRight: Radius.circular(10.0),
                       ),
                       color: themeColor,
                     ),
-                    child: Align(
+                    child: const Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
                         'สาเหตุการเกิดอุบัติเหตุ',
@@ -280,27 +292,27 @@ class DashboardDetailsScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Container(
-                    child: PieChart(
-                      dataMap: statistic.causes,
-                      animationDuration: Duration(milliseconds: 800),
-                      chartLegendSpacing: 32,
-                      chartRadius: 120,
-                      legendOptions: LegendOptions(
-                          showLegendsInRow: false,
-                          legendPosition: LegendPosition.bottom,
-                          showLegends: true,
-                          legendTextStyle: TextStyle(
-                              fontFamily: 'Prompt',
-                              fontSize: 12,
-                              color: kTextColor)),
-                      chartValuesOptions: ChartValuesOptions(
-                        showChartValueBackground: false,
-                        showChartValues: true,
-                        showChartValuesInPercentage: true,
-                        showChartValuesOutside: false,
-                        decimalPlaces: 1,
+                  PieChart(
+                    dataMap: statistic.causes,
+                    animationDuration: const Duration(milliseconds: 800),
+                    chartLegendSpacing: 32,
+                    chartRadius: 120,
+                    legendOptions: const LegendOptions(
+                      showLegendsInRow: false,
+                      legendPosition: LegendPosition.bottom,
+                      showLegends: true,
+                      legendTextStyle: TextStyle(
+                        fontFamily: 'Prompt',
+                        fontSize: 12,
+                        color: kTextColor,
                       ),
+                    ),
+                    chartValuesOptions: const ChartValuesOptions(
+                      showChartValueBackground: false,
+                      showChartValues: true,
+                      showChartValuesInPercentage: true,
+                      showChartValuesOutside: false,
+                      decimalPlaces: 1,
                     ),
                   ),
                 ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'constants.dart';
 
 class FavoriteScreen extends StatefulWidget {
@@ -21,15 +22,16 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
         backgroundColor: kBackgroundColor,
       ),
       body: Column(
-        children: [
+        children: const [
           ListTile(
             title: Text(
               'เดอะมอลล์งามวงศ์วาน',
               style: TextStyle(
-                  fontFamily: 'Prompt',
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14,
-                  color: kTextColor),
+                fontFamily: 'Prompt',
+                fontWeight: FontWeight.bold,
+                fontSize: 14,
+                color: kTextColor,
+              ),
             ),
             subtitle: Text(
               'ตําบลบางเขน หมู่ที่ 2 30/39-50 ถนนงามวงศ์วาน อำเภอเมืองนนทบุรี นนทบุรี 11000',
@@ -48,10 +50,11 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
             title: Text(
               'มหาวิทยาลัยมหิดล',
               style: TextStyle(
-                  fontFamily: 'Prompt',
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14,
-                  color: kTextColor),
+                fontFamily: 'Prompt',
+                fontWeight: FontWeight.bold,
+                fontSize: 14,
+                color: kTextColor,
+              ),
             ),
             subtitle: Text(
               '999 ถนนพุทธมณฑลสาย 4 ตำบลศาลายา อำเภอพุทธมณฑล นครปฐม 73170',
