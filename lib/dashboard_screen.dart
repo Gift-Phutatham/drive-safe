@@ -1,9 +1,10 @@
 import 'package:drive_safe/record_model.dart';
-import 'package:flutter/material.dart';
-import 'constants.dart';
-import 'api_service.dart';
-import 'dashboard_details_screen.dart';
 import 'package:drive_safe/statistic_model.dart';
+import 'package:flutter/material.dart';
+
+import 'api_service.dart';
+import 'constants.dart';
+import 'dashboard_details_screen.dart';
 
 class DashBoardScreen extends StatefulWidget {
   const DashBoardScreen({Key? key}) : super(key: key);
@@ -59,13 +60,14 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
       totalDead += element.deadMan;
       totalDead += element.deadFemel;
       totalInjured += element.injurMan;
-      totalInjured += element.deadFemel;
+      totalInjured += element.injurFemel;
     }
     return Statistic(
-        totalAccidents: thisRecords.length,
-        weatherStat: weatherStat,
-        totalDead: totalDead,
-        totalInjured: totalInjured);
+      totalAccidents: thisRecords.length,
+      weatherStat: weatherStat,
+      totalDead: totalDead,
+      totalInjured: totalInjured,
+    );
   }
 
   @override
@@ -90,12 +92,14 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                 ExpwStep key = map.keys.elementAt(index);
                 return GestureDetector(
                   onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => DashboardDetailsScreen(
-                                name: expwStepValues.getValue(key),
-                                statistic: getStatistic(key),
-                              ))),
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => DashboardDetailsScreen(
+                        name: expwStepValues.getValue(key),
+                        statistic: getStatistic(key),
+                      ),
+                    ),
+                  ),
                   child: Container(
                     padding: const EdgeInsets.all(12.0),
                     decoration: BoxDecoration(
@@ -165,9 +169,10 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                     Text(
                                       map[key]!.length.toString(),
                                       style: const TextStyle(
-                                          fontSize: 24,
-                                          fontFamily: 'Prompt',
-                                          color: Colors.white),
+                                        fontSize: 24,
+                                        fontFamily: 'Prompt',
+                                        color: Colors.white,
+                                      ),
                                     ),
                                   ],
                                 ),
