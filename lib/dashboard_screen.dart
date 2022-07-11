@@ -19,7 +19,6 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _getData();
   }
@@ -50,6 +49,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
     Map<WeatherState, int> weatherStat = {};
     int totalDead = 0;
     int totalInjured = 0;
+    Map<String, double> causes = {};
     for (var weatherState in WeatherState.values) {
       weatherStat[weatherState] = 0;
     }
@@ -60,12 +60,27 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
       totalDead += element.deadFemel;
       totalInjured += element.injurMan;
       totalInjured += element.deadFemel;
+      if (causes.containsKey(element.cause)) {
+        causes.update(element.cause, (value) => causes[element.cause]! + 1);
+      } else {
+        causes[element.cause] = 1;
+      }
     }
+    var sortedMap = Map.fromEntries(causes.entries.toList()
+      ..sort((e1, e2) => e2.value.compareTo(e1.value)));
+    print(sortedMap);
+    Map<String, double> causes2 = {};
+    causes2.addEntries(sortedMap.entries.toList().getRange(0, 3));
+    var s = sortedMap.values.toList().getRange(3, sortedMap.length);
+    var sum = s.reduce((a, b) => a + b);
+    causes2['อื่นๆ'] = sum;
+    print(causes2);
     return Statistic(
         totalAccidents: thisRecords.length,
         weatherStat: weatherStat,
         totalDead: totalDead,
-        totalInjured: totalInjured);
+        totalInjured: totalInjured,
+        causes: causes2);
   }
 
   @override
@@ -95,6 +110,11 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                           builder: (context) => DashboardDetailsScreen(
                                 name: expwStepValues.getValue(key),
                                 statistic: getStatistic(key),
+                                themeColor: map[key]!.length >= 200
+                                    ? kRedColor
+                                    : map[key]!.length >= 50
+                                        ? kOrangeColor
+                                        : kYellowColor,
                               ))),
                   child: Container(
                     padding: const EdgeInsets.all(12.0),
@@ -111,7 +131,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                       color: Colors.white,
                     ),
                     child: Container(
-                      padding: const EdgeInsets.all(5.0),
+                      padding: const EdgeInsets.all(10.0),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
@@ -121,7 +141,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                               Align(
                                 alignment: Alignment.topLeft,
                                 child: Text(
-                                  expwStepValues.getValue(key),
+                                  'ทางด่วนพิเศษ${expwStepValues.getValue(key)}',
                                   style: TextStyle(
                                     fontFamily: 'Prompt',
                                     color: map[key]!.length >= 200
@@ -165,7 +185,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                     Text(
                                       map[key]!.length.toString(),
                                       style: const TextStyle(
-                                          fontSize: 24,
+                                          fontSize: 32,
                                           fontFamily: 'Prompt',
                                           color: Colors.white),
                                     ),
