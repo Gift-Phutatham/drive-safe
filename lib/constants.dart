@@ -4,9 +4,14 @@ const kBackgroundColor = Color(0xFF51087E);
 const kBoxColor = Color(0xFF6A2D94);
 const kTextColor = Color(0xFF4B0082);
 const kRedColor = Color(0xFFC7261C);
+const kLightRedColor = Color(0xFFD86962);
 const kOrangeColor = Color(0xFFEB781D);
+const kLightOrangeColor = Color(0xFFED8C3E);
 const kYellowColor = Color(0xFFF4B000);
+const kLightYellowColor = Color(0xFFF5B40E);
 const kTextStyle = TextStyle(fontFamily: 'Prompt', color: Colors.white);
+const kTextStyle2 =
+    TextStyle(fontFamily: 'Prompt', fontSize: 13, color: Colors.white);
 
 class ApiConstants {
   static const String baseUrl = 'https://opend.data.go.th/get-ckan';

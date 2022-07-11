@@ -27,10 +27,11 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
             title: Text(
               'เดอะมอลล์งามวงศ์วาน',
               style: TextStyle(
-                  fontFamily: 'Prompt',
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14,
-                  color: kTextColor),
+                fontFamily: 'Prompt',
+                fontWeight: FontWeight.bold,
+                fontSize: 14,
+                color: kTextColor,
+              ),
             ),
             subtitle: Text(
               'ตําบลบางเขน หมู่ที่ 2 30/39-50 ถนนงามวงศ์วาน อำเภอเมืองนนทบุรี นนทบุรี 11000',

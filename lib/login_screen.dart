@@ -1,7 +1,7 @@
-import 'package:drive_safe/my_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 
 import 'constants.dart';
+import 'my_bottom_navigation_bar.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -79,7 +79,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (_) => const MyBottomNavigationBar()),
+                        builder: (_) => const MyBottomNavigationBar(),
+                      ),
                     );
                   },
                   child: const Text('เข้าสู่ระบบ'),

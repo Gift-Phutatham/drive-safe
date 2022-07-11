@@ -1,10 +1,10 @@
-import 'package:drive_safe/record_model.dart';
-import 'package:drive_safe/statistic_model.dart';
 import 'package:flutter/material.dart';
 
 import 'api_service.dart';
 import 'constants.dart';
 import 'dashboard_details_screen.dart';
+import 'record_model.dart';
+import 'statistic_model.dart';
 
 class DashBoardScreen extends StatefulWidget {
   const DashBoardScreen({Key? key}) : super(key: key);
@@ -14,13 +14,12 @@ class DashBoardScreen extends StatefulWidget {
 }
 
 class _DashBoardScreenState extends State<DashBoardScreen> {
-  // instance variables
+  // Instance variables
   late List<Record> records = [];
   late Map<ExpwStep, List<Record>> map = {};
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _getData();
   }
@@ -29,7 +28,9 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
     List<RecordModel?> _record = (await ApiService().getAllRecords())!;
 
     // Simulate QUERY time for the real API call
-    Future.delayed(const Duration(seconds: 1)).then((value) => setState(() {
+    Future.delayed(const Duration(seconds: 1)).then(
+      (value) => setState(
+        () {
           for (var year in _record) {
             print(year?.result.total);
             if (year != null) {
@@ -43,7 +44,9 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
               map[element.expwStep] = [element];
             }
           }
-        }));
+        },
+      ),
+    );
   }
 
   Statistic getStatistic(ExpwStep name) {
@@ -51,6 +54,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
     Map<WeatherState, int> weatherStat = {};
     int totalDead = 0;
     int totalInjured = 0;
+    Map<String, double> causes = {};
     for (var weatherState in WeatherState.values) {
       weatherStat[weatherState] = 0;
     }
@@ -60,13 +64,28 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
       totalDead += element.deadMan;
       totalDead += element.deadFemel;
       totalInjured += element.injurMan;
-      totalInjured += element.injurFemel;
+      totalInjured += element.deadFemel;
+      if (causes.containsKey(element.cause)) {
+        causes.update(element.cause, (value) => causes[element.cause]! + 1);
+      } else {
+        causes[element.cause] = 1;
+      }
     }
+    var sortedMap = Map.fromEntries(causes.entries.toList()
+      ..sort((e1, e2) => e2.value.compareTo(e1.value)));
+    print(sortedMap);
+    Map<String, double> causes2 = {};
+    causes2.addEntries(sortedMap.entries.toList().getRange(0, 3));
+    var s = sortedMap.values.toList().getRange(3, sortedMap.length);
+    var sum = s.reduce((a, b) => a + b);
+    causes2['อื่นๆ'] = sum;
+    print(causes2);
     return Statistic(
       totalAccidents: thisRecords.length,
       weatherStat: weatherStat,
       totalDead: totalDead,
       totalInjured: totalInjured,
+      causes: causes2,
     );
   }
 
@@ -97,6 +116,11 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                       builder: (context) => DashboardDetailsScreen(
                         name: expwStepValues.getValue(key),
                         statistic: getStatistic(key),
+                        themeColor: map[key]!.length >= 200
+                            ? kRedColor
+                            : map[key]!.length >= 50
+                                ? kOrangeColor
+                                : kYellowColor,
                       ),
                     ),
                   ),
@@ -115,7 +139,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                       color: Colors.white,
                     ),
                     child: Container(
-                      padding: const EdgeInsets.all(5.0),
+                      padding: const EdgeInsets.all(10.0),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
@@ -125,7 +149,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                               Align(
                                 alignment: Alignment.topLeft,
                                 child: Text(
-                                  expwStepValues.getValue(key),
+                                  'ทางด่วนพิเศษ${expwStepValues.getValue(key)}',
                                   style: TextStyle(
                                     fontFamily: 'Prompt',
                                     color: map[key]!.length >= 200
@@ -141,7 +165,11 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                               ),
                               Container(
                                 padding: const EdgeInsets.fromLTRB(
-                                    0.0, 20.0, 0.0, 20.0),
+                                  0.0,
+                                  20.0,
+                                  0.0,
+                                  20.0,
+                                ),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(10),
                                   color: map[key]!.length >= 200
@@ -169,7 +197,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                     Text(
                                       map[key]!.length.toString(),
                                       style: const TextStyle(
-                                        fontSize: 24,
+                                        fontSize: 32,
                                         fontFamily: 'Prompt',
                                         color: Colors.white,
                                       ),
