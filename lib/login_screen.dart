@@ -17,7 +17,7 @@ class _LoginScreenState extends State<LoginScreen> {
       child: Container(
         color: kBackgroundColor,
         child: Column(
-          children: [
+          children: <Widget>[
             const SizedBox(
               height: 100,
             ),
