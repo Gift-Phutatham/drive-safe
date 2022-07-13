@@ -21,7 +21,7 @@ class _LoginScreenState extends State<LoginScreen> {
             const SizedBox(
               height: 100,
             ),
-            Image(image: AssetImage('assets/login_logo.png')),
+            const Image(image: AssetImage('assets/login_logo.png')),
             Expanded(
               child: FractionallySizedBox(
                 heightFactor: 0.8,
@@ -50,7 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   BorderSide(color: Colors.grey, width: 2),
                             ),
                             hintText: 'อีเมล',
-                            hintStyle: TextStyle(
+                            hintStyle: const TextStyle(
                               color: kTextColor,
                               fontSize: 15,
                               fontFamily: 'Prompt',
@@ -69,7 +69,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   BorderSide(color: Colors.grey, width: 10),
                             ),
                             hintText: 'รหัสผ่าน',
-                            hintStyle: TextStyle(
+                            hintStyle: const TextStyle(
                               color: kTextColor,
                               fontSize: 15,
                               fontFamily: 'Prompt',
@@ -108,7 +108,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       const SizedBox(
                         height: 20,
                       ),
-                      Text(
+                      const Text(
                         "ยังไม่มีบัญชี?",
                         style: TextStyle(
                           color: kTextColor,
