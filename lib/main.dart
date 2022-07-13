@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'login_screen.dart';
-import 'my_bottom_navigation_bar.dart';
 
 void main() {
   if (defaultTargetPlatform == TargetPlatform.android) {
@@ -19,8 +18,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      // home: LoginScreen(),
-      home: MyBottomNavigationBar(),
+      home: LoginScreen(),
+      // home: MyBottomNavigationBar(),
     ); // MyStatefulWidget(),
   }
 }
