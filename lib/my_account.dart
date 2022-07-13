@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'constants.dart';
+import 'privacy_setting_box.dart';
 
 class MyAccount extends StatefulWidget {
   const MyAccount({Key? key}) : super(key: key);
@@ -74,59 +75,13 @@ class _MyAccountState extends State<MyAccount> {
                 ),
               ),
             ),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.account_circle_outlined,
-                    size: 30,
-                    color: Colors.purple,
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Text(
-                    "เปลี่ยนชื่อบัญชี",
-                    style: TextStyle(
-                      fontFamily: 'Prompt',
-                    ),
-                  ),
-                  SizedBox(
-                    width: 180,
-                  ),
-                  Icon(Icons.arrow_forward_ios_outlined),
-                ],
-              ),
-            ),
+            PrivacySettingBox(
+                icon: Icons.account_circle_outlined, text: "เปลี่ยนชื่อบัญชี"),
             Divider(
               color: Colors.grey,
             ),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
-              child: Row(
-                children: [
-                  Icon(
-                    Icons.lock_outline_rounded,
-                    size: 30,
-                    color: Colors.purple,
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Text(
-                    "เปลี่ยนรหัสผ่าน",
-                    style: TextStyle(
-                      fontFamily: 'Prompt',
-                    ),
-                  ),
-                  SizedBox(
-                    width: 180,
-                  ),
-                  Icon(Icons.arrow_forward_ios_outlined),
-                ],
-              ),
-            ),
+            PrivacySettingBox(
+                icon: Icons.lock_outline_rounded, text: "เปลี่ยนรหัสผ่าน"),
             SizedBox(
               height: 150,
             ),
