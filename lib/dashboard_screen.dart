@@ -50,10 +50,9 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
 
   Map<String, double> getCausesMap(Map<String, double> allCauses) {
     Map<String, double> causes = {};
-    var sortedMap = Map.fromEntries(causes.entries.toList()
+    var sortedMap = Map.fromEntries(allCauses.entries.toList()
       ..sort((e1, e2) => e2.value.compareTo(e1.value)));
-    Map<String, double> causes2 = {};
-    causes2.addEntries(sortedMap.entries.toList().getRange(0, 3));
+    causes.addEntries(sortedMap.entries.toList().getRange(0, 3));
     var others = sortedMap.values.toList().getRange(3, sortedMap.length);
     var sum = others.reduce((a, b) => a + b);
     causes['อื่นๆ'] = sum;
@@ -82,6 +81,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
         causes[element.cause] = 1;
       }
     }
+
     return Statistic(
       totalAccidents: thisRecords.length,
       weatherStat: weatherStat,
