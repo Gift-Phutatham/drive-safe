@@ -16,8 +16,8 @@ class MapSampleState extends State<MapSample> {
 
   final LatLng _center = const LatLng(13.7563, 100.5018);
 
-  final Set<Marker> markers = new Set();
-  static const LatLng showLocation = const LatLng(13.7563, 100.5018);
+  final Set<Marker> markers = {};
+  static const LatLng showLocation = LatLng(13.7563, 100.5018);
 
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
@@ -30,7 +30,7 @@ class MapSampleState extends State<MapSample> {
         //add first marker
         markerId: MarkerId(showLocation.toString()),
         position: showLocation, //position of marker
-        infoWindow: InfoWindow(
+        infoWindow: const InfoWindow(
           //popup info
           title: 'Marker Title First ',
           snippet: 'My Custom Subtitle',
@@ -60,7 +60,7 @@ class MapSampleState extends State<MapSample> {
           children: [
             Container(
               height: 70,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: kBackgroundColor,
               ),
               alignment: Alignment.center,
@@ -77,7 +77,8 @@ class MapSampleState extends State<MapSample> {
                 ),
                 child: Row(
                   children: [
-                    IconButton(onPressed: () {}, icon: Icon(Icons.search)),
+                    IconButton(
+                        onPressed: () {}, icon: const Icon(Icons.search)),
                     Expanded(
                       child: TextFormField(
                         decoration: const InputDecoration(

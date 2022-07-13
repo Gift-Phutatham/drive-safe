@@ -18,19 +18,19 @@ class PrivacySettingBox extends StatelessWidget {
             size: 30,
             color: Colors.purple,
           ),
-          SizedBox(
+          const SizedBox(
             width: 10,
           ),
           Text(
             text,
-            style: TextStyle(
+            style: const TextStyle(
               fontFamily: 'Prompt',
             ),
           ),
-          SizedBox(
+          const SizedBox(
             width: 180,
           ),
-          Icon(Icons.arrow_forward_ios_outlined),
+          const Icon(Icons.arrow_forward_ios_outlined),
         ],
       ),
     );

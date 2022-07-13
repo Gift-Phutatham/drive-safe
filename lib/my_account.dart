@@ -75,14 +75,14 @@ class _MyAccountState extends State<MyAccount> {
                 ),
               ),
             ),
-            PrivacySettingBox(
+            const PrivacySettingBox(
                 icon: Icons.account_circle_outlined, text: "เปลี่ยนชื่อบัญชี"),
-            Divider(
+            const Divider(
               color: Colors.grey,
             ),
-            PrivacySettingBox(
+            const PrivacySettingBox(
                 icon: Icons.lock_outline_rounded, text: "เปลี่ยนรหัสผ่าน"),
-            SizedBox(
+            const SizedBox(
               height: 150,
             ),
             Container(
