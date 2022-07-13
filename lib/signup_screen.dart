@@ -41,12 +41,9 @@ class _SignupScreenState extends State<SignupScreen> {
                 textAlign: TextAlign.right,
               ),
             ),
-            const SizedBox(
-              height: 5,
-            ),
             Expanded(
               child: FractionallySizedBox(
-                heightFactor: 0.95,
+                heightFactor: 0.97,
                 alignment: Alignment.bottomCenter,
                 child: Container(
                   decoration: const BoxDecoration(
