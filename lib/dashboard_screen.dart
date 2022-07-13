@@ -32,7 +32,6 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
       (value) => setState(
         () {
           for (var year in _record) {
-            print(year?.result.total);
             if (year != null) {
               records.addAll(year.result.records);
             }
@@ -47,6 +46,18 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
         },
       ),
     );
+  }
+
+  Map<String, double> getCausesMap(Map<String, double> allCauses) {
+    Map<String, double> causes = {};
+    var sortedMap = Map.fromEntries(causes.entries.toList()
+      ..sort((e1, e2) => e2.value.compareTo(e1.value)));
+    Map<String, double> causes2 = {};
+    causes2.addEntries(sortedMap.entries.toList().getRange(0, 3));
+    var others = sortedMap.values.toList().getRange(3, sortedMap.length);
+    var sum = others.reduce((a, b) => a + b);
+    causes['อื่นๆ'] = sum;
+    return causes;
   }
 
   Statistic getStatistic(ExpwStep name) {
@@ -71,21 +82,12 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
         causes[element.cause] = 1;
       }
     }
-    var sortedMap = Map.fromEntries(causes.entries.toList()
-      ..sort((e1, e2) => e2.value.compareTo(e1.value)));
-    print(sortedMap);
-    Map<String, double> causes2 = {};
-    causes2.addEntries(sortedMap.entries.toList().getRange(0, 3));
-    var s = sortedMap.values.toList().getRange(3, sortedMap.length);
-    var sum = s.reduce((a, b) => a + b);
-    causes2['อื่นๆ'] = sum;
-    print(causes2);
     return Statistic(
       totalAccidents: thisRecords.length,
       weatherStat: weatherStat,
       totalDead: totalDead,
       totalInjured: totalInjured,
-      causes: causes2,
+      causes: getCausesMap(causes),
     );
   }
 

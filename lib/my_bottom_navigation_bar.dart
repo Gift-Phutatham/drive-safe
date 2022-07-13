@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'constants.dart';
 import 'dashboard_screen.dart';
 import 'map_screen.dart';
+import 'my_account.dart';
 
 class MyBottomNavigationBar extends StatefulWidget {
   const MyBottomNavigationBar({Key? key}) : super(key: key);
@@ -16,7 +17,8 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
 
   static const List<Widget> _widgetOptions = <Widget>[
     MapSample(),
-    DashBoardScreen()
+    DashBoardScreen(),
+    MyAccount(),
   ];
 
   void _onItemTapped(int index) {
@@ -25,25 +27,37 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
     });
   }
 
+  BottomNavigationBarItem getNavigationItem(IconData iconData, String text) {
+    return BottomNavigationBarItem(
+      icon: Icon(iconData),
+      activeIcon: Container(
+        padding: EdgeInsets.all(3.0),
+        decoration: BoxDecoration(color: Colors.white, shape: BoxShape.circle),
+        child: Icon(iconData),
+      ),
+      label: text,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: _widgetOptions.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: kBackgroundColor,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.place),
-            label: 'แผนที่',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.bar_chart),
-            label: 'สถิติ',
-          ),
+        items: <BottomNavigationBarItem>[
+          getNavigationItem(Icons.place, 'แผนที่'),
+          getNavigationItem(Icons.bar_chart, 'สถิติ'),
+          getNavigationItem(Icons.account_circle, 'บัญชีฉัน')
         ],
         currentIndex: _selectedIndex,
-        selectedLabelStyle: const TextStyle(fontFamily: 'Prompt'),
+        selectedLabelStyle:
+            const TextStyle(fontFamily: 'Prompt', color: Colors.white),
+        unselectedLabelStyle:
+            const TextStyle(fontFamily: 'Prompt', color: Colors.white),
+        unselectedItemColor: Colors.white,
         selectedItemColor: Colors.white,
+        selectedIconTheme: IconThemeData(color: kBackgroundColor),
         onTap: _onItemTapped,
       ),
     );
