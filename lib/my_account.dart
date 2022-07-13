@@ -17,7 +17,7 @@ class _MyAccountState extends State<MyAccount> {
       appBar: AppBar(
         centerTitle: true,
         title: const Text(
-          "บัญชีของฉัน",
+          "บัญชีฉัน",
           style: TextStyle(fontFamily: 'Prompt'),
         ),
         backgroundColor: kBackgroundColor,
@@ -25,7 +25,7 @@ class _MyAccountState extends State<MyAccount> {
       body: Container(
         alignment: Alignment.center,
         child: Column(
-          children: [
+          children: <Widget>[
             const SizedBox(
               height: 20,
             ),
@@ -98,7 +98,7 @@ class _MyAccountState extends State<MyAccount> {
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
+                children: const <Widget>[
                   Icon(Icons.logout),
                   SizedBox(
                     width: 5,

@@ -75,10 +75,15 @@ class _SignupScreenState extends State<SignupScreen> {
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(15.0),
                               ),
-                              hintText: 'ชื่อบัญชี',
-                              hintStyle: const TextStyle(
+                              labelText: 'ชื่อบัญชี*',
+                              labelStyle: const TextStyle(
                                 color: kTextColor,
                                 fontSize: 15,
+                                fontFamily: 'Prompt',
+                              ),
+                              floatingLabelStyle: const TextStyle(
+                                color: kTextColor,
+                                fontSize: 20,
                                 fontFamily: 'Prompt',
                               ),
                               contentPadding:
@@ -101,10 +106,15 @@ class _SignupScreenState extends State<SignupScreen> {
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(15.0),
                               ),
-                              hintText: 'อีเมล',
-                              hintStyle: const TextStyle(
+                              labelText: 'อีเมล*',
+                              labelStyle: const TextStyle(
                                 color: kTextColor,
                                 fontSize: 15,
+                                fontFamily: 'Prompt',
+                              ),
+                              floatingLabelStyle: const TextStyle(
+                                color: kTextColor,
+                                fontSize: 20,
                                 fontFamily: 'Prompt',
                               ),
                               contentPadding:
@@ -127,10 +137,15 @@ class _SignupScreenState extends State<SignupScreen> {
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(15.0),
                               ),
-                              hintText: 'รหัสผ่าน',
-                              hintStyle: const TextStyle(
+                              labelText: 'รหัสผ่าน*',
+                              labelStyle: const TextStyle(
                                 color: kTextColor,
                                 fontSize: 15,
+                                fontFamily: 'Prompt',
+                              ),
+                              floatingLabelStyle: const TextStyle(
+                                color: kTextColor,
+                                fontSize: 20,
                                 fontFamily: 'Prompt',
                               ),
                               contentPadding:
