@@ -3,6 +3,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'constants.dart';
 import 'favorite_screen.dart';
+import 'location_service.dart';
 
 class MapSample extends StatefulWidget {
   const MapSample({Key? key}) : super(key: key);
@@ -13,6 +14,7 @@ class MapSample extends StatefulWidget {
 
 class MapSampleState extends State<MapSample> {
   late GoogleMapController mapController;
+  TextEditingController _searchController = TextEditingController();
 
   final LatLng _center = const LatLng(13.7563, 100.5018);
 
@@ -77,7 +79,11 @@ class MapSampleState extends State<MapSample> {
                 ),
                 child: Row(
                   children: [
-                    IconButton(onPressed: () {}, icon: Icon(Icons.search)),
+                    IconButton(
+                        onPressed: () {
+                          LocationService().getPlaceId(_searchController.text);
+                        },
+                        icon: Icon(Icons.search)),
                     Expanded(
                       child: TextFormField(
                         decoration: const InputDecoration(
@@ -85,6 +91,7 @@ class MapSampleState extends State<MapSample> {
                           hintText: 'ค้นหา',
                           hintStyle: TextStyle(fontFamily: ('Prompt')),
                         ),
+                        controller: _searchController,
                       ),
                     ),
                   ],
