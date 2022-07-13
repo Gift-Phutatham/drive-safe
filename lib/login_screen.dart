@@ -17,7 +17,7 @@ class _LoginScreenState extends State<LoginScreen> {
       child: Container(
         color: kBackgroundColor,
         child: FractionallySizedBox(
-          heightFactor: 0.45,
+          heightFactor: 0.5,
           alignment: Alignment.bottomCenter,
           child: Container(
             decoration: const BoxDecoration(
@@ -28,52 +28,62 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
             child: Column(
-              children: [
+              children: <Widget>[
                 const SizedBox(
                   height: 50,
                 ),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20.0),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
                   child: TextField(
                     decoration: InputDecoration(
-                      icon: Icon(Icons.email),
-                      border: OutlineInputBorder(),
+                      prefixIcon: Icon(Icons.email),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15.0),
+                        borderSide: BorderSide(color: Colors.grey, width: 2),
+                      ),
                       hintText: 'อีเมล',
-                    ),
-                    style: TextStyle(
-                      color: kTextColor,
-                      fontSize: 15,
-                      fontFamily: 'Prompt',
+                      hintStyle: TextStyle(
+                        color: kTextColor,
+                        fontSize: 15,
+                        fontFamily: 'Prompt',
+                      ),
                     ),
                   ),
                 ),
-                const SizedBox(
-                  height: 10,
-                ),
-                const Padding(
+                Container(
                   padding: EdgeInsets.all(20.0),
                   child: TextField(
                     decoration: InputDecoration(
-                      icon: Icon(Icons.key),
-                      border: OutlineInputBorder(),
+                      prefixIcon: Icon(Icons.key),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(15.0),
+                        borderSide: BorderSide(color: Colors.grey, width: 10),
+                      ),
                       hintText: 'รหัสผ่าน',
-                    ),
-                    style: TextStyle(
-                      color: kTextColor,
-                      fontSize: 15,
-                      fontFamily: 'Prompt',
+                      hintStyle: TextStyle(
+                        color: kTextColor,
+                        fontSize: 15,
+                        fontFamily: 'Prompt',
+                      ),
                     ),
                   ),
                 ),
                 const SizedBox(
-                  height: 10,
+                  height: 5,
                 ),
                 TextButton(
-                  style: TextButton.styleFrom(
-                    padding: const EdgeInsets.all(16.0),
-                    backgroundColor: kBackgroundColor,
-                    primary: Colors.white,
-                    textStyle: const TextStyle(fontSize: 20),
+                  style: ButtonStyle(
+                    padding: MaterialStateProperty.all<EdgeInsets>(
+                        EdgeInsets.all(10)),
+                    foregroundColor:
+                        MaterialStateProperty.all<Color>(Colors.white),
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(kBackgroundColor),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.0),
+                      ),
+                    ),
                   ),
                   onPressed: () {
                     Navigator.push(
@@ -84,6 +94,42 @@ class _LoginScreenState extends State<LoginScreen> {
                     );
                   },
                   child: const Text('เข้าสู่ระบบ'),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  "ยังไม่มีบัญชี?",
+                  style: TextStyle(
+                    color: kTextColor,
+                  ),
+                ),
+                const SizedBox(
+                  height: 5,
+                ),
+                TextButton(
+                  style: ButtonStyle(
+                    padding: MaterialStateProperty.all<EdgeInsets>(
+                        EdgeInsets.all(10)),
+                    foregroundColor:
+                        MaterialStateProperty.all<Color>(Colors.white),
+                    backgroundColor:
+                        MaterialStateProperty.all<Color>(kBackgroundColor),
+                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.0),
+                      ),
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => const MyBottomNavigationBar(),
+                      ),
+                    );
+                  },
+                  child: const Text('สมัครบัญชี'),
                 ),
               ],
             ),
