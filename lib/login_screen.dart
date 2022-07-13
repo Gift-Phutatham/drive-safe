@@ -25,7 +25,7 @@ class _LoginScreenState extends State<LoginScreen> {
             const Image(image: AssetImage('assets/login-logo.png')),
             Expanded(
               child: FractionallySizedBox(
-                heightFactor: 0.8,
+                heightFactor: 0.87,
                 alignment: Alignment.bottomCenter,
                 child: Container(
                   decoration: const BoxDecoration(
@@ -38,53 +38,69 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Column(
                     children: <Widget>[
                       const SizedBox(
-                        height: 50,
+                        height: 45,
                       ),
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                        child: TextField(
-                          decoration: InputDecoration(
-                            prefixIcon: const Icon(
-                              Icons.email,
-                              color: kTextColor,
-                            ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15.0),
-                            ),
-                            hintText: 'อีเมล',
-                            hintStyle: const TextStyle(
-                              color: kTextColor,
-                              fontSize: 15,
-                              fontFamily: 'Prompt',
+                        child: SizedBox(
+                          width: 350,
+                          height: 75,
+                          child: TextField(
+                            decoration: InputDecoration(
+                              prefixIcon: const Icon(
+                                Icons.email,
+                                color: kTextColor,
+                              ),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15.0),
+                              ),
+                              labelText: 'อีเมล',
+                              labelStyle: const TextStyle(
+                                color: kTextColor,
+                                fontSize: 15,
+                                fontFamily: 'Prompt',
+                              ),
+                              floatingLabelStyle: const TextStyle(
+                                color: kTextColor,
+                                fontSize: 20,
+                                fontFamily: 'Prompt',
+                              ),
+                              contentPadding:
+                                  const EdgeInsets.symmetric(vertical: 15),
                             ),
                           ),
                         ),
                       ),
-                      const SizedBox(
-                        height: 20,
-                      ),
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                        child: TextField(
-                          decoration: InputDecoration(
-                            prefixIcon: const Icon(
-                              Icons.key,
-                              color: kTextColor,
-                            ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15.0),
-                            ),
-                            hintText: 'รหัสผ่าน',
-                            hintStyle: const TextStyle(
-                              color: kTextColor,
-                              fontSize: 15,
-                              fontFamily: 'Prompt',
+                        child: SizedBox(
+                          width: 350,
+                          height: 75,
+                          child: TextField(
+                            decoration: InputDecoration(
+                              prefixIcon: const Icon(
+                                Icons.key,
+                                color: kTextColor,
+                              ),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15.0),
+                              ),
+                              labelText: 'รหัสผ่าน',
+                              labelStyle: const TextStyle(
+                                color: kTextColor,
+                                fontSize: 15,
+                                fontFamily: 'Prompt',
+                              ),
+                              floatingLabelStyle: const TextStyle(
+                                color: kTextColor,
+                                fontSize: 20,
+                                fontFamily: 'Prompt',
+                              ),
+                              contentPadding:
+                                  const EdgeInsets.symmetric(vertical: 15),
                             ),
                           ),
                         ),
-                      ),
-                      const SizedBox(
-                        height: 20,
                       ),
                       TextButton(
                         style: ButtonStyle(
@@ -100,6 +116,8 @@ class _LoginScreenState extends State<LoginScreen> {
                               borderRadius: BorderRadius.circular(15.0),
                             ),
                           ),
+                          minimumSize:
+                              MaterialStateProperty.all(const Size(350, 50)),
                         ),
                         onPressed: () {
                           Navigator.push(
@@ -109,19 +127,49 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           );
                         },
-                        child: const Text('เข้าสู่ระบบ'),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      const Text(
-                        "ยังไม่มีบัญชี?",
-                        style: TextStyle(
-                          color: kTextColor,
+                        child: const Text(
+                          'เข้าสู่ระบบ',
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontFamily: "prompt",
+                          ),
                         ),
                       ),
                       const SizedBox(
-                        height: 5,
+                        height: 35,
+                      ),
+                      Row(children: <Widget>[
+                        Expanded(
+                          child: Container(
+                            margin:
+                                const EdgeInsets.only(left: 20.0, right: 20.0),
+                            child: const Divider(
+                              color: kTextColor,
+                              height: 20,
+                            ),
+                          ),
+                        ),
+                        const Text(
+                          "ยังไม่มีบัญชี ?",
+                          style: TextStyle(
+                            color: kTextColor,
+                            fontSize: 15,
+                            fontFamily: "prompt",
+                          ),
+                        ),
+                        Expanded(
+                          child: Container(
+                            margin:
+                                const EdgeInsets.only(left: 20.0, right: 20.0),
+                            child: const Divider(
+                              color: kTextColor,
+                              height: 20,
+                            ),
+                          ),
+                        ),
+                      ]),
+                      const SizedBox(
+                        height: 15,
                       ),
                       TextButton(
                         style: ButtonStyle(
@@ -137,6 +185,8 @@ class _LoginScreenState extends State<LoginScreen> {
                               borderRadius: BorderRadius.circular(15.0),
                             ),
                           ),
+                          minimumSize:
+                              MaterialStateProperty.all(const Size(350, 50)),
                         ),
                         onPressed: () {
                           Navigator.push(
@@ -146,7 +196,13 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           );
                         },
-                        child: const Text('สมัครบัญชี'),
+                        child: const Text(
+                          'สมัครบัญชี',
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontFamily: "prompt",
+                          ),
+                        ),
                       ),
                     ],
                   ),

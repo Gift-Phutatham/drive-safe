@@ -31,8 +31,9 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
     return BottomNavigationBarItem(
       icon: Icon(iconData),
       activeIcon: Container(
-        padding: EdgeInsets.all(3.0),
-        decoration: BoxDecoration(color: Colors.white, shape: BoxShape.circle),
+        padding: const EdgeInsets.all(3.0),
+        decoration:
+            const BoxDecoration(color: Colors.white, shape: BoxShape.circle),
         child: Icon(iconData),
       ),
       label: text,
