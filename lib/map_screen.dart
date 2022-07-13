@@ -16,8 +16,32 @@ class MapSampleState extends State<MapSample> {
 
   final LatLng _center = const LatLng(13.7563, 100.5018);
 
+  final Set<Marker> markers = new Set();
+  static const LatLng showLocation = const LatLng(13.7563, 100.5018);
+
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
+  }
+
+  Set<Marker> getmarkers() {
+    //markers to place on map
+    setState(() {
+      markers.add(Marker(
+        //add first marker
+        markerId: MarkerId(showLocation.toString()),
+        position: showLocation, //position of marker
+        infoWindow: InfoWindow(
+          //popup info
+          title: 'Marker Title First ',
+          snippet: 'My Custom Subtitle',
+        ),
+        icon: BitmapDescriptor.defaultMarker, //Icon for Marker
+      ));
+
+      //add more markers here
+    });
+
+    return markers;
   }
 
   @override
@@ -32,12 +56,52 @@ class MapSampleState extends State<MapSample> {
           ),
           backgroundColor: kBackgroundColor,
         ),
-        body: GoogleMap(
-          onMapCreated: _onMapCreated,
-          initialCameraPosition: CameraPosition(
-            target: _center,
-            zoom: 11.0,
-          ),
+        body: Column(
+          children: [
+            Container(
+              height: 70,
+              decoration: BoxDecoration(
+                color: kBackgroundColor,
+              ),
+              alignment: Alignment.center,
+              child: Container(
+                width: 380,
+                height: 50,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(
+                    color: kBackgroundColor,
+                    width: 1,
+                  ),
+                  color: Colors.white,
+                ),
+                child: Row(
+                  children: [
+                    IconButton(onPressed: () {}, icon: Icon(Icons.search)),
+                    Expanded(
+                      child: TextFormField(
+                        decoration: const InputDecoration(
+                          border: UnderlineInputBorder(),
+                          hintText: 'ค้นหา',
+                          hintStyle: TextStyle(fontFamily: ('Prompt')),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Expanded(
+              child: GoogleMap(
+                onMapCreated: _onMapCreated,
+                initialCameraPosition: CameraPosition(
+                  target: _center,
+                  zoom: 11.0,
+                ),
+                markers: getmarkers(),
+              ),
+            ),
+          ],
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () => Navigator.push(
