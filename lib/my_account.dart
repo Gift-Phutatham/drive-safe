@@ -25,37 +25,37 @@ class _MyAccountState extends State<MyAccount> {
         alignment: Alignment.center,
         child: Column(
           children: [
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
-            Image(
+            const Image(
               image: AssetImage(
                 'assets/blank-profile-picture.png',
               ),
               width: 100,
             ),
-            Text(
+            const Text(
               "สวัสดี",
               style: TextStyle(
                 fontFamily: 'Prompt',
                 fontSize: 24,
               ),
             ),
-            Text(
+            const Text(
               "คุณแนน",
               style: TextStyle(
                 fontFamily: 'Prompt',
                 fontSize: 24,
               ),
             ),
-            Text(
+            const Text(
               "nannnyy16@gmail.com",
               style: TextStyle(
                 fontFamily: 'Prompt',
                 fontSize: 16,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
             Divider(
@@ -65,7 +65,7 @@ class _MyAccountState extends State<MyAccount> {
             Container(
               alignment: Alignment.centerLeft,
               padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
-              child: Text(
+              child: const Text(
                 "ความปลอดภัย",
                 style: TextStyle(
                   fontFamily: 'Prompt',
@@ -77,7 +77,7 @@ class _MyAccountState extends State<MyAccount> {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
               child: Row(
-                children: [
+                children: const [
                   Icon(
                     Icons.account_circle_outlined,
                     size: 30,
@@ -99,13 +99,13 @@ class _MyAccountState extends State<MyAccount> {
                 ],
               ),
             ),
-            Divider(
+            const Divider(
               color: Colors.grey,
             ),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 5),
               child: Row(
-                children: [
+                children: const [
                   Icon(
                     Icons.lock_outline_rounded,
                     size: 30,
@@ -127,7 +127,7 @@ class _MyAccountState extends State<MyAccount> {
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 150,
             ),
             Container(
@@ -143,7 +143,7 @@ class _MyAccountState extends State<MyAccount> {
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
+                children: const [
                   Icon(Icons.logout),
                   SizedBox(
                     width: 5,
@@ -151,9 +151,10 @@ class _MyAccountState extends State<MyAccount> {
                   Text(
                     'ออกจากระบบ',
                     style: TextStyle(
-                        fontFamily: 'Prompt',
-                        fontSize: 16,
-                        color: Colors.black),
+                      fontFamily: 'Prompt',
+                      fontSize: 16,
+                      color: Colors.black,
+                    ),
                   ),
                 ],
               ),

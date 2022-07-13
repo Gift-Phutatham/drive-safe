@@ -57,7 +57,7 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
             const TextStyle(fontFamily: 'Prompt', color: Colors.white),
         unselectedItemColor: Colors.white,
         selectedItemColor: Colors.white,
-        selectedIconTheme: IconThemeData(color: kBackgroundColor),
+        selectedIconTheme: const IconThemeData(color: kBackgroundColor),
         onTap: _onItemTapped,
       ),
     );
