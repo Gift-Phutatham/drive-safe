@@ -4,6 +4,7 @@ import 'package:pie_chart/pie_chart.dart';
 import 'constants.dart';
 import 'record_model.dart';
 import 'statistic_model.dart';
+import 'dashboard_details_card_header.dart';
 
 class DashboardDetailsScreen extends StatelessWidget {
   DashboardDetailsScreen(
@@ -90,26 +91,11 @@ class DashboardDetailsScreen extends StatelessWidget {
               ),
               child: Column(
                 children: [
-                  Container(
-                    padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                    decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(10.0),
-                        topRight: Radius.circular(10.0),
-                      ),
-                      color: themeColor,
-                    ),
-                    child: const Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        'จำนวนอุบัติเหตุตามสภาพอากาศ',
-                        style: TextStyle(
-                          fontFamily: 'Prompt',
-                          color: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ),
+                  CardHeader(
+                      themeColor: themeColor,
+                      text: 'จำนวนอุบัติเหตุตามสภาพอากาศ',
+                      padding:
+                          const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0)),
                   const SizedBox(
                     height: 10,
                   ),
@@ -183,24 +169,11 @@ class DashboardDetailsScreen extends StatelessWidget {
                   ),
                   child: Column(
                     children: [
-                      Container(
-                        padding:
-                            const EdgeInsets.fromLTRB(38.0, 10.0, 38.0, 10.0),
-                        decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(10.0),
-                            topRight: Radius.circular(10.0),
-                          ),
-                          color: themeColor,
-                        ),
-                        child: const Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            'จำนวนผู้บาดเจ็บ',
-                            style: kTextStyle,
-                          ),
-                        ),
-                      ),
+                      CardHeader(
+                          themeColor: themeColor,
+                          text: 'จำนวนผู้บาดเจ็บ',
+                          padding: const EdgeInsets.fromLTRB(
+                              38.0, 10.0, 38.0, 10.0)),
                       Container(
                         padding:
                             const EdgeInsets.fromLTRB(38.0, 10.0, 38.0, 10.0),
@@ -228,24 +201,11 @@ class DashboardDetailsScreen extends StatelessWidget {
                   ),
                   child: Column(
                     children: [
-                      Container(
-                        padding:
-                            const EdgeInsets.fromLTRB(38.0, 10.0, 38.0, 10.0),
-                        decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(10.0),
-                            topRight: Radius.circular(10.0),
-                          ),
-                          color: themeColor,
-                        ),
-                        child: const Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(
-                            'จำนวนผู้เสียชีวิต',
-                            style: kTextStyle,
-                          ),
-                        ),
-                      ),
+                      CardHeader(
+                          themeColor: themeColor,
+                          text: 'จำนวนผู้เสียชีวิต',
+                          padding: const EdgeInsets.fromLTRB(
+                              38.0, 10.0, 38.0, 10.0)),
                       Container(
                         padding:
                             const EdgeInsets.fromLTRB(38.0, 10.0, 38.0, 10.0),
@@ -275,23 +235,11 @@ class DashboardDetailsScreen extends StatelessWidget {
               ),
               child: Column(
                 children: [
-                  Container(
-                    padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                    decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(10.0),
-                        topRight: Radius.circular(10.0),
-                      ),
-                      color: themeColor,
-                    ),
-                    child: const Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        'สาเหตุการเกิดอุบัติเหตุ',
-                        style: kTextStyle,
-                      ),
-                    ),
-                  ),
+                  CardHeader(
+                      themeColor: themeColor,
+                      text: 'สาเหตุการเกิดอุบัติเหตุ',
+                      padding:
+                          const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0)),
                   PieChart(
                     dataMap: statistic.causes,
                     animationDuration: const Duration(milliseconds: 800),
