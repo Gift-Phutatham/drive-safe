@@ -20,6 +20,7 @@ class MapSampleState extends State<MapSample> {
 
   final Set<Marker> markers = {};
   static const LatLng showLocation = LatLng(13.7563, 100.5018);
+  List searchList = [];
 
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
@@ -46,10 +47,20 @@ class MapSampleState extends State<MapSample> {
     return markers;
   }
 
+  Future<void> goToPlace(Map<String, dynamic> place) async {
+    final double lat = place['geometry']['location']['lat'];
+    final double lng = place['geometry']['location']['lng'];
+
+    final GoogleMapController controller = mapController;
+    mapController.animateCamera(CameraUpdate.newCameraPosition(
+        CameraPosition(target: LatLng(lat, lng), zoom: 18)));
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           centerTitle: true,
           title: const Text(
@@ -80,32 +91,104 @@ class MapSampleState extends State<MapSample> {
                 child: Row(
                   children: [
                     IconButton(
-                        onPressed: () {
-                          LocationService().getPlaceId(_searchController.text);
+                        onPressed: () async {
+                          var placeId = await LocationService()
+                              .getPlaceId(_searchController.text);
+                          var place = await LocationService().getPlace(placeId);
+                          goToPlace(place);
                         },
                         icon: Icon(Icons.search)),
                     Expanded(
                       child: TextFormField(
-                        decoration: const InputDecoration(
-                          border: UnderlineInputBorder(),
-                          hintText: 'ค้นหา',
-                          hintStyle: TextStyle(fontFamily: ('Prompt')),
-                        ),
-                        controller: _searchController,
-                      ),
+                          decoration: const InputDecoration(
+                            border: UnderlineInputBorder(),
+                            hintText: 'ค้นหา',
+                            hintStyle: TextStyle(fontFamily: ('Prompt')),
+                          ),
+                          controller: _searchController,
+                          onChanged: (value) async {
+                            List newList =
+                                await LocationService().getAutocomplete(value);
+                            setState(() {
+                              if (newList.length > 4) {
+                                searchList = newList.getRange(0, 4).toList();
+                              } else {
+                                searchList = newList;
+                              }
+                              print(searchList);
+                              print(searchList.length);
+                            });
+                            // print(LocationService().getAutocomplete(value));
+                          }),
                     ),
                   ],
                 ),
               ),
             ),
             Expanded(
-              child: GoogleMap(
-                onMapCreated: _onMapCreated,
-                initialCameraPosition: CameraPosition(
-                  target: _center,
-                  zoom: 11.0,
-                ),
-                markers: getmarkers(),
+              child: Stack(
+                children: [
+                  GoogleMap(
+                    onMapCreated: _onMapCreated,
+                    initialCameraPosition: CameraPosition(
+                      target: _center,
+                      zoom: 11.0,
+                    ),
+                    markers: getmarkers(),
+                  ),
+                  if (searchList.isNotEmpty)
+                    ListView.builder(
+                      padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                      itemCount: searchList.length,
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          onTap: () async {
+                            var place = await LocationService()
+                                .getPlace(searchList[index]['place_id']);
+                            _searchController.clear();
+                            setState(() {
+                              searchList = [];
+                            });
+                            await goToPlace(place);
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: index == 0
+                                  ? BorderRadius.only(
+                                      topLeft: Radius.circular(10.0),
+                                      topRight: Radius.circular(10.0),
+                                    )
+                                  : index == (searchList.length - 1)
+                                      ? BorderRadius.only(
+                                          bottomLeft: Radius.circular(10.0),
+                                          bottomRight: Radius.circular(10.0),
+                                        )
+                                      : BorderRadius.zero,
+                              color: Colors.white,
+                            ),
+                            child: ListTile(
+                              title: Text(
+                                searchList[index]['structured_formatting']
+                                    ['main_text'],
+                                style: kTextStyleSearch,
+                              ),
+                              subtitle: Text(
+                                searchList[index]['structured_formatting']
+                                        ['secondary_text'] ??
+                                    '',
+                                style: kTextStyleSearch,
+                              ),
+                              trailing: Icon(Icons.favorite),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  // Container(
+                  //   height: 100,
+                  //   color: Colors.black,
+                  // ),
+                ],
               ),
             ),
           ],
