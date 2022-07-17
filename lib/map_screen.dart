@@ -6,6 +6,8 @@ import 'favorite_screen.dart';
 import 'location_service.dart';
 import 'package:drive_safe/record_model.dart';
 import 'api_service.dart';
+import 'dashboard_details_card_header.dart';
+import 'package:intl/intl.dart';
 
 class MapSample extends StatefulWidget {
   const MapSample({Key? key}) : super(key: key);
@@ -26,6 +28,7 @@ class MapSampleState extends State<MapSample> {
 
   late List<Record> records = [];
   late Map<ExpwStep, List<Record>> map = {};
+  var formatter = DateFormat.MMMMd('th');
 
   @override
   void initState() {
@@ -52,6 +55,7 @@ class MapSampleState extends State<MapSample> {
           }
 
           records = records.where((record) => filterRecord(record)).toList();
+          print("How many records?");
           print(records.length);
 
           for (var element in records) {
@@ -70,7 +74,7 @@ class MapSampleState extends State<MapSample> {
     DateTime today = DateTime.now();
     List s = record.accidentTime.split(':');
     int hour = int.parse(s[0]);
-    return record.accidentDate.weekday == today.weekday && today.hour == hour;
+    return record.accidentDate.weekday == today.weekday && 21 == hour;
   }
 
   Future<void> _getMarkers() async {
@@ -81,37 +85,104 @@ class MapSampleState extends State<MapSample> {
       var place = await LocationService().getPlace(placeId);
       final double lat = place['geometry']['location']['lat'];
       final double lng = place['geometry']['location']['lng'];
+
+      DateTime today = DateTime.now();
       setState(() {
         newMarker.add(Marker(
           markerId: MarkerId(placeName),
           position: LatLng(lat, lng),
           icon: BitmapDescriptor.defaultMarker,
+          onTap: () {
+            showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    backgroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)),
+                    title: Container(
+                      padding:
+                          const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                      decoration: BoxDecoration(
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(10.0),
+                          topRight: Radius.circular(10.0),
+                        ),
+                        color: Colors.red,
+                      ),
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Column(
+                          children: [
+                            Text(
+                              'จำนวนอุบัติเหตุทั้งหมด',
+                              style: TextStyle(
+                                fontFamily: 'Prompt',
+                                color: Colors.white,
+                              ),
+                            ),
+                            Text(
+                              '2562-2565',
+                              style: TextStyle(
+                                fontFamily: 'Prompt',
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    titlePadding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+                    contentPadding:
+                        const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+                    content: Container(
+                      constraints: const BoxConstraints(maxHeight: 100),
+                      color: Colors.white,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Text(
+                                formatter.format(today),
+                                style: TextStyle(
+                                  fontFamily: 'Prompt',
+                                  color: Colors.red,
+                                ),
+                              ),
+                              Text(
+                                '${today.hour}:00 - ${today.hour + 1}:00',
+                                style: TextStyle(
+                                  fontFamily: 'Prompt',
+                                  color: Colors.red,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Text(
+                            map[key]!.length.toString(),
+                            style: TextStyle(
+                              fontFamily: 'Prompt',
+                              fontSize: 24,
+                              color: Colors.red,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    actions: [
+                      IconButton(
+                        icon: Icon(Icons.cancel_outlined),
+                        onPressed: () {},
+                      )
+                    ],
+                  );
+                });
+          },
         ));
       });
     }
-    setState(() {
-      newMarker.add(Marker(
-        //add first marker
-        markerId: MarkerId(showLocation.toString()),
-        position: showLocation, //position of marker
-        infoWindow: const InfoWindow(
-          //popup info
-          title: 'Marker Title First ',
-          snippet: 'My Custom Subtitle',
-        ),
-        icon: BitmapDescriptor.defaultMarker,
-        onTap: () {
-          print('yes');
-          showDialog(
-              context: context,
-              builder: (context) {
-                return AlertDialog(
-                  title: Text('hello'),
-                );
-              });
-        },
-      ));
-    });
 
     setState(() {
       markers = newMarker;
