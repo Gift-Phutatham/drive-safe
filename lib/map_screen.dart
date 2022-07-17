@@ -6,7 +6,6 @@ import 'favorite_screen.dart';
 import 'location_service.dart';
 import 'package:drive_safe/record_model.dart';
 import 'api_service.dart';
-import 'dashboard_details_card_header.dart';
 import 'package:intl/intl.dart';
 
 class MapSample extends StatefulWidget {
@@ -28,7 +27,7 @@ class MapSampleState extends State<MapSample> {
 
   late List<Record> records = [];
   late Map<ExpwStep, List<Record>> map = {};
-  var formatter = DateFormat.MMMMd('th');
+  var formatter = DateFormat.EEEE('th');
 
   @override
   void initState() {
@@ -74,7 +73,7 @@ class MapSampleState extends State<MapSample> {
     DateTime today = DateTime.now();
     List s = record.accidentTime.split(':');
     int hour = int.parse(s[0]);
-    return record.accidentDate.weekday == today.weekday && 21 == hour;
+    return record.accidentDate.weekday == today.weekday && today.hour == hour;
   }
 
   Future<void> _getMarkers() async {
@@ -87,6 +86,12 @@ class MapSampleState extends State<MapSample> {
       final double lng = place['geometry']['location']['lng'];
 
       DateTime today = DateTime.now();
+      Color dialogColor = map[key]!.length >= 10
+          ? kRedColor
+          : map[key]!.length >= 3
+              ? kOrangeColor
+              : kYellowColor;
+
       setState(() {
         newMarker.add(Marker(
           markerId: MarkerId(placeName),
@@ -108,23 +113,25 @@ class MapSampleState extends State<MapSample> {
                           topLeft: Radius.circular(10.0),
                           topRight: Radius.circular(10.0),
                         ),
-                        color: Colors.red,
+                        color: dialogColor,
                       ),
                       child: Align(
                         alignment: Alignment.center,
                         child: Column(
                           children: [
                             Text(
-                              'จำนวนอุบัติเหตุทั้งหมด',
+                              'ทางด่่วน${placeName}',
                               style: TextStyle(
                                 fontFamily: 'Prompt',
+                                fontSize: 16,
                                 color: Colors.white,
                               ),
                             ),
                             Text(
-                              '2562-2565',
+                              'สถิติจำนวนอุบัติเหตุ (2562-2565)',
                               style: TextStyle(
                                 fontFamily: 'Prompt',
+                                fontSize: 16,
                                 color: Colors.white,
                               ),
                             ),
@@ -148,14 +155,14 @@ class MapSampleState extends State<MapSample> {
                                 formatter.format(today),
                                 style: TextStyle(
                                   fontFamily: 'Prompt',
-                                  color: Colors.red,
+                                  color: dialogColor,
                                 ),
                               ),
                               Text(
                                 '${today.hour}:00 - ${today.hour + 1}:00',
                                 style: TextStyle(
                                   fontFamily: 'Prompt',
-                                  color: Colors.red,
+                                  color: dialogColor,
                                 ),
                               ),
                             ],
@@ -165,18 +172,28 @@ class MapSampleState extends State<MapSample> {
                             style: TextStyle(
                               fontFamily: 'Prompt',
                               fontSize: 24,
-                              color: Colors.red,
+                              color: dialogColor,
                             ),
                           ),
                         ],
                       ),
                     ),
                     actions: [
-                      IconButton(
-                        icon: Icon(Icons.cancel_outlined),
-                        onPressed: () {},
-                      )
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text(
+                          'ปิด',
+                          style: kTextStyle,
+                        ),
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all<Color>(dialogColor),
+                        ),
+                      ),
                     ],
+                    actionsAlignment: MainAxisAlignment.center,
                   );
                 });
           },
