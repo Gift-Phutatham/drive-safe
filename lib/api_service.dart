@@ -1,4 +1,5 @@
 import 'package:http/http.dart' as http;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'constants.dart';
 import 'record_model.dart';
@@ -7,8 +8,8 @@ class ApiService {
   Future<RecordModel?> getRecord(String endpoint) async {
     try {
       var url = Uri.parse(ApiConstants.baseUrl + endpoint);
-      var response = await http
-          .get(url, headers: {'api-key': 's7IMbGHOxg05wJVaFCNerLAWto2Hmy2n'});
+      var response =
+          await http.get(url, headers: {'api-key': dotenv.env['API_KEY']!});
       if (response.statusCode == 200) {
         RecordModel _model = recordModelFromJson(response.body);
         return _model;

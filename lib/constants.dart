@@ -12,6 +12,7 @@ const kLightYellowColor = Color(0xFFF5B40E);
 const kTextStyle = TextStyle(fontFamily: 'Prompt', color: Colors.white);
 const kTextStyle2 =
     TextStyle(fontFamily: 'Prompt', fontSize: 13, color: Colors.black);
+const kTextStyleSearch = TextStyle(fontFamily: 'Prompt', fontSize: 13);
 
 class ApiConstants {
   static const String baseUrl = 'https://opend.data.go.th/get-ckan';

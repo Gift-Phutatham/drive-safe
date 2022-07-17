@@ -4,6 +4,9 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'constants.dart';
 import 'favorite_screen.dart';
 import 'location_service.dart';
+import 'package:drive_safe/record_model.dart';
+import 'api_service.dart';
+import 'package:intl/intl.dart';
 
 class MapSample extends StatefulWidget {
   const MapSample({Key? key}) : super(key: key);
@@ -18,38 +21,208 @@ class MapSampleState extends State<MapSample> {
 
   final LatLng _center = const LatLng(13.7563, 100.5018);
 
-  final Set<Marker> markers = {};
+  late Set<Marker> markers = {};
   static const LatLng showLocation = LatLng(13.7563, 100.5018);
+  List searchList = [];
+
+  late List<Record> records = [];
+  late Map<ExpwStep, List<Record>> map = {};
+  var formatter = DateFormat.EEEE('th');
+
+  @override
+  void initState() {
+    super.initState();
+    initFunc();
+  }
+
+  void initFunc() async {
+    await _getData();
+    await _getMarkers();
+  }
+
+  Future<void> _getData() async {
+    List<RecordModel?> _record = (await ApiService().getAllRecords())!;
+
+    // Simulate QUERY time for the real API call
+    await Future.delayed(const Duration(seconds: 1)).then(
+      (value) => setState(
+        () {
+          for (var year in _record) {
+            if (year != null) {
+              records.addAll(year.result.records);
+            }
+          }
+
+          records = records.where((record) => filterRecord(record)).toList();
+          print("How many records?");
+          print(records.length);
+
+          for (var element in records) {
+            if (map.containsKey(element.expwStep)) {
+              map[element.expwStep]?.add(element);
+            } else {
+              map[element.expwStep] = [element];
+            }
+          }
+        },
+      ),
+    );
+  }
+
+  bool filterRecord(Record record) {
+    DateTime today = DateTime.now();
+    List s = record.accidentTime.split(':');
+    int hour = int.parse(s[0]);
+    return record.accidentDate.weekday == today.weekday && today.hour == hour;
+  }
+
+  Future<void> _getMarkers() async {
+    Set<Marker> newMarker = {};
+    for (ExpwStep key in map.keys) {
+      String placeName = expwStepValues.getValue(key);
+      String placeId = await LocationService().getPlaceId('ทางพิเศษ$placeName');
+      var place = await LocationService().getPlace(placeId);
+      final double lat = place['geometry']['location']['lat'];
+      final double lng = place['geometry']['location']['lng'];
+
+      DateTime today = DateTime.now();
+      Color dialogColor = map[key]!.length >= 10
+          ? kRedColor
+          : map[key]!.length >= 3
+              ? kOrangeColor
+              : kYellowColor;
+
+      setState(() {
+        newMarker.add(Marker(
+          markerId: MarkerId(placeName),
+          position: LatLng(lat, lng),
+          icon: BitmapDescriptor.defaultMarker,
+          onTap: () {
+            showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    backgroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10)),
+                    title: Container(
+                      padding:
+                          const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                      decoration: BoxDecoration(
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(10.0),
+                          topRight: Radius.circular(10.0),
+                        ),
+                        color: dialogColor,
+                      ),
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: Column(
+                          children: [
+                            Text(
+                              'ทางด่่วน${placeName}',
+                              style: TextStyle(
+                                fontFamily: 'Prompt',
+                                fontSize: 16,
+                                color: Colors.white,
+                              ),
+                            ),
+                            Text(
+                              'สถิติจำนวนอุบัติเหตุ (2562-2565)',
+                              style: TextStyle(
+                                fontFamily: 'Prompt',
+                                fontSize: 16,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    titlePadding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+                    contentPadding:
+                        const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+                    content: Container(
+                      constraints: const BoxConstraints(maxHeight: 100),
+                      color: Colors.white,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Text(
+                                formatter.format(today),
+                                style: TextStyle(
+                                  fontFamily: 'Prompt',
+                                  color: dialogColor,
+                                ),
+                              ),
+                              Text(
+                                '${today.hour}:00 - ${today.hour + 1}:00',
+                                style: TextStyle(
+                                  fontFamily: 'Prompt',
+                                  color: dialogColor,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Text(
+                            map[key]!.length.toString(),
+                            style: TextStyle(
+                              fontFamily: 'Prompt',
+                              fontSize: 24,
+                              color: dialogColor,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text(
+                          'ปิด',
+                          style: kTextStyle,
+                        ),
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all<Color>(dialogColor),
+                        ),
+                      ),
+                    ],
+                    actionsAlignment: MainAxisAlignment.center,
+                  );
+                });
+          },
+        ));
+      });
+    }
+
+    setState(() {
+      markers = newMarker;
+    });
+  }
 
   void _onMapCreated(GoogleMapController controller) {
     mapController = controller;
   }
 
-  Set<Marker> getmarkers() {
-    //markers to place on map
-    setState(() {
-      markers.add(Marker(
-        //add first marker
-        markerId: MarkerId(showLocation.toString()),
-        position: showLocation, //position of marker
-        infoWindow: const InfoWindow(
-          //popup info
-          title: 'Marker Title First ',
-          snippet: 'My Custom Subtitle',
-        ),
-        icon: BitmapDescriptor.defaultMarker, //Icon for Marker
-      ));
+  Future<void> goToPlace(Map<String, dynamic> place) async {
+    final double lat = place['geometry']['location']['lat'];
+    final double lng = place['geometry']['location']['lng'];
 
-      //add more markers here
-    });
-
-    return markers;
+    mapController.animateCamera(CameraUpdate.newCameraPosition(
+        CameraPosition(target: LatLng(lat, lng), zoom: 18)));
   }
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           centerTitle: true,
           title: const Text(
@@ -80,32 +253,104 @@ class MapSampleState extends State<MapSample> {
                 child: Row(
                   children: [
                     IconButton(
-                        onPressed: () {
-                          LocationService().getPlaceId(_searchController.text);
+                        onPressed: () async {
+                          var placeId = await LocationService()
+                              .getPlaceId(_searchController.text);
+                          var place = await LocationService().getPlace(placeId);
+                          _searchController.clear();
+                          setState(() {
+                            searchList = [];
+                          });
+                          await goToPlace(place);
                         },
                         icon: Icon(Icons.search)),
                     Expanded(
                       child: TextFormField(
-                        decoration: const InputDecoration(
-                          border: UnderlineInputBorder(),
-                          hintText: 'ค้นหา',
-                          hintStyle: TextStyle(fontFamily: ('Prompt')),
-                        ),
-                        controller: _searchController,
-                      ),
+                          decoration: const InputDecoration(
+                            border: UnderlineInputBorder(),
+                            hintText: 'ค้นหา',
+                            hintStyle: TextStyle(fontFamily: ('Prompt')),
+                          ),
+                          controller: _searchController,
+                          onChanged: (value) async {
+                            List newList =
+                                await LocationService().getAutocomplete(value);
+                            setState(() {
+                              if (newList.length > 4) {
+                                searchList = newList.getRange(0, 4).toList();
+                              } else {
+                                searchList = newList;
+                              }
+                              print(searchList);
+                              print(searchList.length);
+                            });
+                            // print(LocationService().getAutocomplete(value));
+                          }),
                     ),
                   ],
                 ),
               ),
             ),
             Expanded(
-              child: GoogleMap(
-                onMapCreated: _onMapCreated,
-                initialCameraPosition: CameraPosition(
-                  target: _center,
-                  zoom: 11.0,
-                ),
-                markers: getmarkers(),
+              child: Stack(
+                children: [
+                  GoogleMap(
+                    onMapCreated: _onMapCreated,
+                    initialCameraPosition: CameraPosition(
+                      target: _center,
+                      zoom: 11.0,
+                    ),
+                    markers: markers,
+                  ),
+                  if (searchList.isNotEmpty)
+                    ListView.builder(
+                      padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                      itemCount: searchList.length,
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          onTap: () async {
+                            var place = await LocationService()
+                                .getPlace(searchList[index]['place_id']);
+                            _searchController.clear();
+                            setState(() {
+                              searchList = [];
+                            });
+                            await goToPlace(place);
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: index == 0
+                                  ? BorderRadius.only(
+                                      topLeft: Radius.circular(10.0),
+                                      topRight: Radius.circular(10.0),
+                                    )
+                                  : index == (searchList.length - 1)
+                                      ? BorderRadius.only(
+                                          bottomLeft: Radius.circular(10.0),
+                                          bottomRight: Radius.circular(10.0),
+                                        )
+                                      : BorderRadius.zero,
+                              color: Colors.white,
+                            ),
+                            child: ListTile(
+                              title: Text(
+                                searchList[index]['structured_formatting']
+                                    ['main_text'],
+                                style: kTextStyleSearch,
+                              ),
+                              subtitle: Text(
+                                searchList[index]['structured_formatting']
+                                        ['secondary_text'] ??
+                                    '',
+                                style: kTextStyleSearch,
+                              ),
+                              trailing: Icon(Icons.favorite),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                ],
               ),
             ),
           ],
