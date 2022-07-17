@@ -25,7 +25,7 @@ class _LoginScreenState extends State<LoginScreen> {
             const Image(image: AssetImage('assets/login-logo.png')),
             Expanded(
               child: FractionallySizedBox(
-                heightFactor: 0.87,
+                heightFactor: 0.9,
                 alignment: Alignment.bottomCenter,
                 child: Container(
                   decoration: const BoxDecoration(
@@ -75,7 +75,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         padding: const EdgeInsets.symmetric(horizontal: 20.0),
                         child: SizedBox(
                           width: 350,
-                          height: 75,
+                          height: 65,
                           child: TextField(
                             decoration: InputDecoration(
                               prefixIcon: const Icon(
@@ -101,6 +101,17 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                         ),
+                      ),
+                      const Text(
+                        '***อีเมลหรือรหัสผ่านไม่ถูกต้อง***',
+                        style: TextStyle(
+                          color: Colors.red,
+                          fontSize: 15,
+                          fontFamily: "prompt",
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 10,
                       ),
                       TextButton(
                         style: ButtonStyle(

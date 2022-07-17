@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:pie_chart/pie_chart.dart';
 
 import 'constants.dart';
+import 'dashboard_details_card_header.dart';
 import 'record_model.dart';
 import 'statistic_model.dart';
-import 'dashboard_details_card_header.dart';
 
 class DashboardDetailsScreen extends StatelessWidget {
   DashboardDetailsScreen(
@@ -33,7 +33,7 @@ class DashboardDetailsScreen extends StatelessWidget {
       body: Container(
         padding: const EdgeInsets.all(15.0),
         child: Column(
-          children: [
+          children: <Widget>[
             Container(
               padding: const EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 20.0),
               decoration: BoxDecoration(
@@ -42,9 +42,9 @@ class DashboardDetailsScreen extends StatelessWidget {
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
+                children: <Widget>[
                   Column(
-                    children: [
+                    children: <Widget>[
                       Text(
                         'จำนวนอุบัติเหตุทั้งหมด',
                         style: TextStyle(
@@ -90,12 +90,12 @@ class DashboardDetailsScreen extends StatelessWidget {
                 border: Border.all(color: themeColor, width: 1),
               ),
               child: Column(
-                children: [
+                children: <Widget>[
                   CardHeader(
-                      themeColor: themeColor,
-                      text: 'จำนวนอุบัติเหตุตามสภาพอากาศ',
-                      padding:
-                          const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0)),
+                    themeColor: themeColor,
+                    text: 'จำนวนอุบัติเหตุตามสภาพอากาศ',
+                    padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                  ),
                   const SizedBox(
                     height: 10,
                   ),
@@ -103,9 +103,9 @@ class DashboardDetailsScreen extends StatelessWidget {
                     padding: const EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 10.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
+                      children: <Widget>[
                         Column(
-                          children: [
+                          children: <Widget>[
                             Icon(
                               Icons.sunny,
                               color: lightThemeColor,
@@ -128,7 +128,7 @@ class DashboardDetailsScreen extends StatelessWidget {
                           ],
                         ),
                         Column(
-                          children: [
+                          children: <Widget>[
                             Icon(
                               Icons.thunderstorm,
                               color: lightThemeColor,
@@ -160,7 +160,7 @@ class DashboardDetailsScreen extends StatelessWidget {
               height: 10,
             ),
             Row(
-              children: [
+              children: <Widget>[
                 Container(
                   padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
                   decoration: BoxDecoration(
@@ -168,7 +168,7 @@ class DashboardDetailsScreen extends StatelessWidget {
                     border: Border.all(color: themeColor, width: 1),
                   ),
                   child: Column(
-                    children: [
+                    children: <Widget>[
                       CardHeader(
                           themeColor: themeColor,
                           text: 'จำนวนผู้บาดเจ็บ',
@@ -200,7 +200,7 @@ class DashboardDetailsScreen extends StatelessWidget {
                     border: Border.all(color: themeColor, width: 1),
                   ),
                   child: Column(
-                    children: [
+                    children: <Widget>[
                       CardHeader(
                           themeColor: themeColor,
                           text: 'จำนวนผู้เสียชีวิต',
@@ -234,7 +234,7 @@ class DashboardDetailsScreen extends StatelessWidget {
                 border: Border.all(color: themeColor, width: 1),
               ),
               child: Column(
-                children: [
+                children: <Widget>[
                   CardHeader(
                       themeColor: themeColor,
                       text: 'สาเหตุการเกิดอุบัติเหตุ',
