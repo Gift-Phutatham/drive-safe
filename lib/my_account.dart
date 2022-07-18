@@ -216,56 +216,63 @@ class _MyAccountState extends State<MyAccount> {
   }
 
   Widget getAccountDialog() {
-    return const AlertDialog(
-        // title: Container(
-        //   width: 340,
-        //   height: 70,
-        //   alignment: Alignment.center,
-        //   decoration: const BoxDecoration(
-        //     borderRadius: BorderRadius.only(
-        //       topLeft: Radius.circular(20.0),
-        //       topRight: Radius.circular(20.0),
-        //     ),
-        //     color: kMainColor,
-        //   ),
-        //   child: const Text(
-        //     'เปลี่ยนชื่อบัญชี',
-        //     style: TextStyle(
-        //       color: Colors.white,
-        //     ),
-        //   ),
-        // ),
-        // content: Column(
-        //   children: <Widget>[
-        //     Form(
-        //       key: _formKey,
-        //       child: getTextFormField('ชื่อบัญชีใหม่'),
-        //     ),
-        //   ],
-        // ),
-        // actions: <Widget>[
-        //   Row(
-        //     mainAxisAlignment: MainAxisAlignment.center,
-        //     children: <Widget>[
-        //       getTextButton(
-        //         'บันทึก',
-        //         Colors.white,
-        //         kMainColor,
-        //         true,
-        //       ),
-        //       const SizedBox(
-        //         width: 10,
-        //       ),
-        //       getTextButton(
-        //         'ยกเลิก',
-        //         kMainColor,
-        //         Colors.white,
-        //         false,
-        //       ),
-        //     ],
-        //   ),
-        // ],
-        );
+    return AlertDialog(
+      insetPadding: const EdgeInsets.all(10),
+      titlePadding: EdgeInsets.zero,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(20.0)),
+      ),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+      actionsAlignment: MainAxisAlignment.center,
+      actionsPadding: const EdgeInsets.only(bottom: 15),
+      title: Container(
+        width: 340,
+        height: 70,
+        alignment: Alignment.center,
+        decoration: const BoxDecoration(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20.0),
+            topRight: Radius.circular(20.0),
+          ),
+          color: kMainColor,
+        ),
+        child: const Text(
+          'เปลี่ยนชื่อบัญชี',
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
+      ),
+      content: SizedBox(
+        height: 60,
+        child: Form(
+          key: _formKey,
+          child: getTextFormField('ชื่อบัญชีใหม่'),
+        ),
+      ),
+      actions: <Widget>[
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            getTextButton(
+              'บันทึก',
+              Colors.white,
+              kMainColor,
+              true,
+            ),
+            const SizedBox(
+              width: 10,
+            ),
+            getTextButton(
+              'ยกเลิก',
+              kMainColor,
+              Colors.white,
+              false,
+            ),
+          ],
+        ),
+      ],
+    );
   }
 
   Widget getPasswordDialog() {
