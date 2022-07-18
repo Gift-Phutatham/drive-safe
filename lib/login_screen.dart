@@ -20,7 +20,7 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Column(
           children: <Widget>[
             const SizedBox(
-              height: 100,
+              height: 90,
             ),
             const Image(image: AssetImage('assets/login-logo.png')),
             Expanded(
@@ -96,6 +96,13 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+  InputBorder getBorder(Color color) {
+    return OutlineInputBorder(
+      borderRadius: BorderRadius.circular(15.0),
+      borderSide: BorderSide(color: color),
+    );
+  }
+
   Widget getTextField(IconData icon, String labelText) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -108,14 +115,8 @@ class _LoginScreenState extends State<LoginScreen> {
               icon,
               color: kMainColor,
             ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(15.0),
-              borderSide: const BorderSide(color: kMainColor),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(15.0),
-              borderSide: const BorderSide(color: kMainColor),
-            ),
+            enabledBorder: getBorder(kMainColor),
+            focusedBorder: getBorder(kMainColor),
             labelText: labelText,
             labelStyle: const TextStyle(
               color: kMainColor,
@@ -144,7 +145,7 @@ class _LoginScreenState extends State<LoginScreen> {
             borderRadius: BorderRadius.circular(15.0),
           ),
         ),
-        minimumSize: MaterialStateProperty.all(const Size(350, 50)),
+        minimumSize: MaterialStateProperty.all<Size>(const Size(350, 50)),
       ),
       onPressed: () {
         Navigator.push(

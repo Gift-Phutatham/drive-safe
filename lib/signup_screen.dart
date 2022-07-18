@@ -44,7 +44,7 @@ class _SignupScreenState extends State<SignupScreen> {
             ),
             Expanded(
               child: FractionallySizedBox(
-                heightFactor: 0.97,
+                heightFactor: 1,
                 alignment: Alignment.bottomCenter,
                 child: Container(
                   decoration: const BoxDecoration(
@@ -61,164 +61,17 @@ class _SignupScreenState extends State<SignupScreen> {
                         const SizedBox(
                           height: 45,
                         ),
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                          child: SizedBox(
-                            width: 350,
-                            height: 75,
-                            child: TextFormField(
-                              decoration: InputDecoration(
-                                prefixIcon: const Icon(
-                                  Icons.person,
-                                  color: kMainColor,
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15.0),
-                                  borderSide:
-                                      const BorderSide(color: kMainColor),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15.0),
-                                  borderSide:
-                                      const BorderSide(color: kMainColor),
-                                ),
-                                errorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15.0),
-                                  borderSide:
-                                      const BorderSide(color: kRedColor),
-                                ),
-                                focusedErrorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15.0),
-                                  borderSide:
-                                      const BorderSide(color: kRedColor),
-                                ),
-                                labelText: 'ชื่อบัญชี*',
-                                labelStyle: const TextStyle(
-                                  color: kMainColor,
-                                  fontSize: 15,
-                                ),
-                                floatingLabelStyle: const TextStyle(
-                                  color: kMainColor,
-                                  fontSize: 20,
-                                ),
-                                contentPadding:
-                                    const EdgeInsets.symmetric(vertical: 15),
-                                errorStyle: const TextStyle(height: 0.75),
-                              ),
-                              validator: (String? value) {
-                                if (value == null || value.isEmpty) {
-                                  return "กรุณากรอกชื่อบัญชี";
-                                }
-                                return null;
-                              },
-                            ),
-                          ),
+                        getTextFormField(
+                          'ชื่อบัญชี',
+                          Icons.person,
                         ),
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                          child: SizedBox(
-                            width: 350,
-                            height: 75,
-                            child: TextFormField(
-                              decoration: InputDecoration(
-                                prefixIcon: const Icon(
-                                  Icons.email,
-                                  color: kMainColor,
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15.0),
-                                  borderSide:
-                                      const BorderSide(color: kMainColor),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15.0),
-                                  borderSide:
-                                      const BorderSide(color: kMainColor),
-                                ),
-                                errorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15.0),
-                                  borderSide:
-                                      const BorderSide(color: kRedColor),
-                                ),
-                                focusedErrorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15.0),
-                                  borderSide:
-                                      const BorderSide(color: kRedColor),
-                                ),
-                                labelText: 'อีเมล*',
-                                labelStyle: const TextStyle(
-                                  color: kMainColor,
-                                  fontSize: 15,
-                                ),
-                                floatingLabelStyle: const TextStyle(
-                                  color: kMainColor,
-                                  fontSize: 20,
-                                ),
-                                contentPadding:
-                                    const EdgeInsets.symmetric(vertical: 15),
-                                errorStyle: const TextStyle(height: 0.75),
-                              ),
-                              validator: (String? value) {
-                                if (value == null || value.isEmpty) {
-                                  return "กรุณากรอกอีเมล";
-                                }
-                                return null;
-                              },
-                            ),
-                          ),
+                        getTextFormField(
+                          'อีเมล',
+                          Icons.email,
                         ),
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                          child: SizedBox(
-                            width: 350,
-                            height: 75,
-                            child: TextFormField(
-                              decoration: InputDecoration(
-                                prefixIcon: const Icon(
-                                  Icons.key,
-                                  color: kMainColor,
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15.0),
-                                  borderSide:
-                                      const BorderSide(color: kMainColor),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15.0),
-                                  borderSide:
-                                      const BorderSide(color: kMainColor),
-                                ),
-                                errorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15.0),
-                                  borderSide:
-                                      const BorderSide(color: kRedColor),
-                                ),
-                                focusedErrorBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15.0),
-                                  borderSide:
-                                      const BorderSide(color: kRedColor),
-                                ),
-                                labelText: 'รหัสผ่าน*',
-                                labelStyle: const TextStyle(
-                                  color: kMainColor,
-                                  fontSize: 15,
-                                ),
-                                floatingLabelStyle: const TextStyle(
-                                  color: kMainColor,
-                                  fontSize: 20,
-                                ),
-                                contentPadding:
-                                    const EdgeInsets.symmetric(vertical: 15),
-                                errorStyle: const TextStyle(height: 0.75),
-                              ),
-                              validator: (String? value) {
-                                if (value == null || value.isEmpty) {
-                                  return "กรุณากรอกรหัสผ่าน";
-                                }
-                                return null;
-                              },
-                            ),
-                          ),
+                        getTextFormField(
+                          'รหัสผ่าน',
+                          Icons.key,
                         ),
                         const SizedBox(
                           height: 10,
@@ -226,78 +79,22 @@ class _SignupScreenState extends State<SignupScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            TextButton(
-                              style: ButtonStyle(
-                                padding: MaterialStateProperty.all<EdgeInsets>(
-                                    const EdgeInsets.all(10)),
-                                foregroundColor:
-                                    MaterialStateProperty.all<Color>(
-                                        Colors.white),
-                                backgroundColor:
-                                    MaterialStateProperty.all<Color>(
-                                        kMainColor),
-                                shape: MaterialStateProperty.all<
-                                    RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(15.0),
-                                  ),
-                                ),
-                                minimumSize: MaterialStateProperty.all(
-                                    const Size(165, 55)),
-                              ),
-                              onPressed: () {
-                                if (_formKey.currentState!.validate()) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (_) => const LoginScreen(),
-                                    ),
-                                  );
-                                }
-                              },
-                              child: const Text(
-                                'สร้างบัญชี',
-                                style: TextStyle(
-                                  fontSize: 15,
-                                ),
-                              ),
+                            getTextButton(
+                              'สร้างบัญชี',
+                              Colors.white,
+                              kMainColor,
+                              const LoginScreen(),
+                              true,
                             ),
                             const SizedBox(
                               width: 15,
                             ),
-                            TextButton(
-                              style: ButtonStyle(
-                                padding: MaterialStateProperty.all<EdgeInsets>(
-                                    const EdgeInsets.all(10)),
-                                foregroundColor:
-                                    MaterialStateProperty.all<Color>(
-                                        kMainColor),
-                                side: MaterialStateProperty.all<BorderSide>(
-                                  const BorderSide(color: kMainColor),
-                                ),
-                                shape: MaterialStateProperty.all<
-                                    RoundedRectangleBorder>(
-                                  RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(15.0),
-                                  ),
-                                ),
-                                minimumSize: MaterialStateProperty.all(
-                                    const Size(165, 55)),
-                              ),
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (_) => const LoginScreen(),
-                                  ),
-                                );
-                              },
-                              child: const Text(
-                                'ยกเลิก',
-                                style: TextStyle(
-                                  fontSize: 15,
-                                ),
-                              ),
+                            getTextButton(
+                              'ยกเลิก',
+                              kMainColor,
+                              Colors.white,
+                              const LoginScreen(),
+                              false,
                             ),
                           ],
                         ),
@@ -308,6 +105,103 @@ class _SignupScreenState extends State<SignupScreen> {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  InputBorder getBorder(Color color) {
+    return OutlineInputBorder(
+      borderRadius: BorderRadius.circular(15.0),
+      borderSide: BorderSide(color: color),
+    );
+  }
+
+  Widget getTextFormField(String text, IconData icon) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      child: SizedBox(
+        width: 350,
+        height: 80,
+        child: TextFormField(
+          decoration: InputDecoration(
+            prefixIcon: Icon(
+              icon,
+              color: kMainColor,
+            ),
+            enabledBorder: getBorder(kMainColor),
+            focusedBorder: getBorder(kMainColor),
+            errorBorder: getBorder(kRedColor),
+            focusedErrorBorder: getBorder(kRedColor),
+            labelText: '$text*',
+            labelStyle: const TextStyle(
+              color: kMainColor,
+              fontSize: 15,
+            ),
+            floatingLabelStyle: const TextStyle(
+              color: kMainColor,
+              fontSize: 20,
+            ),
+            contentPadding: const EdgeInsets.symmetric(vertical: 15),
+            errorStyle: const TextStyle(height: 0.75),
+          ),
+          validator: (String? value) {
+            if (value == null || value.isEmpty) {
+              return 'กรุณากรอก$text';
+            }
+            return null;
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget getTextButton(
+    String text,
+    Color foregroundColor,
+    Color backgroundColor,
+    Widget route,
+    bool validate,
+  ) {
+    return TextButton(
+      style: ButtonStyle(
+        padding:
+            MaterialStateProperty.all<EdgeInsets>(const EdgeInsets.all(10)),
+        foregroundColor: MaterialStateProperty.all<Color>(foregroundColor),
+        backgroundColor: MaterialStateProperty.all<Color>(backgroundColor),
+        side: MaterialStateProperty.all<BorderSide>(
+          BorderSide(color: foregroundColor),
+        ),
+        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
+          ),
+        ),
+        minimumSize: MaterialStateProperty.all<Size>(const Size(165, 55)),
+      ),
+      onPressed: () {
+        if (validate) {
+          if (_formKey.currentState!.validate()) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => route,
+              ),
+            );
+          }
+        } else {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => route,
+            ),
+          );
+        }
+      },
+      child: Text(
+        text,
+        style: const TextStyle(
+          fontSize: 15,
         ),
       ),
     );
