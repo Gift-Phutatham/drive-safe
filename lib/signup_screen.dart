@@ -73,8 +73,25 @@ class _SignupScreenState extends State<SignupScreen> {
                                   Icons.person,
                                   color: kTextColor,
                                 ),
-                                border: OutlineInputBorder(
+                                enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(15.0),
+                                  borderSide:
+                                      const BorderSide(color: kBackgroundColor),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(15.0),
+                                  borderSide:
+                                      const BorderSide(color: kBackgroundColor),
+                                ),
+                                errorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(15.0),
+                                  borderSide:
+                                      const BorderSide(color: kRedColor),
+                                ),
+                                focusedErrorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(15.0),
+                                  borderSide:
+                                      const BorderSide(color: kRedColor),
                                 ),
                                 labelText: 'ชื่อบัญชี*',
                                 labelStyle: const TextStyle(
@@ -111,8 +128,25 @@ class _SignupScreenState extends State<SignupScreen> {
                                   Icons.email,
                                   color: kTextColor,
                                 ),
-                                border: OutlineInputBorder(
+                                enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(15.0),
+                                  borderSide:
+                                      const BorderSide(color: kBackgroundColor),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(15.0),
+                                  borderSide:
+                                      const BorderSide(color: kBackgroundColor),
+                                ),
+                                errorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(15.0),
+                                  borderSide:
+                                      const BorderSide(color: kRedColor),
+                                ),
+                                focusedErrorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(15.0),
+                                  borderSide:
+                                      const BorderSide(color: kRedColor),
                                 ),
                                 labelText: 'อีเมล*',
                                 labelStyle: const TextStyle(
@@ -149,8 +183,25 @@ class _SignupScreenState extends State<SignupScreen> {
                                   Icons.key,
                                   color: kTextColor,
                                 ),
-                                border: OutlineInputBorder(
+                                enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(15.0),
+                                  borderSide:
+                                      const BorderSide(color: kBackgroundColor),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(15.0),
+                                  borderSide:
+                                      const BorderSide(color: kBackgroundColor),
+                                ),
+                                errorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(15.0),
+                                  borderSide:
+                                      const BorderSide(color: kRedColor),
+                                ),
+                                focusedErrorBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(15.0),
+                                  borderSide:
+                                      const BorderSide(color: kRedColor),
                                 ),
                                 labelText: 'รหัสผ่าน*',
                                 labelStyle: const TextStyle(
