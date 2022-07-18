@@ -30,13 +30,16 @@ class _MyAccountState extends State<MyAccount> {
         child: Column(
           children: <Widget>[
             const SizedBox(
-              height: 20,
+              height: 25,
             ),
             const Image(
               image: AssetImage(
                 'assets/blank-profile-picture.png',
               ),
               width: 100,
+            ),
+            const SizedBox(
+              height: 10,
             ),
             const Text(
               "สวัสดี",
@@ -49,6 +52,9 @@ class _MyAccountState extends State<MyAccount> {
               style: TextStyle(
                 fontSize: 24,
               ),
+            ),
+            const SizedBox(
+              height: 7.5,
             ),
             const Text(
               "nannnyy16@gmail.com",
