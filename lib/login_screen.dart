@@ -51,8 +51,15 @@ class _LoginScreenState extends State<LoginScreen> {
                                 Icons.email,
                                 color: kTextColor,
                               ),
-                              border: OutlineInputBorder(
+                              enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(15.0),
+                                borderSide:
+                                    const BorderSide(color: kBackgroundColor),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15.0),
+                                borderSide:
+                                    const BorderSide(color: kBackgroundColor),
                               ),
                               labelText: 'อีเมล',
                               labelStyle: const TextStyle(
@@ -82,8 +89,15 @@ class _LoginScreenState extends State<LoginScreen> {
                                 Icons.key,
                                 color: kTextColor,
                               ),
-                              border: OutlineInputBorder(
+                              enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(15.0),
+                                borderSide:
+                                    const BorderSide(color: kBackgroundColor),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15.0),
+                                borderSide:
+                                    const BorderSide(color: kBackgroundColor),
                               ),
                               labelText: 'รหัสผ่าน',
                               labelStyle: const TextStyle(
@@ -105,7 +119,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       const Text(
                         '***อีเมลหรือรหัสผ่านไม่ถูกต้อง***',
                         style: TextStyle(
-                          color: Colors.red,
+                          color: kRedColor,
                           fontSize: 15,
                           fontFamily: "prompt",
                         ),
