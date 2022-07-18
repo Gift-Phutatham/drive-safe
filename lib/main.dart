@@ -1,7 +1,8 @@
+import 'package:drive_safe/constants.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
 import 'login_screen.dart';
@@ -20,9 +21,12 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: LoginScreen(),
+      theme: ThemeData(
+        fontFamily: kFontFamily,
+      ),
+      home: const LoginScreen(),
     ); // MyStatefulWidget(),
   }
 }

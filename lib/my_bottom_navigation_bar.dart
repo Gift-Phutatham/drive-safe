@@ -45,20 +45,18 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
     return Scaffold(
       body: _widgetOptions.elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: kBackgroundColor,
+        backgroundColor: kMainColor,
         items: <BottomNavigationBarItem>[
           getNavigationItem(Icons.place, 'แผนที่'),
           getNavigationItem(Icons.bar_chart, 'สถิติ'),
           getNavigationItem(Icons.account_circle, 'บัญชีฉัน')
         ],
         currentIndex: _selectedIndex,
-        selectedLabelStyle:
-            const TextStyle(fontFamily: 'Prompt', color: Colors.white),
-        unselectedLabelStyle:
-            const TextStyle(fontFamily: 'Prompt', color: Colors.white),
+        selectedLabelStyle: const TextStyle(color: Colors.white),
+        unselectedLabelStyle: const TextStyle(color: Colors.white),
         unselectedItemColor: Colors.white,
         selectedItemColor: Colors.white,
-        selectedIconTheme: const IconThemeData(color: kBackgroundColor),
+        selectedIconTheme: const IconThemeData(color: kMainColor),
         onTap: _onItemTapped,
       ),
     );

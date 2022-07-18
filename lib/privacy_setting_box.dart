@@ -29,16 +29,13 @@ class PrivacySettingBox extends StatelessWidget {
             Icon(
               icon,
               size: 30,
-              color: kBackgroundColor,
+              color: kMainColor,
             ),
             const SizedBox(
               width: 10,
             ),
             Text(
               text,
-              style: const TextStyle(
-                fontFamily: 'Prompt',
-              ),
             ),
             const SizedBox(
               width: 180,

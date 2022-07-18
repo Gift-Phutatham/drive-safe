@@ -99,9 +99,8 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
         centerTitle: true,
         title: const Text(
           "สถิติ",
-          style: TextStyle(fontFamily: 'Prompt'),
         ),
-        backgroundColor: kBackgroundColor,
+        backgroundColor: kMainColor,
       ),
       body: map.isEmpty
           ? const Center(
@@ -154,7 +153,6 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                 child: Text(
                                   'ทางด่วนพิเศษ${expwStepValues.getValue(key)}',
                                   style: TextStyle(
-                                    fontFamily: 'Prompt',
                                     color: map[key]!.length >= 200
                                         ? kRedColor
                                         : map[key]!.length >= 50
@@ -189,11 +187,15 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                       children: const [
                                         Text(
                                           'จำนวนอุบัติเหตุทั้งหมด',
-                                          style: kTextStyle,
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                          ),
                                         ),
                                         Text(
                                           '(2563 - ปัจจุบัน)',
-                                          style: kTextStyle,
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -201,7 +203,6 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                       map[key]!.length.toString(),
                                       style: const TextStyle(
                                         fontSize: 32,
-                                        fontFamily: 'Prompt',
                                         color: Colors.white,
                                       ),
                                     ),

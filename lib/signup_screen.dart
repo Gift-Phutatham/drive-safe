@@ -1,7 +1,7 @@
-import 'package:drive_safe/login_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'constants.dart';
+import 'login_screen.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({Key? key}) : super(key: key);
@@ -17,7 +17,7 @@ class _SignupScreenState extends State<SignupScreen> {
   Widget build(BuildContext context) {
     return Card(
       child: Container(
-        color: kBackgroundColor,
+        color: kMainColor,
         child: Column(
           children: <Widget>[
             const SizedBox(
@@ -38,7 +38,6 @@ class _SignupScreenState extends State<SignupScreen> {
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 50,
-                  fontFamily: 'Prompt',
                 ),
                 textAlign: TextAlign.right,
               ),
@@ -71,17 +70,17 @@ class _SignupScreenState extends State<SignupScreen> {
                               decoration: InputDecoration(
                                 prefixIcon: const Icon(
                                   Icons.person,
-                                  color: kTextColor,
+                                  color: kMainColor,
                                 ),
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(15.0),
                                   borderSide:
-                                      const BorderSide(color: kBackgroundColor),
+                                      const BorderSide(color: kMainColor),
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(15.0),
                                   borderSide:
-                                      const BorderSide(color: kBackgroundColor),
+                                      const BorderSide(color: kMainColor),
                                 ),
                                 errorBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(15.0),
@@ -95,14 +94,12 @@ class _SignupScreenState extends State<SignupScreen> {
                                 ),
                                 labelText: 'ชื่อบัญชี*',
                                 labelStyle: const TextStyle(
-                                  color: kTextColor,
+                                  color: kMainColor,
                                   fontSize: 15,
-                                  fontFamily: 'Prompt',
                                 ),
                                 floatingLabelStyle: const TextStyle(
-                                  color: kTextColor,
+                                  color: kMainColor,
                                   fontSize: 20,
-                                  fontFamily: 'Prompt',
                                 ),
                                 contentPadding:
                                     const EdgeInsets.symmetric(vertical: 15),
@@ -126,17 +123,17 @@ class _SignupScreenState extends State<SignupScreen> {
                               decoration: InputDecoration(
                                 prefixIcon: const Icon(
                                   Icons.email,
-                                  color: kTextColor,
+                                  color: kMainColor,
                                 ),
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(15.0),
                                   borderSide:
-                                      const BorderSide(color: kBackgroundColor),
+                                      const BorderSide(color: kMainColor),
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(15.0),
                                   borderSide:
-                                      const BorderSide(color: kBackgroundColor),
+                                      const BorderSide(color: kMainColor),
                                 ),
                                 errorBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(15.0),
@@ -150,14 +147,12 @@ class _SignupScreenState extends State<SignupScreen> {
                                 ),
                                 labelText: 'อีเมล*',
                                 labelStyle: const TextStyle(
-                                  color: kTextColor,
+                                  color: kMainColor,
                                   fontSize: 15,
-                                  fontFamily: 'Prompt',
                                 ),
                                 floatingLabelStyle: const TextStyle(
-                                  color: kTextColor,
+                                  color: kMainColor,
                                   fontSize: 20,
-                                  fontFamily: 'Prompt',
                                 ),
                                 contentPadding:
                                     const EdgeInsets.symmetric(vertical: 15),
@@ -181,17 +176,17 @@ class _SignupScreenState extends State<SignupScreen> {
                               decoration: InputDecoration(
                                 prefixIcon: const Icon(
                                   Icons.key,
-                                  color: kTextColor,
+                                  color: kMainColor,
                                 ),
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(15.0),
                                   borderSide:
-                                      const BorderSide(color: kBackgroundColor),
+                                      const BorderSide(color: kMainColor),
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(15.0),
                                   borderSide:
-                                      const BorderSide(color: kBackgroundColor),
+                                      const BorderSide(color: kMainColor),
                                 ),
                                 errorBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(15.0),
@@ -205,14 +200,12 @@ class _SignupScreenState extends State<SignupScreen> {
                                 ),
                                 labelText: 'รหัสผ่าน*',
                                 labelStyle: const TextStyle(
-                                  color: kTextColor,
+                                  color: kMainColor,
                                   fontSize: 15,
-                                  fontFamily: 'Prompt',
                                 ),
                                 floatingLabelStyle: const TextStyle(
-                                  color: kTextColor,
+                                  color: kMainColor,
                                   fontSize: 20,
-                                  fontFamily: 'Prompt',
                                 ),
                                 contentPadding:
                                     const EdgeInsets.symmetric(vertical: 15),
@@ -242,7 +235,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                         Colors.white),
                                 backgroundColor:
                                     MaterialStateProperty.all<Color>(
-                                        kBackgroundColor),
+                                        kMainColor),
                                 shape: MaterialStateProperty.all<
                                     RoundedRectangleBorder>(
                                   RoundedRectangleBorder(
@@ -266,7 +259,6 @@ class _SignupScreenState extends State<SignupScreen> {
                                 'สร้างบัญชี',
                                 style: TextStyle(
                                   fontSize: 15,
-                                  fontFamily: 'Prompt',
                                 ),
                               ),
                             ),
@@ -279,9 +271,9 @@ class _SignupScreenState extends State<SignupScreen> {
                                     const EdgeInsets.all(10)),
                                 foregroundColor:
                                     MaterialStateProperty.all<Color>(
-                                        kBackgroundColor),
+                                        kMainColor),
                                 side: MaterialStateProperty.all<BorderSide>(
-                                  const BorderSide(color: kBackgroundColor),
+                                  const BorderSide(color: kMainColor),
                                 ),
                                 shape: MaterialStateProperty.all<
                                     RoundedRectangleBorder>(
@@ -304,7 +296,6 @@ class _SignupScreenState extends State<SignupScreen> {
                                 'ยกเลิก',
                                 style: TextStyle(
                                   fontSize: 15,
-                                  fontFamily: 'Prompt',
                                 ),
                               ),
                             ),

@@ -22,9 +22,8 @@ class _MyAccountState extends State<MyAccount> {
         centerTitle: true,
         title: const Text(
           "บัญชีฉัน",
-          style: TextStyle(fontFamily: 'Prompt'),
         ),
-        backgroundColor: kBackgroundColor,
+        backgroundColor: kMainColor,
       ),
       body: Container(
         alignment: Alignment.center,
@@ -42,21 +41,18 @@ class _MyAccountState extends State<MyAccount> {
             const Text(
               "สวัสดี",
               style: TextStyle(
-                fontFamily: 'Prompt',
                 fontSize: 24,
               ),
             ),
             const Text(
               "คุณแนน",
               style: TextStyle(
-                fontFamily: 'Prompt',
                 fontSize: 24,
               ),
             ),
             const Text(
               "nannnyy16@gmail.com",
               style: TextStyle(
-                fontFamily: 'Prompt',
                 fontSize: 16,
               ),
             ),
@@ -73,7 +69,6 @@ class _MyAccountState extends State<MyAccount> {
               child: const Text(
                 "ความปลอดภัย",
                 style: TextStyle(
-                  fontFamily: 'Prompt',
                   fontSize: 20,
                   fontWeight: FontWeight.w700,
                 ),
@@ -103,9 +98,9 @@ class _MyAccountState extends State<MyAccount> {
                   borderRadius: BorderRadius.circular(15.0),
                 ),
                 side: const BorderSide(
-                  color: kBackgroundColor,
+                  color: kMainColor,
                 ),
-                shadowColor: kBackgroundColor,
+                shadowColor: kMainColor,
               ),
               onPressed: () {
                 Navigator.push(
@@ -119,7 +114,7 @@ class _MyAccountState extends State<MyAccount> {
                 children: const <Widget>[
                   Icon(
                     Icons.logout,
-                    color: kBackgroundColor,
+                    color: kMainColor,
                     size: 24.0,
                   ),
                   SizedBox(
@@ -129,8 +124,7 @@ class _MyAccountState extends State<MyAccount> {
                     'ออกจากระบบ',
                     style: TextStyle(
                       fontSize: 15,
-                      fontFamily: "prompt",
-                      color: kTextColor,
+                      color: kMainColor,
                     ),
                   ),
                 ],
@@ -153,12 +147,11 @@ class _MyAccountState extends State<MyAccount> {
             topLeft: Radius.circular(20.0),
             topRight: Radius.circular(20.0),
           ),
-          color: kBackgroundColor,
+          color: kMainColor,
         ),
         child: const Text(
           'เปลี่ยนชื่อบัญชี',
           style: TextStyle(
-            fontFamily: 'Prompt',
             color: Colors.white,
           ),
         ),
@@ -172,9 +165,7 @@ class _MyAccountState extends State<MyAccount> {
                 contentPadding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                 hintText: "ชื่อบัญชีใหม่",
-                hintStyle: const TextStyle(
-                  fontFamily: "Prompt",
-                ),
+                hintStyle: const TextStyle(),
                 border:
                     OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
               ),
@@ -197,8 +188,7 @@ class _MyAccountState extends State<MyAccount> {
                 padding: MaterialStateProperty.all<EdgeInsets>(
                     const EdgeInsets.all(10)),
                 foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
-                backgroundColor:
-                    MaterialStateProperty.all<Color>(kBackgroundColor),
+                backgroundColor: MaterialStateProperty.all<Color>(kMainColor),
                 shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                   RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15.0),
@@ -215,7 +205,6 @@ class _MyAccountState extends State<MyAccount> {
                 'สมัครบัญชี',
                 style: TextStyle(
                   fontSize: 15,
-                  fontFamily: "prompt",
                 ),
               ),
             ),
@@ -227,15 +216,14 @@ class _MyAccountState extends State<MyAccount> {
                 padding: MaterialStateProperty.all<EdgeInsets>(
                   const EdgeInsets.all(10),
                 ),
-                foregroundColor:
-                    MaterialStateProperty.all<Color>(kBackgroundColor),
+                foregroundColor: MaterialStateProperty.all<Color>(kMainColor),
                 shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                   RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15.0),
                   ),
                 ),
                 side: MaterialStateProperty.all<BorderSide>(
-                  const BorderSide(color: kBackgroundColor),
+                  const BorderSide(color: kMainColor),
                 ),
                 minimumSize: MaterialStateProperty.all(const Size(100, 50)),
               ),
@@ -246,7 +234,6 @@ class _MyAccountState extends State<MyAccount> {
                 'ยกเลิก',
                 style: TextStyle(
                   fontSize: 15,
-                  fontFamily: "prompt",
                 ),
               ),
             ),

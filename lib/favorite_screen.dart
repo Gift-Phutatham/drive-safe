@@ -17,9 +17,8 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
         centerTitle: true,
         title: const Text(
           'สถานที่โปรด',
-          style: TextStyle(fontFamily: 'Prompt'),
         ),
-        backgroundColor: kBackgroundColor,
+        backgroundColor: kMainColor,
       ),
       body: Column(
         children: const [
@@ -27,46 +26,42 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
             title: Text(
               'เดอะมอลล์งามวงศ์วาน',
               style: TextStyle(
-                fontFamily: 'Prompt',
                 fontWeight: FontWeight.bold,
                 fontSize: 14,
-                color: kTextColor,
+                color: kMainColor,
               ),
             ),
             subtitle: Text(
               'ตําบลบางเขน หมู่ที่ 2 30/39-50 ถนนงามวงศ์วาน อำเภอเมืองนนทบุรี นนทบุรี 11000',
               style: TextStyle(
-                fontFamily: 'Prompt',
                 fontSize: 13,
-                color: kTextColor,
+                color: kMainColor,
               ),
             ),
             trailing: Icon(
               Icons.delete,
-              color: kBackgroundColor,
+              color: kMainColor,
             ),
           ),
           ListTile(
             title: Text(
               'มหาวิทยาลัยมหิดล',
               style: TextStyle(
-                fontFamily: 'Prompt',
                 fontWeight: FontWeight.bold,
                 fontSize: 14,
-                color: kTextColor,
+                color: kMainColor,
               ),
             ),
             subtitle: Text(
               '999 ถนนพุทธมณฑลสาย 4 ตำบลศาลายา อำเภอพุทธมณฑล นครปฐม 73170',
               style: TextStyle(
-                fontFamily: 'Prompt',
                 fontSize: 13,
-                color: kTextColor,
+                color: kMainColor,
               ),
             ),
             trailing: Icon(
               Icons.delete,
-              color: kBackgroundColor,
+              color: kMainColor,
             ),
           ),
         ],

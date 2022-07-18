@@ -1,12 +1,12 @@
+import 'package:drive_safe/favorite_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-
-import 'constants.dart';
-import 'favorite_screen.dart';
-import 'location_service.dart';
-import 'package:drive_safe/record_model.dart';
-import 'api_service.dart';
 import 'package:intl/intl.dart';
+
+import 'api_service.dart';
+import 'constants.dart';
+import 'location_service.dart';
+import 'record_model.dart';
 
 class MapSample extends StatefulWidget {
   const MapSample({Key? key}) : super(key: key);
@@ -17,7 +17,7 @@ class MapSample extends StatefulWidget {
 
 class MapSampleState extends State<MapSample> {
   late GoogleMapController mapController;
-  TextEditingController _searchController = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
 
   final LatLng _center = const LatLng(13.7563, 100.5018);
 
@@ -92,113 +92,116 @@ class MapSampleState extends State<MapSample> {
               ? kOrangeColor
               : kYellowColor;
 
-      setState(() {
-        newMarker.add(Marker(
-          markerId: MarkerId(placeName),
-          position: LatLng(lat, lng),
-          icon: BitmapDescriptor.defaultMarker,
-          onTap: () {
-            showDialog(
-                context: context,
-                builder: (context) {
-                  return AlertDialog(
-                    backgroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10)),
-                    title: Container(
-                      padding:
-                          const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
-                      decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(10.0),
-                          topRight: Radius.circular(10.0),
+      setState(
+        () {
+          newMarker.add(
+            Marker(
+              markerId: MarkerId(placeName),
+              position: LatLng(lat, lng),
+              icon: BitmapDescriptor.defaultMarker,
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      backgroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10)),
+                      title: Container(
+                        padding:
+                            const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                        decoration: BoxDecoration(
+                          borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(10.0),
+                            topRight: Radius.circular(10.0),
+                          ),
+                          color: dialogColor,
                         ),
-                        color: dialogColor,
-                      ),
-                      child: Align(
-                        alignment: Alignment.center,
-                        child: Column(
-                          children: [
-                            Text(
-                              'ทางด่่วน${placeName}',
-                              style: TextStyle(
-                                fontFamily: 'Prompt',
-                                fontSize: 16,
-                                color: Colors.white,
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Column(
+                            children: <Widget>[
+                              Text(
+                                'ทางด่่วน$placeName',
+                                style: const TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.white,
+                                ),
                               ),
+                              const Text(
+                                'สถิติจำนวนอุบัติเหตุ (2562-2565)',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      titlePadding:
+                          const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+                      contentPadding:
+                          const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+                      content: Container(
+                        constraints: const BoxConstraints(maxHeight: 100),
+                        color: Colors.white,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: <Widget>[
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: <Widget>[
+                                Text(
+                                  formatter.format(today),
+                                  style: TextStyle(
+                                    color: dialogColor,
+                                  ),
+                                ),
+                                Text(
+                                  '${today.hour}:00 - ${today.hour + 1}:00',
+                                  style: TextStyle(
+                                    color: dialogColor,
+                                  ),
+                                ),
+                              ],
                             ),
                             Text(
-                              'สถิติจำนวนอุบัติเหตุ (2562-2565)',
+                              map[key]!.length.toString(),
                               style: TextStyle(
-                                fontFamily: 'Prompt',
-                                fontSize: 16,
-                                color: Colors.white,
+                                fontSize: 24,
+                                color: dialogColor,
                               ),
                             ),
                           ],
                         ),
                       ),
-                    ),
-                    titlePadding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
-                    contentPadding:
-                        const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
-                    content: Container(
-                      constraints: const BoxConstraints(maxHeight: 100),
-                      color: Colors.white,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Text(
-                                formatter.format(today),
-                                style: TextStyle(
-                                  fontFamily: 'Prompt',
-                                  color: dialogColor,
-                                ),
-                              ),
-                              Text(
-                                '${today.hour}:00 - ${today.hour + 1}:00',
-                                style: TextStyle(
-                                  fontFamily: 'Prompt',
-                                  color: dialogColor,
-                                ),
-                              ),
-                            ],
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          style: ButtonStyle(
+                            backgroundColor:
+                                MaterialStateProperty.all<Color>(dialogColor),
                           ),
-                          Text(
-                            map[key]!.length.toString(),
+                          child: const Text(
+                            'ปิด',
                             style: TextStyle(
-                              fontFamily: 'Prompt',
-                              fontSize: 24,
-                              color: dialogColor,
+                              color: Colors.white,
                             ),
                           ),
-                        ],
-                      ),
-                    ),
-                    actions: [
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: Text(
-                          'ปิด',
-                          style: kTextStyle,
                         ),
-                        style: ButtonStyle(
-                          backgroundColor:
-                              MaterialStateProperty.all<Color>(dialogColor),
-                        ),
-                      ),
-                    ],
-                    actionsAlignment: MainAxisAlignment.center,
-                  );
-                });
-          },
-        ));
-      });
+                      ],
+                      actionsAlignment: MainAxisAlignment.center,
+                    );
+                  },
+                );
+              },
+            ),
+          );
+        },
+      );
     }
 
     setState(() {
@@ -221,22 +224,40 @@ class MapSampleState extends State<MapSample> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
           centerTitle: true,
+          elevation: 0,
           title: const Text(
             "แผนที่",
-            style: TextStyle(fontFamily: 'Prompt'),
+            style: TextStyle(fontFamily: kFontFamily),
           ),
-          backgroundColor: kBackgroundColor,
+          backgroundColor: kMainColor,
+          actions: <Widget>[
+            Container(
+              margin: const EdgeInsets.only(right: 10),
+              child: IconButton(
+                icon: const Icon(Icons.favorite),
+                color: Colors.white,
+                iconSize: 30,
+                onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const FavoriteScreen(),
+                  ),
+                ),
+              ),
+            ),
+          ],
         ),
         body: Column(
-          children: [
+          children: <Widget>[
             Container(
               height: 70,
               decoration: const BoxDecoration(
-                color: kBackgroundColor,
+                color: kMainColor,
               ),
               alignment: Alignment.center,
               child: Container(
@@ -245,37 +266,39 @@ class MapSampleState extends State<MapSample> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   border: Border.all(
-                    color: kBackgroundColor,
+                    color: kMainColor,
                     width: 1,
                   ),
                   color: Colors.white,
                 ),
                 child: Row(
-                  children: [
+                  children: <Widget>[
                     IconButton(
-                        onPressed: () async {
-                          var placeId = await LocationService()
-                              .getPlaceId(_searchController.text);
-                          var place = await LocationService().getPlace(placeId);
-                          _searchController.clear();
-                          setState(() {
-                            searchList = [];
-                          });
-                          await goToPlace(place);
-                        },
-                        icon: Icon(Icons.search)),
+                      onPressed: () async {
+                        var placeId = await LocationService()
+                            .getPlaceId(_searchController.text);
+                        var place = await LocationService().getPlace(placeId);
+                        _searchController.clear();
+                        setState(() {
+                          searchList = [];
+                        });
+                        await goToPlace(place);
+                      },
+                      icon: const Icon(Icons.search),
+                    ),
                     Expanded(
                       child: TextFormField(
-                          decoration: const InputDecoration(
-                            border: UnderlineInputBorder(),
-                            hintText: 'ค้นหา',
-                            hintStyle: TextStyle(fontFamily: ('Prompt')),
-                          ),
-                          controller: _searchController,
-                          onChanged: (value) async {
-                            List newList =
-                                await LocationService().getAutocomplete(value);
-                            setState(() {
+                        decoration: const InputDecoration(
+                          border: UnderlineInputBorder(),
+                          hintText: 'ค้นหา',
+                          hintStyle: TextStyle(fontFamily: kFontFamily),
+                        ),
+                        controller: _searchController,
+                        onChanged: (value) async {
+                          List newList =
+                              await LocationService().getAutocomplete(value);
+                          setState(
+                            () {
                               if (newList.length > 4) {
                                 searchList = newList.getRange(0, 4).toList();
                               } else {
@@ -283,9 +306,11 @@ class MapSampleState extends State<MapSample> {
                               }
                               print(searchList);
                               print(searchList.length);
-                            });
-                            // print(LocationService().getAutocomplete(value));
-                          }),
+                            },
+                          );
+                          // print(LocationService().getAutocomplete(value));
+                        },
+                      ),
                     ),
                   ],
                 ),
@@ -293,7 +318,7 @@ class MapSampleState extends State<MapSample> {
             ),
             Expanded(
               child: Stack(
-                children: [
+                children: <Widget>[
                   GoogleMap(
                     onMapCreated: _onMapCreated,
                     initialCameraPosition: CameraPosition(
@@ -320,12 +345,12 @@ class MapSampleState extends State<MapSample> {
                           child: Container(
                             decoration: BoxDecoration(
                               borderRadius: index == 0
-                                  ? BorderRadius.only(
+                                  ? const BorderRadius.only(
                                       topLeft: Radius.circular(10.0),
                                       topRight: Radius.circular(10.0),
                                     )
                                   : index == (searchList.length - 1)
-                                      ? BorderRadius.only(
+                                      ? const BorderRadius.only(
                                           bottomLeft: Radius.circular(10.0),
                                           bottomRight: Radius.circular(10.0),
                                         )
@@ -336,15 +361,21 @@ class MapSampleState extends State<MapSample> {
                               title: Text(
                                 searchList[index]['structured_formatting']
                                     ['main_text'],
-                                style: kTextStyleSearch,
+                                style: const TextStyle(
+                                  fontSize: 13,
+                                  fontFamily: kFontFamily,
+                                ),
                               ),
                               subtitle: Text(
                                 searchList[index]['structured_formatting']
                                         ['secondary_text'] ??
                                     '',
-                                style: kTextStyleSearch,
+                                style: const TextStyle(
+                                  fontSize: 13,
+                                  fontFamily: kFontFamily,
+                                ),
                               ),
-                              trailing: Icon(Icons.favorite),
+                              trailing: const Icon(Icons.favorite),
                             ),
                           ),
                         );
@@ -354,19 +385,6 @@ class MapSampleState extends State<MapSample> {
               ),
             ),
           ],
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const FavoriteScreen(),
-            ),
-          ),
-          backgroundColor: kBackgroundColor,
-          child: const Icon(
-            Icons.favorite,
-            color: Colors.white,
-          ),
         ),
       ),
     );

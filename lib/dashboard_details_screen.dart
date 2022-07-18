@@ -7,8 +7,11 @@ import 'record_model.dart';
 import 'statistic_model.dart';
 
 class DashboardDetailsScreen extends StatelessWidget {
-  DashboardDetailsScreen(
-      {required this.name, required this.statistic, required this.themeColor});
+  DashboardDetailsScreen({
+    required this.name,
+    required this.statistic,
+    required this.themeColor,
+  });
 
   final String name;
   final Statistic statistic;
@@ -26,9 +29,8 @@ class DashboardDetailsScreen extends StatelessWidget {
         centerTitle: true,
         title: Text(
           name,
-          style: const TextStyle(fontFamily: 'Prompt'),
         ),
-        backgroundColor: kBackgroundColor,
+        backgroundColor: kMainColor,
       ),
       body: Container(
         padding: const EdgeInsets.all(15.0),
@@ -48,7 +50,6 @@ class DashboardDetailsScreen extends StatelessWidget {
                       Text(
                         'จำนวนอุบัติเหตุทั้งหมด',
                         style: TextStyle(
-                          fontFamily: 'Prompt',
                           fontSize: 16,
                           color: themeColor,
                         ),
@@ -56,7 +57,6 @@ class DashboardDetailsScreen extends StatelessWidget {
                       Text(
                         '(2563 - ปัจจุบัน)',
                         style: TextStyle(
-                          fontFamily: 'Prompt',
                           fontSize: 16,
                           color: themeColor,
                         ),
@@ -73,7 +73,6 @@ class DashboardDetailsScreen extends StatelessWidget {
                       statistic.totalAccidents.toString(),
                       style: const TextStyle(
                         fontSize: 28,
-                        fontFamily: 'Prompt',
                         color: Colors.white,
                       ),
                     ),
@@ -113,7 +112,6 @@ class DashboardDetailsScreen extends StatelessWidget {
                             Text(
                               'ปกติ',
                               style: TextStyle(
-                                fontFamily: 'Prompt',
                                 color: lightThemeColor,
                               ),
                             ),
@@ -121,7 +119,6 @@ class DashboardDetailsScreen extends StatelessWidget {
                               statistic.weatherStat[WeatherState.EMPTY]
                                   .toString(),
                               style: TextStyle(
-                                fontFamily: 'Prompt',
                                 color: lightThemeColor,
                               ),
                             )
@@ -136,7 +133,6 @@ class DashboardDetailsScreen extends StatelessWidget {
                             Text(
                               'ฝนตก',
                               style: TextStyle(
-                                fontFamily: 'Prompt',
                                 color: lightThemeColor,
                               ),
                             ),
@@ -144,7 +140,6 @@ class DashboardDetailsScreen extends StatelessWidget {
                               statistic.weatherStat[WeatherState.WEATHER_STATE]
                                   .toString(),
                               style: TextStyle(
-                                fontFamily: 'Prompt',
                                 color: lightThemeColor,
                               ),
                             )
@@ -170,17 +165,17 @@ class DashboardDetailsScreen extends StatelessWidget {
                   child: Column(
                     children: <Widget>[
                       CardHeader(
-                          themeColor: themeColor,
-                          text: 'จำนวนผู้บาดเจ็บ',
-                          padding: const EdgeInsets.fromLTRB(
-                              38.0, 10.0, 38.0, 10.0)),
+                        themeColor: themeColor,
+                        text: 'จำนวนผู้บาดเจ็บ',
+                        padding:
+                            const EdgeInsets.fromLTRB(38.0, 10.0, 38.0, 10.0),
+                      ),
                       Container(
                         padding:
                             const EdgeInsets.fromLTRB(38.0, 10.0, 38.0, 10.0),
                         child: Text(
                           statistic.totalInjured.toString(),
                           style: TextStyle(
-                            fontFamily: 'Prompt',
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
                             color: lightThemeColor,
@@ -202,17 +197,17 @@ class DashboardDetailsScreen extends StatelessWidget {
                   child: Column(
                     children: <Widget>[
                       CardHeader(
-                          themeColor: themeColor,
-                          text: 'จำนวนผู้เสียชีวิต',
-                          padding: const EdgeInsets.fromLTRB(
-                              38.0, 10.0, 38.0, 10.0)),
+                        themeColor: themeColor,
+                        text: 'จำนวนผู้เสียชีวิต',
+                        padding:
+                            const EdgeInsets.fromLTRB(38.0, 10.0, 38.0, 10.0),
+                      ),
                       Container(
                         padding:
                             const EdgeInsets.fromLTRB(38.0, 10.0, 38.0, 10.0),
                         child: Text(
                           statistic.totalDead.toString(),
                           style: TextStyle(
-                            fontFamily: 'Prompt',
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
                             color: lightThemeColor,
@@ -236,10 +231,10 @@ class DashboardDetailsScreen extends StatelessWidget {
               child: Column(
                 children: <Widget>[
                   CardHeader(
-                      themeColor: themeColor,
-                      text: 'สาเหตุการเกิดอุบัติเหตุ',
-                      padding:
-                          const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0)),
+                    themeColor: themeColor,
+                    text: 'สาเหตุการเกิดอุบัติเหตุ',
+                    padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
+                  ),
                   PieChart(
                     dataMap: statistic.causes,
                     animationDuration: const Duration(milliseconds: 800),
@@ -250,9 +245,8 @@ class DashboardDetailsScreen extends StatelessWidget {
                       legendPosition: LegendPosition.bottom,
                       showLegends: true,
                       legendTextStyle: TextStyle(
-                        fontFamily: 'Prompt',
                         fontSize: 12,
-                        color: kTextColor,
+                        color: kMainColor,
                       ),
                     ),
                     chartValuesOptions: const ChartValuesOptions(

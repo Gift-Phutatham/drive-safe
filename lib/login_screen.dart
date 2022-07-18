@@ -16,7 +16,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Card(
       child: Container(
-        color: kBackgroundColor,
+        color: kMainColor,
         child: Column(
           children: <Widget>[
             const SizedBox(
@@ -40,194 +40,50 @@ class _LoginScreenState extends State<LoginScreen> {
                       const SizedBox(
                         height: 45,
                       ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                        child: SizedBox(
-                          width: 350,
-                          height: 75,
-                          child: TextField(
-                            decoration: InputDecoration(
-                              prefixIcon: const Icon(
-                                Icons.email,
-                                color: kTextColor,
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15.0),
-                                borderSide:
-                                    const BorderSide(color: kBackgroundColor),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15.0),
-                                borderSide:
-                                    const BorderSide(color: kBackgroundColor),
-                              ),
-                              labelText: 'อีเมล',
-                              labelStyle: const TextStyle(
-                                color: kTextColor,
-                                fontSize: 15,
-                                fontFamily: 'Prompt',
-                              ),
-                              floatingLabelStyle: const TextStyle(
-                                color: kTextColor,
-                                fontSize: 20,
-                                fontFamily: 'Prompt',
-                              ),
-                              contentPadding:
-                                  const EdgeInsets.symmetric(vertical: 15),
-                            ),
-                          ),
-                        ),
+                      getTextField(
+                        Icons.email,
+                        'อีเมล',
                       ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                        child: SizedBox(
-                          width: 350,
-                          height: 65,
-                          child: TextField(
-                            decoration: InputDecoration(
-                              prefixIcon: const Icon(
-                                Icons.key,
-                                color: kTextColor,
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15.0),
-                                borderSide:
-                                    const BorderSide(color: kBackgroundColor),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15.0),
-                                borderSide:
-                                    const BorderSide(color: kBackgroundColor),
-                              ),
-                              labelText: 'รหัสผ่าน',
-                              labelStyle: const TextStyle(
-                                color: kTextColor,
-                                fontSize: 15,
-                                fontFamily: 'Prompt',
-                              ),
-                              floatingLabelStyle: const TextStyle(
-                                color: kTextColor,
-                                fontSize: 20,
-                                fontFamily: 'Prompt',
-                              ),
-                              contentPadding:
-                                  const EdgeInsets.symmetric(vertical: 15),
-                            ),
-                          ),
-                        ),
+                      getTextField(
+                        Icons.key,
+                        'รหัสผ่าน',
                       ),
                       const Text(
                         '***อีเมลหรือรหัสผ่านไม่ถูกต้อง***',
                         style: TextStyle(
                           color: kRedColor,
                           fontSize: 15,
-                          fontFamily: "prompt",
                         ),
                       ),
                       const SizedBox(
                         height: 10,
                       ),
-                      TextButton(
-                        style: ButtonStyle(
-                          padding: MaterialStateProperty.all<EdgeInsets>(
-                              const EdgeInsets.all(10)),
-                          foregroundColor:
-                              MaterialStateProperty.all<Color>(Colors.white),
-                          backgroundColor: MaterialStateProperty.all<Color>(
-                              kBackgroundColor),
-                          shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15.0),
-                            ),
-                          ),
-                          minimumSize:
-                              MaterialStateProperty.all(const Size(350, 50)),
-                        ),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => const MyBottomNavigationBar(),
-                            ),
-                          );
-                        },
-                        child: const Text(
-                          'เข้าสู่ระบบ',
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontFamily: "prompt",
-                          ),
-                        ),
+                      getTextButton(
+                        'เข้าสู่ระบบ',
+                        const MyBottomNavigationBar(),
                       ),
                       const SizedBox(
-                        height: 35,
+                        height: 30,
                       ),
-                      Row(children: <Widget>[
-                        Expanded(
-                          child: Container(
-                            margin:
-                                const EdgeInsets.only(left: 20.0, right: 20.0),
-                            child: const Divider(
-                              color: kTextColor,
-                              height: 20,
+                      Row(
+                        children: <Widget>[
+                          getDivider(),
+                          const Text(
+                            "ยังไม่มีบัญชี ?",
+                            style: TextStyle(
+                              color: kMainColor,
+                              fontSize: 15,
                             ),
                           ),
-                        ),
-                        const Text(
-                          "ยังไม่มีบัญชี ?",
-                          style: TextStyle(
-                            color: kTextColor,
-                            fontSize: 15,
-                            fontFamily: "prompt",
-                          ),
-                        ),
-                        Expanded(
-                          child: Container(
-                            margin:
-                                const EdgeInsets.only(left: 20.0, right: 20.0),
-                            child: const Divider(
-                              color: kTextColor,
-                              height: 20,
-                            ),
-                          ),
-                        ),
-                      ]),
+                          getDivider(),
+                        ],
+                      ),
                       const SizedBox(
                         height: 15,
                       ),
-                      TextButton(
-                        style: ButtonStyle(
-                          padding: MaterialStateProperty.all<EdgeInsets>(
-                              const EdgeInsets.all(10)),
-                          foregroundColor:
-                              MaterialStateProperty.all<Color>(Colors.white),
-                          backgroundColor: MaterialStateProperty.all<Color>(
-                              kBackgroundColor),
-                          shape:
-                              MaterialStateProperty.all<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15.0),
-                            ),
-                          ),
-                          minimumSize:
-                              MaterialStateProperty.all(const Size(350, 50)),
-                        ),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => const SignupScreen(),
-                            ),
-                          );
-                        },
-                        child: const Text(
-                          'สมัครบัญชี',
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontFamily: "prompt",
-                          ),
-                        ),
+                      getTextButton(
+                        'สมัครบัญชี',
+                        const SignupScreen(),
                       ),
                     ],
                   ),
@@ -235,6 +91,85 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget getTextField(IconData icon, String labelText) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      child: SizedBox(
+        width: 350,
+        height: 75,
+        child: TextField(
+          decoration: InputDecoration(
+            prefixIcon: Icon(
+              icon,
+              color: kMainColor,
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(15.0),
+              borderSide: const BorderSide(color: kMainColor),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(15.0),
+              borderSide: const BorderSide(color: kMainColor),
+            ),
+            labelText: labelText,
+            labelStyle: const TextStyle(
+              color: kMainColor,
+              fontSize: 15,
+            ),
+            floatingLabelStyle: const TextStyle(
+              color: kMainColor,
+              fontSize: 20,
+            ),
+            contentPadding: const EdgeInsets.symmetric(vertical: 15),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget getTextButton(String text, Widget route) {
+    return TextButton(
+      style: ButtonStyle(
+        padding:
+            MaterialStateProperty.all<EdgeInsets>(const EdgeInsets.all(10)),
+        foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+        backgroundColor: MaterialStateProperty.all<Color>(kMainColor),
+        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
+          ),
+        ),
+        minimumSize: MaterialStateProperty.all(const Size(350, 50)),
+      ),
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => route,
+          ),
+        );
+      },
+      child: Text(
+        text,
+        style: const TextStyle(
+          fontSize: 15,
+        ),
+      ),
+    );
+  }
+
+  Widget getDivider() {
+    return Expanded(
+      child: Container(
+        margin: const EdgeInsets.only(left: 20.0, right: 20.0),
+        child: const Divider(
+          color: kMainColor,
+          thickness: 0.75,
         ),
       ),
     );

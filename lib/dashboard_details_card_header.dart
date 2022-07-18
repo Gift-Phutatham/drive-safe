@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 class CardHeader extends StatelessWidget {
-  const CardHeader(
-      {Key? key,
-      required this.themeColor,
-      required this.text,
-      required this.padding})
-      : super(key: key);
+  const CardHeader({
+    Key? key,
+    required this.themeColor,
+    required this.text,
+    required this.padding,
+  }) : super(key: key);
   final EdgeInsets padding;
   final Color themeColor;
   final String text;
@@ -26,8 +26,7 @@ class CardHeader extends StatelessWidget {
         alignment: Alignment.centerLeft,
         child: Text(
           text,
-          style: TextStyle(
-            fontFamily: 'Prompt',
+          style: const TextStyle(
             color: Colors.white,
           ),
         ),
