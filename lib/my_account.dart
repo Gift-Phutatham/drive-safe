@@ -144,35 +144,33 @@ class _MyAccountState extends State<MyAccount> {
   }
 
   Widget getTextFormField(String text) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10.0),
-      child: SizedBox(
-        width: 350,
-        height: 80,
-        child: TextFormField(
-          decoration: InputDecoration(
-            enabledBorder: getBorder(kMainColor),
-            focusedBorder: getBorder(kMainColor),
-            errorBorder: getBorder(kRedColor),
-            focusedErrorBorder: getBorder(kRedColor),
-            labelText: '$text*',
-            labelStyle: const TextStyle(
-              fontSize: 15,
-            ),
-            floatingLabelStyle: const TextStyle(
-              color: kMainColor,
-              fontSize: 20,
-            ),
-            contentPadding: const EdgeInsets.symmetric(vertical: 15),
-            errorStyle: const TextStyle(height: 0.75),
+    return SizedBox(
+      width: 350,
+      height: 80,
+      child: TextFormField(
+        decoration: InputDecoration(
+          enabledBorder: getBorder(kMainColor),
+          focusedBorder: getBorder(kMainColor),
+          errorBorder: getBorder(kRedColor),
+          focusedErrorBorder: getBorder(kRedColor),
+          labelText: '$text*',
+          labelStyle: const TextStyle(
+            fontSize: 15,
           ),
-          validator: (String? value) {
-            if (value == null || value.isEmpty) {
-              return 'กรุณากรอก$text';
-            }
-            return null;
-          },
+          floatingLabelStyle: const TextStyle(
+            color: kMainColor,
+            fontSize: 20,
+          ),
+          contentPadding:
+              const EdgeInsets.symmetric(vertical: 15, horizontal: 25),
+          errorStyle: const TextStyle(height: 0.75),
         ),
+        validator: (String? value) {
+          if (value == null || value.isEmpty) {
+            return 'กรุณากรอก$text';
+          }
+          return null;
+        },
       ),
     );
   }
@@ -200,7 +198,13 @@ class _MyAccountState extends State<MyAccount> {
         minimumSize: MaterialStateProperty.all<Size>(const Size(165, 55)),
       ),
       onPressed: () {
-        Navigator.of(context).pop();
+        if (validate) {
+          if (_formKey.currentState!.validate()) {
+            Navigator.of(context).pop();
+          }
+        } else {
+          Navigator.of(context).pop();
+        }
       },
       child: Text(
         text,
@@ -212,62 +216,70 @@ class _MyAccountState extends State<MyAccount> {
   }
 
   Widget getAccountDialog() {
-    return AlertDialog(
-      title: Container(
-        width: 340,
-        height: 70,
-        alignment: Alignment.center,
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(20.0),
-            topRight: Radius.circular(20.0),
-          ),
-          color: kMainColor,
-        ),
-        child: const Text(
-          'เปลี่ยนชื่อบัญชี',
-          style: TextStyle(
-            color: Colors.white,
-          ),
-        ),
-      ),
-      content: Column(
-        children: <Widget>[
-          Form(
-            key: _formKey,
-            child: getTextFormField('ชื่อบัญชีใหม่'),
-          ),
-        ],
-      ),
-      actions: <Widget>[
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            getTextButton(
-              'บันทึก',
-              Colors.white,
-              kMainColor,
-              true,
-            ),
-            const SizedBox(
-              width: 10,
-            ),
-            getTextButton(
-              'ยกเลิก',
-              kMainColor,
-              Colors.white,
-              false,
-            ),
-          ],
-        ),
-      ],
-    );
+    return const AlertDialog(
+        // title: Container(
+        //   width: 340,
+        //   height: 70,
+        //   alignment: Alignment.center,
+        //   decoration: const BoxDecoration(
+        //     borderRadius: BorderRadius.only(
+        //       topLeft: Radius.circular(20.0),
+        //       topRight: Radius.circular(20.0),
+        //     ),
+        //     color: kMainColor,
+        //   ),
+        //   child: const Text(
+        //     'เปลี่ยนชื่อบัญชี',
+        //     style: TextStyle(
+        //       color: Colors.white,
+        //     ),
+        //   ),
+        // ),
+        // content: Column(
+        //   children: <Widget>[
+        //     Form(
+        //       key: _formKey,
+        //       child: getTextFormField('ชื่อบัญชีใหม่'),
+        //     ),
+        //   ],
+        // ),
+        // actions: <Widget>[
+        //   Row(
+        //     mainAxisAlignment: MainAxisAlignment.center,
+        //     children: <Widget>[
+        //       getTextButton(
+        //         'บันทึก',
+        //         Colors.white,
+        //         kMainColor,
+        //         true,
+        //       ),
+        //       const SizedBox(
+        //         width: 10,
+        //       ),
+        //       getTextButton(
+        //         'ยกเลิก',
+        //         kMainColor,
+        //         Colors.white,
+        //         false,
+        //       ),
+        //     ],
+        //   ),
+        // ],
+        );
   }
 
   Widget getPasswordDialog() {
     return AlertDialog(
+      insetPadding: const EdgeInsets.all(10),
+      titlePadding: EdgeInsets.zero,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(20.0)),
+      ),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+      actionsAlignment: MainAxisAlignment.center,
+      actionsPadding: const EdgeInsets.only(bottom: 15),
       title: Container(
-        width: 340,
+        width: 500,
         height: 70,
         alignment: Alignment.center,
         decoration: const BoxDecoration(
@@ -278,25 +290,25 @@ class _MyAccountState extends State<MyAccount> {
           color: kMainColor,
         ),
         child: const Text(
-          'เปลี่ยนชื่อบัญชี',
+          'เปลี่ยนรหัสผ่าน',
           style: TextStyle(
             color: Colors.white,
           ),
         ),
       ),
-      content: Column(
-        children: <Widget>[
-          Form(
-            key: _formKey,
-            child: Column(
-              children: <Widget>[
-                getTextFormField('รหัสผ่านปัจจุบัน'),
-                getTextFormField('รหัสผ่านใหม่'),
-                getTextFormField('ยืนยันรหัสผ่านใหม่'),
-              ],
-            ),
+      content: SizedBox(
+        width: 700,
+        height: 240,
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: <Widget>[
+              getTextFormField('รหัสผ่านปัจจุบัน'),
+              getTextFormField('รหัสผ่านใหม่'),
+              getTextFormField('ยืนยันรหัสผ่านใหม่'),
+            ],
           ),
-        ],
+        ),
       ),
       actions: <Widget>[
         Row(
