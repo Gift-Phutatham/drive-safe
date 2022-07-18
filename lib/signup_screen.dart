@@ -139,7 +139,8 @@ class _SignupScreenState extends State<SignupScreen> {
               color: kMainColor,
               fontSize: 20,
             ),
-            contentPadding: const EdgeInsets.symmetric(vertical: 15),
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
             errorStyle: const TextStyle(height: 0.75),
           ),
           validator: (String? value) {

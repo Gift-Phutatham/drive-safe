@@ -222,7 +222,7 @@ class _MyAccountState extends State<MyAccount> {
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(20.0)),
       ),
-      contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 10),
       actionsAlignment: MainAxisAlignment.center,
       actionsPadding: const EdgeInsets.only(bottom: 15),
       title: Container(
@@ -244,10 +244,17 @@ class _MyAccountState extends State<MyAccount> {
         ),
       ),
       content: SizedBox(
-        height: 60,
+        height: 105,
         child: Form(
           key: _formKey,
-          child: getTextFormField('ชื่อบัญชีใหม่'),
+          child: Column(
+            children: [
+              const SizedBox(
+                height: 25,
+              ),
+              getTextFormField('ชื่อบัญชีใหม่'),
+            ],
+          ),
         ),
       ),
       actions: <Widget>[
@@ -282,7 +289,7 @@ class _MyAccountState extends State<MyAccount> {
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(20.0)),
       ),
-      contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 10),
       actionsAlignment: MainAxisAlignment.center,
       actionsPadding: const EdgeInsets.only(bottom: 15),
       title: Container(
@@ -305,11 +312,14 @@ class _MyAccountState extends State<MyAccount> {
       ),
       content: SizedBox(
         width: 700,
-        height: 240,
+        height: 265,
         child: Form(
           key: _formKey,
           child: Column(
             children: <Widget>[
+              const SizedBox(
+                height: 25,
+              ),
               getTextFormField('รหัสผ่านปัจจุบัน'),
               getTextFormField('รหัสผ่านใหม่'),
               getTextFormField('ยืนยันรหัสผ่านใหม่'),
