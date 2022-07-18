@@ -83,7 +83,6 @@ class _SignupScreenState extends State<SignupScreen> {
                               'สร้างบัญชี',
                               Colors.white,
                               kMainColor,
-                              const LoginScreen(),
                               true,
                             ),
                             const SizedBox(
@@ -93,7 +92,6 @@ class _SignupScreenState extends State<SignupScreen> {
                               'ยกเลิก',
                               kMainColor,
                               Colors.white,
-                              const LoginScreen(),
                               false,
                             ),
                           ],
@@ -135,7 +133,6 @@ class _SignupScreenState extends State<SignupScreen> {
             focusedErrorBorder: getBorder(kRedColor),
             labelText: '$text*',
             labelStyle: const TextStyle(
-              color: kMainColor,
               fontSize: 15,
             ),
             floatingLabelStyle: const TextStyle(
@@ -160,7 +157,6 @@ class _SignupScreenState extends State<SignupScreen> {
     String text,
     Color foregroundColor,
     Color backgroundColor,
-    Widget route,
     bool validate,
   ) {
     return TextButton(
@@ -182,18 +178,16 @@ class _SignupScreenState extends State<SignupScreen> {
       onPressed: () {
         if (validate) {
           if (_formKey.currentState!.validate()) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (_) => route,
-              ),
+            showDialog<String>(
+              context: context,
+              builder: (BuildContext context) => getDialog(),
             );
           }
         } else {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (_) => route,
+              builder: (_) => const LoginScreen(),
             ),
           );
         }
@@ -202,6 +196,59 @@ class _SignupScreenState extends State<SignupScreen> {
         text,
         style: const TextStyle(
           fontSize: 15,
+        ),
+      ),
+    );
+  }
+
+  Widget getDialog() {
+    return AlertDialog(
+      titlePadding: EdgeInsets.zero,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(20.0)),
+      ),
+      title: Container(
+        width: 340,
+        height: 140,
+        alignment: Alignment.center,
+        decoration: const BoxDecoration(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20.0),
+            topRight: Radius.circular(20.0),
+          ),
+          color: kGreenColor,
+        ),
+        child: const Icon(
+          Icons.check_circle,
+          color: Colors.white,
+          size: 90,
+        ),
+      ),
+      content: SizedBox(
+        width: 340,
+        height: 150,
+        child: Column(
+          children: <Widget>[
+            const SizedBox(
+              height: 15,
+            ),
+            const Text(
+              'สร้างบัญชีสำเร็จ !',
+              style: TextStyle(
+                fontSize: 30,
+                color: kGreenColor,
+              ),
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            getTextButton(
+              'ตกลง',
+              Colors.white,
+              kGreenColor,
+              false,
+            ),
+          ],
         ),
       ),
     );
