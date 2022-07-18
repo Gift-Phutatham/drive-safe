@@ -180,7 +180,18 @@ class _SignupScreenState extends State<SignupScreen> {
           if (_formKey.currentState!.validate()) {
             showDialog<String>(
               context: context,
-              builder: (BuildContext context) => getDialog(),
+              builder: (BuildContext context) => getDialog(
+                'สร้างบัญชีสำเร็จ !',
+                Icons.check_circle,
+                kGreenColor,
+              ),
+              /*
+            getDialog(
+              'สร้างบัญชีไม่สำเร็จ !',
+              Icons.cancel,
+              kRedColor,
+            ),
+             */
             );
           }
         } else {
@@ -201,56 +212,56 @@ class _SignupScreenState extends State<SignupScreen> {
     );
   }
 
-  Widget getDialog() {
+  Widget getDialog(String text, IconData icon, Color color) {
     return AlertDialog(
       titlePadding: EdgeInsets.zero,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.all(Radius.circular(20.0)),
       ),
+      actionsAlignment: MainAxisAlignment.center,
+      actionsPadding: const EdgeInsets.only(bottom: 15),
       title: Container(
         width: 340,
-        height: 140,
+        height: 130,
         alignment: Alignment.center,
-        decoration: const BoxDecoration(
-          borderRadius: BorderRadius.only(
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(20.0),
             topRight: Radius.circular(20.0),
           ),
-          color: kGreenColor,
+          color: color,
         ),
-        child: const Icon(
-          Icons.check_circle,
+        child: Icon(
+          icon,
           color: Colors.white,
           size: 90,
         ),
       ),
       content: SizedBox(
-        width: 340,
-        height: 150,
+        height: 70,
         child: Column(
           children: <Widget>[
             const SizedBox(
-              height: 15,
+              height: 20,
             ),
-            const Text(
-              'สร้างบัญชีสำเร็จ !',
+            Text(
+              text,
               style: TextStyle(
                 fontSize: 30,
-                color: kGreenColor,
+                color: color,
               ),
-            ),
-            const SizedBox(
-              height: 30,
-            ),
-            getTextButton(
-              'ตกลง',
-              Colors.white,
-              kGreenColor,
-              false,
             ),
           ],
         ),
       ),
+      actions: [
+        getTextButton(
+          'ตกลง',
+          Colors.white,
+          color,
+          false,
+        ),
+      ],
     );
   }
 }
