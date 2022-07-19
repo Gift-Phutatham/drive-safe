@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'constants.dart';
-import 'privacy_setting_box.dart';
+import 'security_setting_box.dart';
 
 class MyAccount extends StatefulWidget {
   const MyAccount({Key? key}) : super(key: key);
@@ -17,11 +17,19 @@ class _MyAccountState extends State<MyAccount> {
   late FirebaseAuth _auth;
   late FirebaseFirestore _firestore;
   late String loggedInUser;
+  late User? currUser;
 
   final _formKey = GlobalKey<FormState>();
 
   String newAccountNameLabelText = 'ชื่อบัญชีใหม่';
+  String newPasswordLabelText = 'รหัสผ่านใหม่';
+  String newPasswordConfirmedLabelText = 'ยืนยันรหัสผ่านใหม่';
+
   String newAccountName = '';
+  String newPassword = '';
+  String newPasswordConfirmed = '';
+
+  String error = '';
 
   @override
   void initState() {
@@ -32,7 +40,8 @@ class _MyAccountState extends State<MyAccount> {
   void initFirebase() async {
     _auth = FirebaseAuth.instance;
     _firestore = FirebaseFirestore.instance;
-    loggedInUser = _auth.currentUser?.email ?? '';
+    currUser = _auth.currentUser;
+    loggedInUser = currUser?.email ?? '';
   }
 
   @override
@@ -126,7 +135,7 @@ class _MyAccountState extends State<MyAccount> {
                   ),
                 ),
               ),
-              PrivacySettingBox(
+              SecuritySettingBox(
                 icon: Icons.account_circle_outlined,
                 text: "เปลี่ยนชื่อบัญชี",
                 route: getAccountDialog(),
@@ -134,7 +143,7 @@ class _MyAccountState extends State<MyAccount> {
               const Divider(
                 color: Colors.grey,
               ),
-              PrivacySettingBox(
+              SecuritySettingBox(
                 icon: Icons.lock_outline_rounded,
                 text: "เปลี่ยนรหัสผ่าน",
                 route: getPasswordDialog(),
@@ -221,9 +230,14 @@ class _MyAccountState extends State<MyAccount> {
               const EdgeInsets.symmetric(vertical: 15, horizontal: 25),
           errorStyle: const TextStyle(height: 0.75),
         ),
+        obscureText: labelText.contains('รหัสผ่าน'),
         onChanged: (value) {
           if (labelText == newAccountNameLabelText) {
             newAccountName = value;
+          } else if (labelText == newPasswordLabelText) {
+            newPassword = value;
+          } else if (labelText == newPasswordConfirmedLabelText) {
+            newPasswordConfirmed = value;
           }
         },
         validator: (String? value) {
@@ -274,11 +288,28 @@ class _MyAccountState extends State<MyAccount> {
                     .doc(message.id)
                     .set(data, SetOptions(merge: true));
               }
+              Navigator.of(context).pop();
+            } else {
+              if (newPassword == newPasswordConfirmed) {
+                currUser?.updatePassword(newPassword).then((_) {
+                  Navigator.of(context).pop();
+                }).catchError((e) {
+                  setState(() {
+                    error = 'เปลี่ยนรหัสผ่านใหม่ไม่สำเร็จ กรุณาลองอีกครั้ง';
+                  });
+                });
+              } else {
+                setState(() {
+                  error = 'รหัสผ่านใหม่ไม่ตรงกับยืนยันรหัสผ่านใหม่';
+                });
+              }
             }
-            Navigator.of(context).pop();
           }
         } else {
           Navigator.of(context).pop();
+          setState(() {
+            error = '';
+          });
         }
       },
       child: Text(
@@ -389,7 +420,7 @@ class _MyAccountState extends State<MyAccount> {
       ),
       content: SizedBox(
         width: 700,
-        height: 265,
+        height: 210,
         child: Form(
           key: _formKey,
           child: Column(
@@ -397,9 +428,16 @@ class _MyAccountState extends State<MyAccount> {
               const SizedBox(
                 height: 25,
               ),
-              getTextFormField('รหัสผ่านปัจจุบัน'),
-              getTextFormField('รหัสผ่านใหม่'),
-              getTextFormField('ยืนยันรหัสผ่านใหม่'),
+              getTextFormField(newPasswordLabelText),
+              getTextFormField(newPasswordConfirmedLabelText),
+              if (error != '')
+                Text(
+                  error,
+                  style: const TextStyle(
+                    color: kRedColor,
+                    fontSize: 15,
+                  ),
+                ),
             ],
           ),
         ),

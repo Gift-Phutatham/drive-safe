@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'constants.dart';
 
-class PrivacySettingBox extends StatelessWidget {
-  const PrivacySettingBox({
+class SecuritySettingBox extends StatefulWidget {
+  const SecuritySettingBox({
     Key? key,
     required this.icon,
     required this.text,
@@ -15,11 +15,22 @@ class PrivacySettingBox extends StatelessWidget {
   final Widget route;
 
   @override
+  State<SecuritySettingBox> createState() => _SecuritySettingBoxState();
+}
+
+class _SecuritySettingBoxState extends State<SecuritySettingBox> {
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => showDialog<String>(
+      onTap: () => showDialog(
         context: context,
-        builder: (BuildContext context) => route,
+        builder: (BuildContext context) {
+          return StatefulBuilder(
+            builder: (context, StateSetter setState) {
+              return widget.route;
+            },
+          );
+        },
       ),
       child: Container(
         color: Colors.transparent,
@@ -27,7 +38,7 @@ class PrivacySettingBox extends StatelessWidget {
         child: Row(
           children: [
             Icon(
-              icon,
+              widget.icon,
               size: 30,
               color: kMainColor,
             ),
@@ -35,7 +46,7 @@ class PrivacySettingBox extends StatelessWidget {
               width: 10,
             ),
             Text(
-              text,
+              widget.text,
             ),
             const SizedBox(
               width: 180,
