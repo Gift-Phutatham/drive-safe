@@ -44,51 +44,51 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
         ),
         backgroundColor: kMainColor,
       ),
-      body: Column(
-        children: [
-          ListTile(
-            title: Text(
-              'มหาวิทยาลัยมหิดล',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 14,
-                color: kMainColor,
-              ),
-            ),
-            subtitle: Text(
-              '999 ถนนพุทธมณฑลสาย 4 ตำบลศาลายา อำเภอพุทธมณฑล นครปฐม 73170',
-              style: TextStyle(
-                fontSize: 13,
-                color: kMainColor,
-              ),
-            ),
-            trailing: IconButton(
-                icon: Icon(Icons.delete),
-                color: kMainColor,
-                onPressed: () async {
-                  final favorites = await _firestore
-                      .collection(kFavoriteCollection)
-                      .where('email', isEqualTo: loggedInUser)
-                      .where('location', isEqualTo: 'xxx')
-                      .get();
-                  // _firestore.collection(kFavoriteCollection)
-                  // .doc(favorites.id).delete()
-                }),
-          ),
-        ],
+      body: StreamBuilder<QuerySnapshot>(
+        stream: _firestore
+            .collection(kFavoriteCollection)
+            .where('email', isEqualTo: loggedInUser)
+            .snapshots(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if (snapshot.hasData) {
+            final snap = snapshot.data!.docs;
+            return ListView.builder(
+              shrinkWrap: true,
+              primary: false,
+              itemCount: snap.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text(
+                    snap[index]['location'],
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14,
+                    ),
+                  ),
+                  subtitle: Text(
+                    snap[index]['address'],
+                    style: const TextStyle(
+                      fontSize: 13,
+                    ),
+                  ),
+                  trailing: IconButton(
+                    icon: const Icon(Icons.delete),
+                    color: kMainColor,
+                    onPressed: () async {
+                      await _firestore
+                          .collection(kFavoriteCollection)
+                          .doc(snap[index].id)
+                          .delete();
+                    },
+                  ),
+                );
+              },
+            );
+          } else {
+            return const CircularProgressIndicator();
+          }
+        },
       ),
     );
-  }
-
-  void getFavorites() async {
-    final favorites = await _firestore
-        .collection(kFavoriteCollection)
-        .where('email', isEqualTo: loggedInUser)
-        .get();
-    for (var favorite in favorites.docs) {
-      String favString =
-          favorite.get('location') + ' - ' + favorite.get('address');
-      print(favString);
-    }
   }
 }
