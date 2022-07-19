@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 import 'constants.dart';
@@ -11,7 +13,30 @@ class SignupScreen extends StatefulWidget {
 }
 
 class _SignupScreenState extends State<SignupScreen> {
+  late FirebaseAuth _auth;
+
   final _formKey = GlobalKey<FormState>();
+
+  String accountNameLabelText = 'ชื่อบัญชี';
+  String emailLabelText = 'อีเมล';
+  String passwordLabelText = 'รหัสผ่าน';
+
+  String accountName = '';
+  String email = '';
+  String password = '';
+
+  String error = '';
+
+  @override
+  void initState() {
+    super.initState();
+    initFirebase();
+  }
+
+  void initFirebase() async {
+    await Firebase.initializeApp();
+    _auth = FirebaseAuth.instance;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,18 +46,18 @@ class _SignupScreenState extends State<SignupScreen> {
         child: Column(
           children: <Widget>[
             const SizedBox(
-              height: 90,
+              height: 80,
             ),
             const Image(
               image: AssetImage('assets/signup-logo.png'),
               height: 200,
             ),
             const SizedBox(
-              height: 40,
+              height: 20,
             ),
             Container(
               alignment: Alignment.centerRight,
-              padding: const EdgeInsets.symmetric(horizontal: 25.0),
+              padding: const EdgeInsets.only(right: 25.0, bottom: 20),
               child: const Text(
                 "สมัครบัญชี",
                 style: TextStyle(
@@ -44,7 +69,7 @@ class _SignupScreenState extends State<SignupScreen> {
             ),
             Expanded(
               child: FractionallySizedBox(
-                heightFactor: 1,
+                heightFactor: 1.025,
                 alignment: Alignment.bottomCenter,
                 child: Container(
                   decoration: const BoxDecoration(
@@ -62,17 +87,25 @@ class _SignupScreenState extends State<SignupScreen> {
                           height: 45,
                         ),
                         getTextFormField(
-                          'ชื่อบัญชี',
+                          accountNameLabelText,
                           Icons.person,
                         ),
                         getTextFormField(
-                          'อีเมล',
+                          emailLabelText,
                           Icons.email,
                         ),
                         getTextFormField(
-                          'รหัสผ่าน',
+                          passwordLabelText,
                           Icons.key,
                         ),
+                        if (error != '')
+                          Text(
+                            error,
+                            style: const TextStyle(
+                              color: kRedColor,
+                              fontSize: 15,
+                            ),
+                          ),
                         const SizedBox(
                           height: 10,
                         ),
@@ -115,7 +148,7 @@ class _SignupScreenState extends State<SignupScreen> {
     );
   }
 
-  Widget getTextFormField(String text, IconData icon) {
+  Widget getTextFormField(String labelText, IconData icon) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: SizedBox(
@@ -131,7 +164,7 @@ class _SignupScreenState extends State<SignupScreen> {
             focusedBorder: getBorder(kMainColor),
             errorBorder: getBorder(kRedColor),
             focusedErrorBorder: getBorder(kRedColor),
-            labelText: '$text*',
+            labelText: '$labelText*',
             labelStyle: const TextStyle(
               fontSize: 15,
             ),
@@ -143,9 +176,18 @@ class _SignupScreenState extends State<SignupScreen> {
                 const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
             errorStyle: const TextStyle(height: 0.75),
           ),
+          onChanged: (value) {
+            if (labelText == accountNameLabelText) {
+              accountName = value;
+            } else if (labelText == emailLabelText) {
+              email = value;
+            } else if (labelText == passwordLabelText) {
+              password = value;
+            }
+          },
           validator: (String? value) {
             if (value == null || value.isEmpty) {
-              return 'กรุณากรอก$text';
+              return 'กรุณากรอก$labelText';
             }
             return null;
           },
@@ -176,24 +218,28 @@ class _SignupScreenState extends State<SignupScreen> {
         ),
         minimumSize: MaterialStateProperty.all<Size>(const Size(165, 55)),
       ),
-      onPressed: () {
+      onPressed: () async {
         if (validate) {
           if (_formKey.currentState!.validate()) {
-            showDialog<String>(
-              context: context,
-              builder: (BuildContext context) => getDialog(
-                'สร้างบัญชีสำเร็จ !',
-                Icons.check_circle,
-                kGreenColor,
-              ),
-              /*
-            getDialog(
-              'สร้างบัญชีไม่สำเร็จ !',
-              Icons.cancel,
-              kRedColor,
-            ),
-             */
-            );
+            print('Create user with $email and $password');
+            try {
+              await _auth.createUserWithEmailAndPassword(
+                email: email,
+                password: password,
+              );
+              showDialog<String>(
+                context: context,
+                builder: (BuildContext context) => getDialog(
+                  'สร้างบัญชีสำเร็จ !',
+                  Icons.check_circle,
+                  kGreenColor,
+                ),
+              );
+            } on FirebaseAuthException catch (e) {
+              setState(() {
+                error = getMessageFromError(e.code);
+              });
+            }
           }
         } else {
           Navigator.push(
@@ -264,5 +310,18 @@ class _SignupScreenState extends State<SignupScreen> {
         ),
       ],
     );
+  }
+
+  String getMessageFromError(e) {
+    switch (e) {
+      case "email-already-in-use":
+        return "อีเมลนี้ถูกลงทะเบียนไว้แล้ว";
+      case "invalid-email":
+        return "อีเมลไม่ถูกต้อง";
+      case "weak-password":
+        return "กรุณาเปลี่ยนรหัสผ่าน";
+      default:
+        return "สร้างบัญชีไม่สำเร็จ กรุณาลองอีกครั้ง";
+    }
   }
 }

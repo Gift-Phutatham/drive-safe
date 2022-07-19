@@ -10,9 +10,9 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'api_service.dart';
 import 'constants.dart';
+import 'db.dart';
 import 'location_service.dart';
 import 'record_model.dart';
-import 'db.dart';
 
 class MyMap extends StatefulWidget {
   const MyMap({Key? key}) : super(key: key);

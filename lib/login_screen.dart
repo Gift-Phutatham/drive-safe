@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 import 'constants.dart';
@@ -12,6 +14,27 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  late FirebaseAuth _auth;
+
+  String emailLabelText = 'อีเมล';
+  String passwordLabelText = 'รหัสผ่าน';
+
+  String email = '';
+  String password = '';
+
+  String error = '';
+
+  @override
+  void initState() {
+    super.initState();
+    initFirebase();
+  }
+
+  void initFirebase() async {
+    await Firebase.initializeApp();
+    _auth = FirebaseAuth.instance;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -41,26 +64,27 @@ class _LoginScreenState extends State<LoginScreen> {
                         height: 45,
                       ),
                       getTextField(
+                        emailLabelText,
                         Icons.email,
-                        'อีเมล',
                       ),
                       getTextField(
+                        passwordLabelText,
                         Icons.key,
-                        'รหัสผ่าน',
                       ),
-                      const Text(
-                        '***อีเมลหรือรหัสผ่านไม่ถูกต้อง***',
-                        style: TextStyle(
-                          color: kRedColor,
-                          fontSize: 15,
+                      if (error != '')
+                        Text(
+                          error,
+                          style: const TextStyle(
+                            color: kRedColor,
+                            fontSize: 15,
+                          ),
                         ),
-                      ),
                       const SizedBox(
                         height: 10,
                       ),
                       getTextButton(
                         'เข้าสู่ระบบ',
-                        const MyBottomNavigationBar(),
+                        true,
                       ),
                       const SizedBox(
                         height: 30,
@@ -83,7 +107,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       getTextButton(
                         'สมัครบัญชี',
-                        const SignupScreen(),
+                        false,
                       ),
                     ],
                   ),
@@ -103,7 +127,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget getTextField(IconData icon, String labelText) {
+  Widget getTextField(String labelText, IconData icon) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: SizedBox(
@@ -127,12 +151,19 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             contentPadding: const EdgeInsets.symmetric(vertical: 15),
           ),
+          onChanged: (value) {
+            if (labelText == emailLabelText) {
+              email = value;
+            } else if (labelText == passwordLabelText) {
+              password = value;
+            }
+          },
         ),
       ),
     );
   }
 
-  Widget getTextButton(String text, Widget route) {
+  Widget getTextButton(String text, bool check) {
     return TextButton(
       style: ButtonStyle(
         padding:
@@ -146,13 +177,33 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
         minimumSize: MaterialStateProperty.all<Size>(const Size(350, 50)),
       ),
-      onPressed: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (_) => route,
-          ),
-        );
+      onPressed: () async {
+        if (check) {
+          try {
+            await _auth.signInWithEmailAndPassword(
+              email: email,
+              password: password,
+            );
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => const MyBottomNavigationBar(),
+              ),
+            );
+          } catch (e) {
+            print(e);
+            setState(() {
+              error = '***อีเมลหรือรหัสผ่านไม่ถูกต้อง***';
+            });
+          }
+        } else {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => const SignupScreen(),
+            ),
+          );
+        }
       },
       child: Text(
         text,

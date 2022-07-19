@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "454287863653",
+    "project_id": "drivesafe-b12d4",
+    "storage_bucket": "drivesafe-b12d4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:454287863653:android:6afa201f4f00e3e3dabb8c",
+        "android_client_info": {
+          "package_name": "com.example.drive_safe"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "454287863653-osegqe2tg3e7dika2bg2agigbdv6eivt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBjww0wN1Y-nO6cn0BOuH8_vpK8uHmx0-Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "454287863653-osegqe2tg3e7dika2bg2agigbdv6eivt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
