@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 import 'constants.dart';
@@ -11,7 +13,28 @@ class SignupScreen extends StatefulWidget {
 }
 
 class _SignupScreenState extends State<SignupScreen> {
+  late FirebaseAuth _auth;
+
   final _formKey = GlobalKey<FormState>();
+
+  String accountNameLabelText = 'ชื่อบัญชี';
+  String emailLabelText = 'อีเมล';
+  String passwordLabelText = 'รหัสผ่าน';
+
+  String accountName = '';
+  String email = '';
+  String password = '';
+
+  @override
+  void initState() {
+    super.initState();
+    initFirebase();
+  }
+
+  void initFirebase() async {
+    await Firebase.initializeApp();
+    _auth = FirebaseAuth.instance;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,15 +85,15 @@ class _SignupScreenState extends State<SignupScreen> {
                           height: 45,
                         ),
                         getTextFormField(
-                          'ชื่อบัญชี',
+                          accountNameLabelText,
                           Icons.person,
                         ),
                         getTextFormField(
-                          'อีเมล',
+                          emailLabelText,
                           Icons.email,
                         ),
                         getTextFormField(
-                          'รหัสผ่าน',
+                          passwordLabelText,
                           Icons.key,
                         ),
                         const SizedBox(
@@ -115,7 +138,7 @@ class _SignupScreenState extends State<SignupScreen> {
     );
   }
 
-  Widget getTextFormField(String text, IconData icon) {
+  Widget getTextFormField(String labelText, IconData icon) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: SizedBox(
@@ -131,7 +154,7 @@ class _SignupScreenState extends State<SignupScreen> {
             focusedBorder: getBorder(kMainColor),
             errorBorder: getBorder(kRedColor),
             focusedErrorBorder: getBorder(kRedColor),
-            labelText: '$text*',
+            labelText: '$labelText*',
             labelStyle: const TextStyle(
               fontSize: 15,
             ),
@@ -143,9 +166,18 @@ class _SignupScreenState extends State<SignupScreen> {
                 const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
             errorStyle: const TextStyle(height: 0.75),
           ),
+          onChanged: (value) {
+            if (labelText == accountNameLabelText) {
+              accountName = value;
+            } else if (labelText == emailLabelText) {
+              email = value;
+            } else if (labelText == passwordLabelText) {
+              password = value;
+            }
+          },
           validator: (String? value) {
             if (value == null || value.isEmpty) {
-              return 'กรุณากรอก$text';
+              return 'กรุณากรอก$labelText';
             }
             return null;
           },
@@ -176,24 +208,34 @@ class _SignupScreenState extends State<SignupScreen> {
         ),
         minimumSize: MaterialStateProperty.all<Size>(const Size(165, 55)),
       ),
-      onPressed: () {
+      onPressed: () async {
         if (validate) {
           if (_formKey.currentState!.validate()) {
-            showDialog<String>(
-              context: context,
-              builder: (BuildContext context) => getDialog(
-                'สร้างบัญชีสำเร็จ !',
-                Icons.check_circle,
-                kGreenColor,
-              ),
-              /*
-            getDialog(
-              'สร้างบัญชีไม่สำเร็จ !',
-              Icons.cancel,
-              kRedColor,
-            ),
-             */
-            );
+            print('Create user with $email and $password');
+            try {
+              await _auth.createUserWithEmailAndPassword(
+                email: email,
+                password: password,
+              );
+              showDialog<String>(
+                context: context,
+                builder: (BuildContext context) => getDialog(
+                  'สร้างบัญชีสำเร็จ !',
+                  Icons.check_circle,
+                  kGreenColor,
+                ),
+              );
+            } catch (e) {
+              print(e);
+              showDialog<String>(
+                context: context,
+                builder: (BuildContext context) => getDialog(
+                  'สร้างบัญชีไม่สำเร็จ !',
+                  Icons.cancel,
+                  kRedColor,
+                ),
+              );
+            }
           }
         } else {
           Navigator.push(
