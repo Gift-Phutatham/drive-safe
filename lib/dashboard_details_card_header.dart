@@ -7,6 +7,7 @@ class CardHeader extends StatelessWidget {
     required this.text,
     required this.padding,
   }) : super(key: key);
+
   final EdgeInsets padding;
   final Color themeColor;
   final String text;
@@ -17,8 +18,8 @@ class CardHeader extends StatelessWidget {
       padding: padding,
       decoration: BoxDecoration(
         borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(10.0),
-          topRight: Radius.circular(10.0),
+          topLeft: Radius.circular(15.0),
+          topRight: Radius.circular(15.0),
         ),
         color: themeColor,
       ),

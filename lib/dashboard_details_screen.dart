@@ -33,13 +33,13 @@ class DashboardDetailsScreen extends StatelessWidget {
         backgroundColor: kMainColor,
       ),
       body: Container(
-        padding: const EdgeInsets.all(15.0),
+        padding: const EdgeInsets.symmetric(horizontal: 17.0, vertical: 15.0),
         child: Column(
           children: <Widget>[
             Container(
               padding: const EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 20.0),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(15.0),
                 border: Border.all(color: themeColor, width: 1),
               ),
               child: Row(
@@ -50,29 +50,30 @@ class DashboardDetailsScreen extends StatelessWidget {
                       Text(
                         'จำนวนอุบัติเหตุทั้งหมด',
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: 18,
                           color: themeColor,
                         ),
                       ),
                       Text(
                         '(2563 - ปัจจุบัน)',
                         style: TextStyle(
-                          fontSize: 16,
+                          fontSize: 17,
                           color: themeColor,
                         ),
                       ),
                     ],
                   ),
                   Container(
-                    padding: const EdgeInsets.all(10.0),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 20.0, vertical: 12.0),
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: themeColor,
+                      borderRadius: BorderRadius.circular(15.0),
+                      color: lightThemeColor,
                     ),
                     child: Text(
                       statistic.totalAccidents.toString(),
                       style: const TextStyle(
-                        fontSize: 28,
+                        fontSize: 35,
                         color: Colors.white,
                       ),
                     ),
@@ -85,7 +86,7 @@ class DashboardDetailsScreen extends StatelessWidget {
             ),
             Container(
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(15),
                 border: Border.all(color: themeColor, width: 1),
               ),
               child: Column(
@@ -105,23 +106,38 @@ class DashboardDetailsScreen extends StatelessWidget {
                       children: <Widget>[
                         Column(
                           children: <Widget>[
+                            const SizedBox(
+                              height: 5,
+                            ),
                             Icon(
                               Icons.sunny,
                               color: lightThemeColor,
+                              size: 37,
+                            ),
+                            const SizedBox(
+                              height: 5,
                             ),
                             Text(
                               'ปกติ',
                               style: TextStyle(
                                 color: lightThemeColor,
+                                fontSize: 20,
                               ),
+                            ),
+                            const SizedBox(
+                              height: 3,
                             ),
                             Text(
                               statistic.weatherStat[WeatherState.EMPTY]
                                   .toString(),
                               style: TextStyle(
                                 color: lightThemeColor,
+                                fontSize: 27,
                               ),
-                            )
+                            ),
+                            const SizedBox(
+                              height: 5,
+                            ),
                           ],
                         ),
                         Column(
@@ -129,18 +145,27 @@ class DashboardDetailsScreen extends StatelessWidget {
                             Icon(
                               Icons.thunderstorm,
                               color: lightThemeColor,
+                              size: 37,
+                            ),
+                            const SizedBox(
+                              height: 5,
                             ),
                             Text(
                               'ฝนตก',
                               style: TextStyle(
                                 color: lightThemeColor,
+                                fontSize: 20,
                               ),
+                            ),
+                            const SizedBox(
+                              height: 3,
                             ),
                             Text(
                               statistic.weatherStat[WeatherState.WEATHER_STATE]
                                   .toString(),
                               style: TextStyle(
                                 color: lightThemeColor,
+                                fontSize: 27,
                               ),
                             )
                           ],
@@ -159,7 +184,7 @@ class DashboardDetailsScreen extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(15),
                     border: Border.all(color: themeColor, width: 1),
                   ),
                   child: Column(
@@ -176,8 +201,8 @@ class DashboardDetailsScreen extends StatelessWidget {
                         child: Text(
                           statistic.totalInjured.toString(),
                           style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
+                            fontSize: 45,
+                            fontWeight: FontWeight.w500,
                             color: lightThemeColor,
                           ),
                         ),
@@ -191,7 +216,7 @@ class DashboardDetailsScreen extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(15),
                     border: Border.all(color: themeColor, width: 1),
                   ),
                   child: Column(
@@ -208,8 +233,8 @@ class DashboardDetailsScreen extends StatelessWidget {
                         child: Text(
                           statistic.totalDead.toString(),
                           style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
+                            fontSize: 45,
+                            fontWeight: FontWeight.w500,
                             color: lightThemeColor,
                           ),
                         ),
@@ -225,7 +250,7 @@ class DashboardDetailsScreen extends StatelessWidget {
             Container(
               padding: const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(15),
                 border: Border.all(color: themeColor, width: 1),
               ),
               child: Column(
@@ -235,18 +260,22 @@ class DashboardDetailsScreen extends StatelessWidget {
                     text: 'สาเหตุการเกิดอุบัติเหตุ',
                     padding: const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
                   ),
+                  const SizedBox(
+                    height: 10,
+                  ),
                   PieChart(
                     dataMap: statistic.causes,
                     animationDuration: const Duration(milliseconds: 800),
-                    chartLegendSpacing: 32,
-                    chartRadius: 120,
-                    legendOptions: const LegendOptions(
+                    chartLegendSpacing: 30,
+                    chartRadius: 150,
+                    legendOptions: LegendOptions(
                       showLegendsInRow: false,
-                      legendPosition: LegendPosition.bottom,
+                      legendPosition: LegendPosition.right,
                       showLegends: true,
                       legendTextStyle: TextStyle(
-                        fontSize: 12,
-                        color: kMainColor,
+                        fontSize: 14,
+                        color: themeColor,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
                     chartValuesOptions: const ChartValuesOptions(
@@ -256,6 +285,9 @@ class DashboardDetailsScreen extends StatelessWidget {
                       showChartValuesOutside: false,
                       decimalPlaces: 1,
                     ),
+                  ),
+                  const SizedBox(
+                    height: 10,
                   ),
                 ],
               ),

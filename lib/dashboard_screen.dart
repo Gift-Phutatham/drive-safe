@@ -210,6 +210,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                     child: Text(
                                       'ทางด่วนพิเศษ${expwStepValues.getValue(key)}',
                                       style: TextStyle(
+                                        fontSize: 15,
                                         color: map[key]!.length >= 200
                                             ? kRedColor
                                             : map[key]!.length >= 50
@@ -245,12 +246,14 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                             Text(
                                               'จำนวนอุบัติเหตุทั้งหมด',
                                               style: TextStyle(
+                                                fontSize: 15,
                                                 color: Colors.white,
                                               ),
                                             ),
                                             Text(
                                               '(2563 - ปัจจุบัน)',
                                               style: TextStyle(
+                                                fontSize: 15,
                                                 color: Colors.white,
                                               ),
                                             ),
@@ -259,7 +262,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                                         Text(
                                           map[key]!.length.toString(),
                                           style: const TextStyle(
-                                            fontSize: 32,
+                                            fontSize: 40,
                                             color: Colors.white,
                                           ),
                                         ),

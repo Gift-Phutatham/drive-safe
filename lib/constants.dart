@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 const kMainColor = Color(0xFF51087E);
 const kRedColor = Color(0xFFC7261C);
-const kLightRedColor = Color(0xFFD6605A);
+final kLightRedColor = kRedColor.withOpacity(0.85);
 const kOrangeColor = Color(0xFFEB781D);
-const kLightOrangeColor = Color(0xFFED8534);
+final kLightOrangeColor = kOrangeColor.withOpacity(0.85);
 const kYellowColor = Color(0xFFF4B000);
-const kLightYellowColor = Color(0xFFF5B819);
+final kLightYellowColor = kYellowColor.withOpacity(0.85);
 const kGreenColor = Color(0xFF08A87B);
 const kFontFamily = 'Prompt';
 const kAccountNameCollection = 'account name';
