@@ -40,37 +40,37 @@ class _SignupScreenState extends State<SignupScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Container(
-        color: kMainColor,
-        child: Column(
-          children: <Widget>[
-            const SizedBox(
-              height: 80,
-            ),
-            const Image(
-              image: AssetImage('assets/signup-logo.png'),
-              height: 200,
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Container(
-              alignment: Alignment.centerRight,
-              padding: const EdgeInsets.only(right: 25.0, bottom: 20),
-              child: const Text(
-                "สมัครบัญชี",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 50,
-                ),
-                textAlign: TextAlign.right,
+    return Scaffold(
+      resizeToAvoidBottomInset: true,
+      body: SingleChildScrollView(
+        child: Container(
+          color: kMainColor,
+          child: Column(
+            children: <Widget>[
+              const SizedBox(
+                height: 80,
               ),
-            ),
-            Expanded(
-              child: FractionallySizedBox(
-                heightFactor: 1.025,
-                alignment: Alignment.bottomCenter,
+              const Image(
+                image: AssetImage('assets/signup-logo.png'),
+                height: 200,
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Container(
+                alignment: Alignment.centerRight,
+                padding: const EdgeInsets.only(right: 25.0, bottom: 20),
+                child: const Text(
+                  "สมัครบัญชี",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 50,
+                  ),
+                  textAlign: TextAlign.right,
+                ),
+              ),
+              Container(
+                alignment: FractionalOffset.bottomCenter,
                 child: Container(
                   decoration: const BoxDecoration(
                     color: Colors.white,
@@ -134,8 +134,8 @@ class _SignupScreenState extends State<SignupScreen> {
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
