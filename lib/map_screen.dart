@@ -591,16 +591,19 @@ class MyMapState extends State<MyMap> {
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
-      floatingActionButton: FloatingActionButton(
-        child: Icon(
-          Icons.sync,
-          color: Colors.grey,
-          size: 25,
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 20.0),
+        child: FloatingActionButton(
+          backgroundColor: Colors.white,
+          onPressed: () {
+            syncDate();
+          },
+          child: const Icon(
+            Icons.sync,
+            color: Colors.grey,
+            size: 25,
+          ),
         ),
-        backgroundColor: Colors.white,
-        onPressed: () {
-          syncDate();
-        },
       ),
     );
   }
