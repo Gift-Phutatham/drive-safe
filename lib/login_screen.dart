@@ -14,7 +14,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  late FirebaseAuth _auth;
+  static late FirebaseAuth _auth;
 
   String emailLabelText = 'อีเมล';
   String passwordLabelText = 'รหัสผ่าน';
@@ -151,6 +151,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             contentPadding: const EdgeInsets.symmetric(vertical: 15),
           ),
+          obscureText: labelText == passwordLabelText,
           onChanged: (value) {
             if (labelText == emailLabelText) {
               email = value;

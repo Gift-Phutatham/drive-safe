@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 import 'constants.dart';
@@ -12,7 +14,27 @@ class MyAccount extends StatefulWidget {
 }
 
 class _MyAccountState extends State<MyAccount> {
+  late FirebaseAuth _auth;
+
   final _formKey = GlobalKey<FormState>();
+
+  late String loggedInUser;
+
+  @override
+  void initState() {
+    super.initState();
+    initFirebase();
+  }
+
+  void initFirebase() async {
+    await Firebase.initializeApp();
+    _auth = FirebaseAuth.instance;
+    await _auth.signInWithEmailAndPassword(
+      email: "bbb@gmail.com",
+      password: "123456",
+    );
+    loggedInUser = _auth.currentUser?.email ?? '';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,9 +80,9 @@ class _MyAccountState extends State<MyAccount> {
               const SizedBox(
                 height: 7.5,
               ),
-              const Text(
-                "nannnyy16@gmail.com",
-                style: TextStyle(
+              Text(
+                loggedInUser,
+                style: const TextStyle(
                   fontSize: 16,
                 ),
               ),
@@ -138,6 +160,9 @@ class _MyAccountState extends State<MyAccount> {
                     ),
                   ],
                 ),
+              ),
+              const SizedBox(
+                height: 20,
               ),
             ],
           ),
