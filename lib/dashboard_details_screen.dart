@@ -193,11 +193,11 @@ class DashboardDetailsScreen extends StatelessWidget {
                         themeColor: themeColor,
                         text: 'จำนวนผู้บาดเจ็บ',
                         padding:
-                            const EdgeInsets.fromLTRB(38.0, 10.0, 38.0, 10.0),
+                            const EdgeInsets.fromLTRB(31.0, 10.0, 31.0, 10.0),
                       ),
                       Container(
                         padding:
-                            const EdgeInsets.fromLTRB(38.0, 10.0, 38.0, 10.0),
+                            const EdgeInsets.fromLTRB(31.0, 10.0, 31.0, 10.0),
                         child: Text(
                           statistic.totalInjured.toString(),
                           style: TextStyle(
@@ -225,11 +225,11 @@ class DashboardDetailsScreen extends StatelessWidget {
                         themeColor: themeColor,
                         text: 'จำนวนผู้เสียชีวิต',
                         padding:
-                            const EdgeInsets.fromLTRB(38.0, 10.0, 38.0, 10.0),
+                            const EdgeInsets.fromLTRB(31.0, 10.0, 31.0, 10.0),
                       ),
                       Container(
                         padding:
-                            const EdgeInsets.fromLTRB(38.0, 10.0, 38.0, 10.0),
+                            const EdgeInsets.fromLTRB(31.0, 10.0, 31.0, 10.0),
                         child: Text(
                           statistic.totalDead.toString(),
                           style: TextStyle(
