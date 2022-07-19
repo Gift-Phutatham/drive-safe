@@ -1,8 +1,8 @@
 import 'dart:async';
 
-// import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:firebase_auth/firebase_auth.dart';
-// import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
@@ -37,11 +37,12 @@ class MyMapState extends State<MyMap> {
   var formatter = DateFormat.EEEE('th');
   Map<PolylineId, Polyline> polylines = {};
   PolylinePoints polylinePoints = PolylinePoints();
-
-  // late FirebaseAuth _auth;
-  // late FirebaseFirestore _firestore;
+  late FirebaseAuth _auth;
+  late FirebaseFirestore _firestore;
+  late String loggedInUser;
   String? location;
   String? address;
+  Color iconColor = Colors.grey;
 
   @override
   void initState() {
@@ -50,14 +51,19 @@ class MyMapState extends State<MyMap> {
     });
     DB.instance.initDB().then((value) => fetchData());
     super.initState();
-    // initFirebase();
+    initFirebase();
   }
 
-  // void initFirebase() async {
-  //   await Firebase.initializeApp();
-  //   _auth = FirebaseAuth.instance;
-  //   _firestore = FirebaseFirestore.instance;
-  // }
+  void initFirebase() async {
+    await Firebase.initializeApp();
+    _auth = FirebaseAuth.instance;
+    _firestore = FirebaseFirestore.instance;
+    await _auth.signInWithEmailAndPassword(
+      email: "bbb@gmail.com",
+      password: "123456",
+    );
+    loggedInUser = _auth.currentUser?.email ?? '';
+  }
 
   Future<void> syncDate() async {
     await _getData();
@@ -514,6 +520,11 @@ class MyMapState extends State<MyMap> {
                     padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                     itemCount: searchList.length,
                     itemBuilder: (context, index) {
+                      String eachLocation = searchList[index]
+                          ['structured_formatting']['main_text'];
+                      String eachAddress = searchList[index]
+                              ['structured_formatting']['secondary_text'] ??
+                          '';
                       return GestureDetector(
                         onTap: () async {
                           var place = await LocationService()
@@ -541,21 +552,39 @@ class MyMapState extends State<MyMap> {
                           ),
                           child: ListTile(
                             title: Text(
-                              searchList[index]['structured_formatting']
-                                  ['main_text'],
+                              eachLocation,
                               style: const TextStyle(
                                 fontSize: 13,
                               ),
                             ),
                             subtitle: Text(
-                              searchList[index]['structured_formatting']
-                                      ['secondary_text'] ??
-                                  '',
+                              eachAddress,
                               style: const TextStyle(
                                 fontSize: 13,
                               ),
                             ),
-                            trailing: const Icon(Icons.favorite),
+                            trailing: IconButton(
+                              icon: Icon(Icons.favorite, color: iconColor),
+                              onPressed: () async {
+                                location = eachLocation;
+                                address = eachAddress;
+                                Map<String, dynamic> data = {
+                                  'email': loggedInUser,
+                                  'location': location,
+                                  'address': address,
+                                };
+                                _firestore
+                                    .collection(kFavoriteCollection)
+                                    .add(data);
+                                setState(() {
+                                  if (iconColor == kMainColor) {
+                                    iconColor = Colors.grey;
+                                  } else {
+                                    iconColor = kMainColor;
+                                  }
+                                });
+                              },
+                            ),
                           ),
                         ),
                       );

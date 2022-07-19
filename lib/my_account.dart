@@ -22,13 +22,11 @@ class _MyAccountState extends State<MyAccount> {
 
   @override
   void initState() {
-    print("in initState");
     super.initState();
     initFirebase();
   }
 
   void initFirebase() async {
-    print("in initFirebase");
     await Firebase.initializeApp();
     _auth = FirebaseAuth.instance;
     await _auth.signInWithEmailAndPassword(

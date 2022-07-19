@@ -16,8 +16,6 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   static late FirebaseAuth _auth;
 
-  // static late String loggedInUser;
-
   String emailLabelText = 'อีเมล';
   String passwordLabelText = 'รหัสผ่าน';
 
@@ -35,14 +33,6 @@ class _LoginScreenState extends State<LoginScreen> {
   void initFirebase() async {
     await Firebase.initializeApp();
     _auth = FirebaseAuth.instance;
-    // await _auth.signInWithEmailAndPassword(
-    //   email: "bbb@gmail.com",
-    //   password: "123456",
-    // );
-  }
-
-  static String getLoggedInUser() {
-    return _auth.currentUser?.email ?? 'none';
   }
 
   @override
