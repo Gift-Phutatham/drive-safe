@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
@@ -55,13 +54,8 @@ class MyMapState extends State<MyMap> {
   }
 
   void initFirebase() async {
-    await Firebase.initializeApp();
     _auth = FirebaseAuth.instance;
     _firestore = FirebaseFirestore.instance;
-    await _auth.signInWithEmailAndPassword(
-      email: "bbb@gmail.com",
-      password: "123456",
-    );
     loggedInUser = _auth.currentUser?.email ?? '';
   }
 

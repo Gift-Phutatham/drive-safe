@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 import 'constants.dart';
@@ -24,13 +23,8 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
   }
 
   void initFirebase() async {
-    await Firebase.initializeApp();
     _auth = FirebaseAuth.instance;
     _firestore = FirebaseFirestore.instance;
-    await _auth.signInWithEmailAndPassword(
-      email: "bbb@gmail.com",
-      password: "123456",
-    );
     loggedInUser = _auth.currentUser?.email ?? '';
   }
 
