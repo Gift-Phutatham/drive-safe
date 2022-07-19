@@ -25,6 +25,8 @@ class _SignupScreenState extends State<SignupScreen> {
   String email = '';
   String password = '';
 
+  String error = '';
+
   @override
   void initState() {
     super.initState();
@@ -44,18 +46,18 @@ class _SignupScreenState extends State<SignupScreen> {
         child: Column(
           children: <Widget>[
             const SizedBox(
-              height: 90,
+              height: 80,
             ),
             const Image(
               image: AssetImage('assets/signup-logo.png'),
               height: 200,
             ),
             const SizedBox(
-              height: 40,
+              height: 20,
             ),
             Container(
               alignment: Alignment.centerRight,
-              padding: const EdgeInsets.symmetric(horizontal: 25.0),
+              padding: const EdgeInsets.only(right: 25.0, bottom: 20),
               child: const Text(
                 "สมัครบัญชี",
                 style: TextStyle(
@@ -67,7 +69,7 @@ class _SignupScreenState extends State<SignupScreen> {
             ),
             Expanded(
               child: FractionallySizedBox(
-                heightFactor: 1,
+                heightFactor: 1.025,
                 alignment: Alignment.bottomCenter,
                 child: Container(
                   decoration: const BoxDecoration(
@@ -96,6 +98,14 @@ class _SignupScreenState extends State<SignupScreen> {
                           passwordLabelText,
                           Icons.key,
                         ),
+                        if (error != '')
+                          Text(
+                            error,
+                            style: const TextStyle(
+                              color: kRedColor,
+                              fontSize: 15,
+                            ),
+                          ),
                         const SizedBox(
                           height: 10,
                         ),
@@ -225,16 +235,10 @@ class _SignupScreenState extends State<SignupScreen> {
                   kGreenColor,
                 ),
               );
-            } catch (e) {
-              print(e);
-              showDialog<String>(
-                context: context,
-                builder: (BuildContext context) => getDialog(
-                  'สร้างบัญชีไม่สำเร็จ !',
-                  Icons.cancel,
-                  kRedColor,
-                ),
-              );
+            } on FirebaseAuthException catch (e) {
+              setState(() {
+                error = getMessageFromError(e.code);
+              });
             }
           }
         } else {
@@ -306,5 +310,18 @@ class _SignupScreenState extends State<SignupScreen> {
         ),
       ],
     );
+  }
+
+  String getMessageFromError(e) {
+    switch (e) {
+      case "email-already-in-use":
+        return "อีเมลนี้ถูกลงทะเบียนไว้แล้ว";
+      case "invalid-email":
+        return "อีเมลไม่ถูกต้อง";
+      case "weak-password":
+        return "กรุณาเปลี่ยนรหัสผ่าน";
+      default:
+        return "สร้างบัญชีไม่สำเร็จ กรุณาลองอีกครั้ง";
+    }
   }
 }
