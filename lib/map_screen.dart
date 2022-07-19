@@ -271,160 +271,153 @@ class MyMapState extends State<MyMap> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        resizeToAvoidBottomInset: false,
-        appBar: AppBar(
-          centerTitle: true,
-          elevation: 0,
-          title: const Text(
-            "แผนที่",
-            style: TextStyle(fontFamily: kFontFamily),
-          ),
-          backgroundColor: kMainColor,
-          actions: <Widget>[
-            Container(
-              margin: const EdgeInsets.only(right: 10),
-              child: IconButton(
-                icon: const Icon(Icons.favorite),
-                color: Colors.white,
-                iconSize: 30,
-                onPressed: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const FavoriteScreen(),
-                  ),
-                ),
-              ),
-            ),
-          ],
+    return Scaffold(
+      resizeToAvoidBottomInset: false,
+      appBar: AppBar(
+        centerTitle: true,
+        elevation: 0,
+        title: const Text(
+          "แผนที่",
         ),
-        body: Column(
-          children: <Widget>[
-            Container(
-              height: 70,
-              decoration: const BoxDecoration(
-                color: kMainColor,
-              ),
-              alignment: Alignment.center,
-              child: Container(
-                width: 380,
-                height: 50,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(
-                    color: kMainColor,
-                    width: 1,
-                  ),
-                  color: Colors.white,
-                ),
-                child: Row(
-                  children: <Widget>[
-                    IconButton(
-                      onPressed: () async {
-                        var placeId = await LocationService()
-                            .getPlaceId(_searchController.text);
-                        var place = await LocationService().getPlace(placeId);
-                        _searchController.clear();
-                        setState(() {
-                          searchList = [];
-                        });
-                        await goToPlace(place);
-                      },
-                      icon: const Icon(Icons.search),
-                    ),
-                    Expanded(
-                      child: TextFormField(
-                        decoration: const InputDecoration(
-                          border: UnderlineInputBorder(),
-                          hintText: 'ค้นหา',
-                          hintStyle: TextStyle(fontFamily: kFontFamily),
-                        ),
-                        controller: _searchController,
-                        onChanged: (value) async {
-                          List newList =
-                              await LocationService().getAutocomplete(value);
-                          setState(
-                            () {
-                              if (newList.length > 4) {
-                                searchList = newList.getRange(0, 4).toList();
-                              } else {
-                                searchList = newList;
-                              }
-                              print(searchList);
-                              print(searchList.length);
-                            },
-                          );
-                          // print(LocationService().getAutocomplete(value));
-                        },
-                      ),
-                    ),
-                  ],
+        backgroundColor: kMainColor,
+        actions: <Widget>[
+          Container(
+            margin: const EdgeInsets.only(right: 10),
+            child: IconButton(
+              icon: const Icon(Icons.favorite),
+              color: Colors.white,
+              iconSize: 30,
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const FavoriteScreen(),
                 ),
               ),
             ),
-            Expanded(
-              child: Stack(
+          ),
+        ],
+      ),
+      body: Column(
+        children: <Widget>[
+          Container(
+            height: 70,
+            decoration: const BoxDecoration(
+              color: kMainColor,
+            ),
+            alignment: Alignment.center,
+            child: Container(
+              width: 380,
+              height: 50,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(
+                  color: kMainColor,
+                  width: 1,
+                ),
+                color: Colors.white,
+              ),
+              child: Row(
                 children: <Widget>[
-                  GoogleMap(
-                    onMapCreated: _onMapCreated,
-                    initialCameraPosition: CameraPosition(
-                      target: _center,
-                      zoom: 11.0,
-                    ),
-                    markers: markers,
+                  IconButton(
+                    onPressed: () async {
+                      var placeId = await LocationService()
+                          .getPlaceId(_searchController.text);
+                      var place = await LocationService().getPlace(placeId);
+                      _searchController.clear();
+                      setState(() {
+                        searchList = [];
+                      });
+                      await goToPlace(place);
+                    },
+                    icon: const Icon(Icons.search),
                   ),
-                  if (searchList.isNotEmpty)
-                    ListView.builder(
-                      padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                      itemCount: searchList.length,
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                          onTap: () async {
-                            var place = await LocationService()
-                                .getPlace(searchList[index]['place_id']);
-                            _searchController.clear();
-                            setState(() {
-                              searchList = [];
-                            });
-                            await goToPlace(place);
+                  Expanded(
+                    child: TextFormField(
+                      decoration: const InputDecoration(
+                        border: UnderlineInputBorder(),
+                        hintText: 'ค้นหา',
+                      ),
+                      controller: _searchController,
+                      onChanged: (value) async {
+                        List newList =
+                            await LocationService().getAutocomplete(value);
+                        setState(
+                          () {
+                            if (newList.length > 4) {
+                              searchList = newList.getRange(0, 4).toList();
+                            } else {
+                              searchList = newList;
+                            }
+                            print(searchList);
+                            print(searchList.length);
                           },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: index == 0
-                                  ? const BorderRadius.only(
-                                      topLeft: Radius.circular(10.0),
-                                      topRight: Radius.circular(10.0),
-                                    )
-                                  : index == (searchList.length - 1)
-                                      ? const BorderRadius.only(
-                                          bottomLeft: Radius.circular(10.0),
-                                          bottomRight: Radius.circular(10.0),
-                                        )
-                                      : BorderRadius.zero,
-                              color: Colors.white,
-                            ),
-                            child: ListTile(
-                              title: Text(
-                                searchList[index]['structured_formatting']
-                                    ['main_text'],
-                                style: const TextStyle(
-                                  fontSize: 13,
-                                  fontFamily: kFontFamily,
-                                ),
+                        );
+                        // print(LocationService().getAutocomplete(value));
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Expanded(
+            child: Stack(
+              children: <Widget>[
+                GoogleMap(
+                  onMapCreated: _onMapCreated,
+                  initialCameraPosition: CameraPosition(
+                    target: _center,
+                    zoom: 11.0,
+                  ),
+                  markers: markers,
+                ),
+                if (searchList.isNotEmpty)
+                  ListView.builder(
+                    padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                    itemCount: searchList.length,
+                    itemBuilder: (context, index) {
+                      return GestureDetector(
+                        onTap: () async {
+                          var place = await LocationService()
+                              .getPlace(searchList[index]['place_id']);
+                          _searchController.clear();
+                          setState(() {
+                            searchList = [];
+                          });
+                          await goToPlace(place);
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: index == 0
+                                ? const BorderRadius.only(
+                                    topLeft: Radius.circular(10.0),
+                                    topRight: Radius.circular(10.0),
+                                  )
+                                : index == (searchList.length - 1)
+                                    ? const BorderRadius.only(
+                                        bottomLeft: Radius.circular(10.0),
+                                        bottomRight: Radius.circular(10.0),
+                                      )
+                                    : BorderRadius.zero,
+                            color: Colors.white,
+                          ),
+                          child: ListTile(
+                            title: Text(
+                              searchList[index]['structured_formatting']
+                                  ['main_text'],
+                              style: const TextStyle(
+                                fontSize: 13,
                               ),
-                              subtitle: Text(
-                                searchList[index]['structured_formatting']
-                                        ['secondary_text'] ??
-                                    '',
-                                style: const TextStyle(
-                                  fontSize: 13,
-                                  fontFamily: kFontFamily,
-                                ),
-                              ),
-                              trailing: const Icon(Icons.favorite),
                             ),
+                            subtitle: Text(
+                              searchList[index]['structured_formatting']
+                                      ['secondary_text'] ??
+                                  '',
+                              style: const TextStyle(
+                                fontSize: 13,
+                              ),
+                            ),
+                            trailing: const Icon(Icons.favorite),
                           ),
                         );
                       },

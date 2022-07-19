@@ -17,6 +17,7 @@ class _MyAccountState extends State<MyAccount> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         centerTitle: true,
@@ -30,13 +31,16 @@ class _MyAccountState extends State<MyAccount> {
         child: Column(
           children: <Widget>[
             const SizedBox(
-              height: 20,
+              height: 25,
             ),
             const Image(
               image: AssetImage(
                 'assets/blank-profile-picture.png',
               ),
               width: 100,
+            ),
+            const SizedBox(
+              height: 10,
             ),
             const Text(
               "สวัสดี",
@@ -49,6 +53,9 @@ class _MyAccountState extends State<MyAccount> {
               style: TextStyle(
                 fontSize: 24,
               ),
+            ),
+            const SizedBox(
+              height: 7.5,
             ),
             const Text(
               "nannnyy16@gmail.com",
@@ -136,8 +143,95 @@ class _MyAccountState extends State<MyAccount> {
     );
   }
 
+  InputBorder getBorder(Color color) {
+    return OutlineInputBorder(
+      borderRadius: BorderRadius.circular(15.0),
+      borderSide: BorderSide(color: color),
+    );
+  }
+
+  Widget getTextFormField(String text) {
+    return SizedBox(
+      width: 350,
+      height: 80,
+      child: TextFormField(
+        decoration: InputDecoration(
+          enabledBorder: getBorder(kMainColor),
+          focusedBorder: getBorder(kMainColor),
+          errorBorder: getBorder(kRedColor),
+          focusedErrorBorder: getBorder(kRedColor),
+          labelText: '$text*',
+          labelStyle: const TextStyle(
+            fontSize: 15,
+          ),
+          floatingLabelStyle: const TextStyle(
+            color: kMainColor,
+            fontSize: 20,
+          ),
+          contentPadding:
+              const EdgeInsets.symmetric(vertical: 15, horizontal: 25),
+          errorStyle: const TextStyle(height: 0.75),
+        ),
+        validator: (String? value) {
+          if (value == null || value.isEmpty) {
+            return 'กรุณากรอก$text';
+          }
+          return null;
+        },
+      ),
+    );
+  }
+
+  Widget getTextButton(
+    String text,
+    Color foregroundColor,
+    Color backgroundColor,
+    bool validate,
+  ) {
+    return TextButton(
+      style: ButtonStyle(
+        padding:
+            MaterialStateProperty.all<EdgeInsets>(const EdgeInsets.all(10)),
+        foregroundColor: MaterialStateProperty.all<Color>(foregroundColor),
+        backgroundColor: MaterialStateProperty.all<Color>(backgroundColor),
+        side: MaterialStateProperty.all<BorderSide>(
+          BorderSide(color: foregroundColor),
+        ),
+        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
+          ),
+        ),
+        minimumSize: MaterialStateProperty.all<Size>(const Size(165, 55)),
+      ),
+      onPressed: () {
+        if (validate) {
+          if (_formKey.currentState!.validate()) {
+            Navigator.of(context).pop();
+          }
+        } else {
+          Navigator.of(context).pop();
+        }
+      },
+      child: Text(
+        text,
+        style: const TextStyle(
+          fontSize: 15,
+        ),
+      ),
+    );
+  }
+
   Widget getAccountDialog() {
     return AlertDialog(
+      insetPadding: const EdgeInsets.all(10),
+      titlePadding: EdgeInsets.zero,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(20.0)),
+      ),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+      actionsAlignment: MainAxisAlignment.center,
+      actionsPadding: const EdgeInsets.only(bottom: 15),
       title: Container(
         width: 340,
         height: 70,
@@ -156,86 +250,38 @@ class _MyAccountState extends State<MyAccount> {
           ),
         ),
       ),
-      content: Column(
-        children: <Widget>[
-          Form(
-            key: _formKey,
-            child: TextFormField(
-              decoration: InputDecoration(
-                contentPadding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                hintText: "ชื่อบัญชีใหม่",
-                hintStyle: const TextStyle(),
-                border:
-                    OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
+      content: SizedBox(
+        height: 105,
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              const SizedBox(
+                height: 25,
               ),
-              validator: (String? value) {
-                if (value == null || value.isEmpty) {
-                  return "กรุณากรอกข้อมูลให้ครบถ้วน";
-                }
-                return null;
-              },
-            ),
+              getTextFormField('ชื่อบัญชีใหม่'),
+            ],
           ),
-        ],
+        ),
       ),
       actions: <Widget>[
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            TextButton(
-              style: ButtonStyle(
-                padding: MaterialStateProperty.all<EdgeInsets>(
-                    const EdgeInsets.all(10)),
-                foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
-                backgroundColor: MaterialStateProperty.all<Color>(kMainColor),
-                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.0),
-                  ),
-                ),
-                minimumSize: MaterialStateProperty.all(const Size(100, 50)),
-              ),
-              onPressed: () {
-                if (_formKey.currentState!.validate()) {
-                  Navigator.of(context).pop();
-                }
-              },
-              child: const Text(
-                'สมัครบัญชี',
-                style: TextStyle(
-                  fontSize: 15,
-                ),
-              ),
+            getTextButton(
+              'บันทึก',
+              Colors.white,
+              kMainColor,
+              true,
             ),
             const SizedBox(
               width: 10,
             ),
-            TextButton(
-              style: ButtonStyle(
-                padding: MaterialStateProperty.all<EdgeInsets>(
-                  const EdgeInsets.all(10),
-                ),
-                foregroundColor: MaterialStateProperty.all<Color>(kMainColor),
-                shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.0),
-                  ),
-                ),
-                side: MaterialStateProperty.all<BorderSide>(
-                  const BorderSide(color: kMainColor),
-                ),
-                minimumSize: MaterialStateProperty.all(const Size(100, 50)),
-              ),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text(
-                'ยกเลิก',
-                style: TextStyle(
-                  fontSize: 15,
-                ),
-              ),
+            getTextButton(
+              'ยกเลิก',
+              kMainColor,
+              Colors.white,
+              false,
             ),
           ],
         ),
@@ -245,21 +291,69 @@ class _MyAccountState extends State<MyAccount> {
 
   Widget getPasswordDialog() {
     return AlertDialog(
-      title: const Text('AlertDialog Title'),
-      content: SingleChildScrollView(
-        child: ListBody(
-          children: const <Widget>[
-            Text('This is a demo alert dialog.'),
-            Text('Would you like to approve of this message?'),
-          ],
+      insetPadding: const EdgeInsets.all(10),
+      titlePadding: EdgeInsets.zero,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(20.0)),
+      ),
+      contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+      actionsAlignment: MainAxisAlignment.center,
+      actionsPadding: const EdgeInsets.only(bottom: 15),
+      title: Container(
+        width: 500,
+        height: 70,
+        alignment: Alignment.center,
+        decoration: const BoxDecoration(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20.0),
+            topRight: Radius.circular(20.0),
+          ),
+          color: kMainColor,
+        ),
+        child: const Text(
+          'เปลี่ยนรหัสผ่าน',
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
+      ),
+      content: SizedBox(
+        width: 700,
+        height: 265,
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: <Widget>[
+              const SizedBox(
+                height: 25,
+              ),
+              getTextFormField('รหัสผ่านปัจจุบัน'),
+              getTextFormField('รหัสผ่านใหม่'),
+              getTextFormField('ยืนยันรหัสผ่านใหม่'),
+            ],
+          ),
         ),
       ),
       actions: <Widget>[
-        TextButton(
-          child: const Text('Approve'),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            getTextButton(
+              'บันทึก',
+              Colors.white,
+              kMainColor,
+              true,
+            ),
+            const SizedBox(
+              width: 10,
+            ),
+            getTextButton(
+              'ยกเลิก',
+              kMainColor,
+              Colors.white,
+              false,
+            ),
+          ],
         ),
       ],
     );

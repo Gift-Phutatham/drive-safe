@@ -119,7 +119,6 @@ class _LoginScreenState extends State<LoginScreen> {
             focusedBorder: getBorder(kMainColor),
             labelText: labelText,
             labelStyle: const TextStyle(
-              color: kMainColor,
               fontSize: 15,
             ),
             floatingLabelStyle: const TextStyle(

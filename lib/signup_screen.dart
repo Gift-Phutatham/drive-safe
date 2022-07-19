@@ -83,7 +83,6 @@ class _SignupScreenState extends State<SignupScreen> {
                               'สร้างบัญชี',
                               Colors.white,
                               kMainColor,
-                              const LoginScreen(),
                               true,
                             ),
                             const SizedBox(
@@ -93,7 +92,6 @@ class _SignupScreenState extends State<SignupScreen> {
                               'ยกเลิก',
                               kMainColor,
                               Colors.white,
-                              const LoginScreen(),
                               false,
                             ),
                           ],
@@ -135,14 +133,14 @@ class _SignupScreenState extends State<SignupScreen> {
             focusedErrorBorder: getBorder(kRedColor),
             labelText: '$text*',
             labelStyle: const TextStyle(
-              color: kMainColor,
               fontSize: 15,
             ),
             floatingLabelStyle: const TextStyle(
               color: kMainColor,
               fontSize: 20,
             ),
-            contentPadding: const EdgeInsets.symmetric(vertical: 15),
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
             errorStyle: const TextStyle(height: 0.75),
           ),
           validator: (String? value) {
@@ -160,7 +158,6 @@ class _SignupScreenState extends State<SignupScreen> {
     String text,
     Color foregroundColor,
     Color backgroundColor,
-    Widget route,
     bool validate,
   ) {
     return TextButton(
@@ -182,18 +179,27 @@ class _SignupScreenState extends State<SignupScreen> {
       onPressed: () {
         if (validate) {
           if (_formKey.currentState!.validate()) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (_) => route,
+            showDialog<String>(
+              context: context,
+              builder: (BuildContext context) => getDialog(
+                'สร้างบัญชีสำเร็จ !',
+                Icons.check_circle,
+                kGreenColor,
               ),
+              /*
+            getDialog(
+              'สร้างบัญชีไม่สำเร็จ !',
+              Icons.cancel,
+              kRedColor,
+            ),
+             */
             );
           }
         } else {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (_) => route,
+              builder: (_) => const LoginScreen(),
             ),
           );
         }
@@ -204,6 +210,59 @@ class _SignupScreenState extends State<SignupScreen> {
           fontSize: 15,
         ),
       ),
+    );
+  }
+
+  Widget getDialog(String text, IconData icon, Color color) {
+    return AlertDialog(
+      titlePadding: EdgeInsets.zero,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(Radius.circular(20.0)),
+      ),
+      actionsAlignment: MainAxisAlignment.center,
+      actionsPadding: const EdgeInsets.only(bottom: 15),
+      title: Container(
+        width: 340,
+        height: 130,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(20.0),
+            topRight: Radius.circular(20.0),
+          ),
+          color: color,
+        ),
+        child: Icon(
+          icon,
+          color: Colors.white,
+          size: 90,
+        ),
+      ),
+      content: SizedBox(
+        height: 70,
+        child: Column(
+          children: <Widget>[
+            const SizedBox(
+              height: 20,
+            ),
+            Text(
+              text,
+              style: TextStyle(
+                fontSize: 30,
+                color: color,
+              ),
+            ),
+          ],
+        ),
+      ),
+      actions: [
+        getTextButton(
+          'ตกลง',
+          Colors.white,
+          color,
+          false,
+        ),
+      ],
     );
   }
 }

@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 
 const kMainColor = Color(0xFF51087E);
 const kRedColor = Color(0xFFC7261C);
-const kLightRedColor = Color(0xFFD86962);
+const kLightRedColor = Color(0xFFD6605A);
 const kOrangeColor = Color(0xFFEB781D);
-const kLightOrangeColor = Color(0xFFED8C3E);
+const kLightOrangeColor = Color(0xFFED8534);
 const kYellowColor = Color(0xFFF4B000);
-const kLightYellowColor = Color(0xFFF5B40E);
+const kLightYellowColor = Color(0xFFF5B819);
 const kGreenColor = Color(0xFF08A87B);
-const kBlueColor = Color(0xFF008DCB);
 const kFontFamily = 'Prompt';
 
 class ApiConstants {
