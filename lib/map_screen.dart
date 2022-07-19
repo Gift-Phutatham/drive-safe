@@ -8,9 +8,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'api_service.dart';
 import 'constants.dart';
+import 'db.dart';
 import 'location_service.dart';
 import 'record_model.dart';
-import 'db.dart';
 
 class MyMap extends StatefulWidget {
   const MyMap({Key? key}) : super(key: key);
@@ -377,78 +377,77 @@ class MyMapState extends State<MyMap> {
                     itemCount: searchList.length,
                     itemBuilder: (context, index) {
                       return GestureDetector(
-                        onTap: () async {
-                          var place = await LocationService()
-                              .getPlace(searchList[index]['place_id']);
-                          _searchController.clear();
-                          setState(() {
-                            searchList = [];
-                          });
-                          await goToPlace(place);
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: index == 0
-                                ? const BorderRadius.only(
-                                    topLeft: Radius.circular(10.0),
-                                    topRight: Radius.circular(10.0),
-                                  )
-                                : index == (searchList.length - 1)
-                                    ? const BorderRadius.only(
-                                        bottomLeft: Radius.circular(10.0),
-                                        bottomRight: Radius.circular(10.0),
-                                      )
-                                    : BorderRadius.zero,
-                            color: Colors.white,
-                          ),
-                          child: ListTile(
-                            title: Text(
-                              searchList[index]['structured_formatting']
-                                  ['main_text'],
-                              style: const TextStyle(
-                                fontSize: 13,
-                              ),
+                          onTap: () async {
+                            var place = await LocationService()
+                                .getPlace(searchList[index]['place_id']);
+                            _searchController.clear();
+                            setState(() {
+                              searchList = [];
+                            });
+                            await goToPlace(place);
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: index == 0
+                                  ? const BorderRadius.only(
+                                      topLeft: Radius.circular(10.0),
+                                      topRight: Radius.circular(10.0),
+                                    )
+                                  : index == (searchList.length - 1)
+                                      ? const BorderRadius.only(
+                                          bottomLeft: Radius.circular(10.0),
+                                          bottomRight: Radius.circular(10.0),
+                                        )
+                                      : BorderRadius.zero,
+                              color: Colors.white,
                             ),
-                            subtitle: Text(
-                              searchList[index]['structured_formatting']
-                                      ['secondary_text'] ??
-                                  '',
-                              style: const TextStyle(
-                                fontSize: 13,
+                            child: ListTile(
+                              title: Text(
+                                searchList[index]['structured_formatting']
+                                    ['main_text'],
+                                style: const TextStyle(
+                                  fontSize: 13,
+                                ),
                               ),
+                              subtitle: Text(
+                                searchList[index]['structured_formatting']
+                                        ['secondary_text'] ??
+                                    '',
+                                style: const TextStyle(
+                                  fontSize: 13,
+                                ),
+                              ),
+                              trailing: const Icon(Icons.favorite),
                             ),
-                            trailing: const Icon(Icons.favorite),
-                          ),
-                        );
-                      },
+                          ));
+                    },
+                  ),
+                Container(
+                  padding: const EdgeInsets.fromLTRB(5, 10, 10, 25),
+                  child: Align(
+                    alignment: Alignment.topLeft,
+                    child: Row(
+                      children: [
+                        Text('updated: $_lastUpdate'),
+                      ],
                     ),
-                  Container(
-                    padding: const EdgeInsets.fromLTRB(5, 10, 10, 25),
-                    child: Align(
-                      alignment: Alignment.topLeft,
-                      child: Row(
-                        children: [
-                          Text('updated: $_lastUpdate'),
-                        ],
-                      ),
-                    ),
-                  )
-                ],
-              ),
+                  ),
+                )
+              ],
             ),
-          ],
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
-        floatingActionButton: FloatingActionButton(
-          child: Icon(
-            Icons.sync,
-            color: Colors.grey,
-            size: 25,
           ),
-          backgroundColor: Colors.white,
-          onPressed: () {
-            syncDate();
-          },
+        ],
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.white,
+        onPressed: () {
+          syncDate();
+        },
+        child: const Icon(
+          Icons.sync,
+          color: Colors.grey,
+          size: 25,
         ),
       ),
     );
