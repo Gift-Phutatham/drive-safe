@@ -4,9 +4,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'api_service.dart';
 import 'constants.dart';
 import 'dashboard_details_screen.dart';
+import 'db.dart';
 import 'record_model.dart';
 import 'statistic_model.dart';
-import 'db.dart';
 
 class DashBoardScreen extends StatefulWidget {
   const DashBoardScreen({Key? key}) : super(key: key);
@@ -58,6 +58,8 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
     Future.delayed(const Duration(seconds: 1)).then(
       (value) => setState(
         () {
+          records.clear();
+          map.clear();
           for (var year in _record) {
             if (year != null) {
               records.addAll(year.result.records);

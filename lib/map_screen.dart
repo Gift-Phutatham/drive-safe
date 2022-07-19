@@ -84,7 +84,8 @@ class MyMapState extends State<MyMap> {
     await Future.delayed(const Duration(seconds: 1)).then(
       (value) => setState(
         () {
-          records = [];
+          records.clear();
+          map.clear();
           for (var year in _record) {
             if (year != null) {
               records.addAll(year.result.records);
