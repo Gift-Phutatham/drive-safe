@@ -21,10 +21,12 @@ class _SignupScreenState extends State<SignupScreen> {
   String accountNameLabelText = 'ชื่อบัญชี';
   String emailLabelText = 'อีเมล';
   String passwordLabelText = 'รหัสผ่าน';
+  String passwordConfirmedLabelText = 'ยืนยันรหัสผ่าน';
 
   String accountName = '';
   String email = '';
   String password = '';
+  String passwordConfirmed = '';
 
   String error = '';
 
@@ -49,23 +51,23 @@ class _SignupScreenState extends State<SignupScreen> {
           child: Column(
             children: <Widget>[
               const SizedBox(
-                height: 80,
+                height: 50,
               ),
               const Image(
                 image: AssetImage('assets/signup-logo.png'),
-                height: 200,
+                height: 170,
               ),
               const SizedBox(
-                height: 20,
+                height: 10,
               ),
               Container(
                 alignment: Alignment.centerRight,
-                padding: const EdgeInsets.only(right: 25.0, bottom: 20),
+                padding: const EdgeInsets.only(right: 25.0, bottom: 10),
                 child: const Text(
                   "สมัครบัญชี",
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 50,
+                    fontSize: 45,
                   ),
                   textAlign: TextAlign.right,
                 ),
@@ -97,6 +99,10 @@ class _SignupScreenState extends State<SignupScreen> {
                         ),
                         getTextFormField(
                           passwordLabelText,
+                          Icons.key,
+                        ),
+                        getTextFormField(
+                          passwordConfirmedLabelText,
                           Icons.key,
                         ),
                         if (error != '')
@@ -177,7 +183,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
             errorStyle: const TextStyle(height: 0.75),
           ),
-          obscureText: labelText == passwordLabelText,
+          obscureText: labelText.contains('รหัสผ่าน'),
           onChanged: (value) {
             if (labelText == accountNameLabelText) {
               accountName = value;
@@ -185,6 +191,8 @@ class _SignupScreenState extends State<SignupScreen> {
               email = value;
             } else if (labelText == passwordLabelText) {
               password = value;
+            } else if (labelText == passwordConfirmedLabelText) {
+              passwordConfirmed = value;
             }
           },
           validator: (String? value) {
@@ -223,28 +231,33 @@ class _SignupScreenState extends State<SignupScreen> {
       onPressed: () async {
         if (validate) {
           if (_formKey.currentState!.validate()) {
-            print('Create user with $email and $password');
-            try {
-              await _auth.createUserWithEmailAndPassword(
-                email: email,
-                password: password,
-              );
-              Map<String, dynamic> data = {
-                'email': email,
-                'accountName': accountName,
-              };
-              _firestore.collection(kAccountNameCollection).add(data);
-              showDialog<String>(
-                context: context,
-                builder: (BuildContext context) => getDialog(
-                  'สร้างบัญชีสำเร็จ !',
-                  Icons.check_circle,
-                  kGreenColor,
-                ),
-              );
-            } on FirebaseAuthException catch (e) {
+            if (password == passwordConfirmed) {
+              try {
+                await _auth.createUserWithEmailAndPassword(
+                  email: email,
+                  password: password,
+                );
+                Map<String, dynamic> data = {
+                  'email': email,
+                  'accountName': accountName,
+                };
+                _firestore.collection(kAccountNameCollection).add(data);
+                showDialog<String>(
+                  context: context,
+                  builder: (BuildContext context) => getDialog(
+                    'สร้างบัญชีสำเร็จ !',
+                    Icons.check_circle,
+                    kGreenColor,
+                  ),
+                );
+              } on FirebaseAuthException catch (e) {
+                setState(() {
+                  error = getMessageFromError(e.code);
+                });
+              }
+            } else {
               setState(() {
-                error = getMessageFromError(e.code);
+                error = 'รหัสผ่านไม่ตรงกับยืนยันรหัสผ่าน';
               });
             }
           }
