@@ -262,7 +262,6 @@ class _MyAccountState extends State<MyAccount> {
       onPressed: () async {
         if (validate) {
           if (_formKey.currentState!.validate()) {
-            Navigator.of(context).pop();
             if (category == 0) {
               final messages = await _firestore
                   .collection(kAccountNameCollection)
@@ -276,6 +275,7 @@ class _MyAccountState extends State<MyAccount> {
                     .set(data, SetOptions(merge: true));
               }
             }
+            Navigator.of(context).pop();
           }
         } else {
           Navigator.of(context).pop();
