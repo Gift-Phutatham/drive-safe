@@ -21,7 +21,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
         backgroundColor: kMainColor,
       ),
       body: Column(
-        children: const [
+        children: [
           ListTile(
             title: Text(
               'เดอะมอลล์งามวงศ์วาน',

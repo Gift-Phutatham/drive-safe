@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'api_service.dart';
 import 'constants.dart';
@@ -30,10 +32,11 @@ class MyMapState extends State<MyMap> {
   late Map<ExpwStep, List<Record>> map = {};
   late Future<String> _lastUpdate;
   var formatter = DateFormat.EEEE('th');
+  Map<PolylineId, Polyline> polylines = {};
+  PolylinePoints polylinePoints = PolylinePoints();
 
   @override
   void initState() {
-    print('here');
     _lastUpdate = _prefs.then((SharedPreferences prefs) {
       return prefs.getString('dateTime') ?? '';
     });
@@ -41,10 +44,11 @@ class MyMapState extends State<MyMap> {
     super.initState();
   }
 
-  void syncDate() async {
+  Future<void> syncDate() async {
     await _getData();
     await _getMarkers();
     await _updateSyncDateTime();
+    print('done');
   }
 
   void fetchData() async {
@@ -77,8 +81,6 @@ class MyMapState extends State<MyMap> {
     );
     if (records.isNotEmpty) {
       await DB.instance.deleteAllRecords();
-      List<Map<String, dynamic>> results = await DB.instance.getAllRecords();
-      print(results.length);
     }
     for (var record in records) {
       await DB.instance.insertRecord(record);
@@ -107,13 +109,14 @@ class MyMapState extends State<MyMap> {
 
   Future<void> _updateSyncDateTime() async {
     final SharedPreferences prefs = await _prefs;
-    final String date = DateTime.now().toIso8601String();
+    final String date = DateFormat('yyyy-MM-dd HH:mm').format(DateTime.now());
 
     setState(() {
       _lastUpdate = prefs.setString('dateTime', date).then((bool success) {
         return date;
       });
     });
+    print(date);
   }
 
   bool filterRecord(Record record) {
@@ -135,7 +138,7 @@ class MyMapState extends State<MyMap> {
       DateTime today = DateTime.now();
       Color dialogColor = map[key]!.length >= 10
           ? kRedColor
-          : map[key]!.length >= 3
+          : map[key]!.length >= 5
               ? kOrangeColor
               : kYellowColor;
 
@@ -264,9 +267,104 @@ class MyMapState extends State<MyMap> {
   Future<void> goToPlace(Map<String, dynamic> place) async {
     final double lat = place['geometry']['location']['lat'];
     final double lng = place['geometry']['location']['lng'];
+    final String placeName = place['name'];
 
     mapController.animateCamera(CameraUpdate.newCameraPosition(
         CameraPosition(target: LatLng(lat, lng), zoom: 18)));
+
+    showModalBottomSheet(
+      barrierColor: Colors.transparent,
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          padding: const EdgeInsets.all(5),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Align(
+                alignment: Alignment.centerRight,
+                child: IconButton(
+                  icon: Icon(Icons.cancel),
+                  onPressed: () => Navigator.pop(context),
+                ),
+              ),
+              ElevatedButton(
+                  child: const Text('เส้นทาง'),
+                  onPressed: () {
+                    Navigator.pop(context);
+                    getDirections(lat, lng, placeName);
+                  })
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  void getDirections(double lat, double lng, String placeName) async {
+    List<LatLng> polylineCoordinates = [];
+
+    PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
+      dotenv.env["MAPS_API_KEY"]!,
+      PointLatLng(_center.latitude, _center.longitude),
+      PointLatLng(lat, lng),
+      travelMode: TravelMode.driving,
+    );
+
+    if (result.points.isNotEmpty) {
+      result.points.forEach((PointLatLng point) {
+        polylineCoordinates.add(LatLng(point.latitude, point.longitude));
+      });
+    } else {
+      print(result.errorMessage);
+    }
+    addPolyLine(polylineCoordinates);
+
+    mapController.animateCamera(CameraUpdate.newLatLngBounds(
+        LatLngBounds(southwest: _center, northeast: LatLng(lat, lng)), 25));
+
+    showModalBottomSheet(
+      barrierColor: Colors.transparent,
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          height: 100,
+          padding: const EdgeInsets.all(5),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Text('$placeName'),
+              Align(
+                alignment: Alignment.centerRight,
+                child: IconButton(
+                  icon: Icon(Icons.cancel),
+                  onPressed: () {
+                    Navigator.pop(context);
+                    setState(() {
+                      polylines.clear();
+                    });
+                  },
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  void addPolyLine(List<LatLng> polylineCoordinates) {
+    PolylineId id = PolylineId("poly");
+    Polyline polyline = Polyline(
+      polylineId: id,
+      color: Colors.blue,
+      points: polylineCoordinates,
+      width: 8,
+    );
+    polylines[id] = polyline;
+    setState(() {});
   }
 
   @override
@@ -274,6 +372,7 @@ class MyMapState extends State<MyMap> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         centerTitle: true,
         elevation: 0,
         title: const Text(
@@ -370,6 +469,30 @@ class MyMapState extends State<MyMap> {
                     zoom: 11.0,
                   ),
                   markers: markers,
+                  polylines: Set<Polyline>.of(polylines.values),
+                ),
+                Container(
+                  padding: const EdgeInsets.fromLTRB(5, 10, 10, 25),
+                  child: Align(
+                    alignment: Alignment.topLeft,
+                    child: FutureBuilder<String>(
+                        future: _lastUpdate,
+                        builder: (BuildContext context,
+                            AsyncSnapshot<String> snapshot) {
+                          switch (snapshot.connectionState) {
+                            case ConnectionState.waiting:
+                              return const CircularProgressIndicator();
+                            default:
+                              if (snapshot.hasError) {
+                                return Text('Error: ${snapshot.error}');
+                              } else {
+                                return Text(
+                                  'updated: ${snapshot.data}',
+                                );
+                              }
+                          }
+                        }),
+                  ),
                 ),
                 if (searchList.isNotEmpty)
                   ListView.builder(
@@ -419,37 +542,26 @@ class MyMapState extends State<MyMap> {
                             ),
                             trailing: const Icon(Icons.favorite),
                           ),
-                        );
-                      },
-                    ),
-                  Container(
-                    padding: const EdgeInsets.fromLTRB(5, 10, 10, 25),
-                    child: Align(
-                      alignment: Alignment.topLeft,
-                      child: Row(
-                        children: [
-                          Text('updated: $_lastUpdate'),
-                        ],
-                      ),
-                    ),
-                  )
-                ],
-              ),
+                        ),
+                      );
+                    },
+                  ),
+              ],
             ),
-          ],
-        ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
-        floatingActionButton: FloatingActionButton(
-          child: Icon(
-            Icons.sync,
-            color: Colors.grey,
-            size: 25,
           ),
-          backgroundColor: Colors.white,
-          onPressed: () {
-            syncDate();
-          },
+        ],
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
+      floatingActionButton: FloatingActionButton(
+        child: Icon(
+          Icons.sync,
+          color: Colors.grey,
+          size: 25,
         ),
+        backgroundColor: Colors.white,
+        onPressed: () {
+          syncDate();
+        },
       ),
     );
   }

@@ -28,116 +28,119 @@ class _MyAccountState extends State<MyAccount> {
       ),
       body: Container(
         alignment: Alignment.center,
-        child: Column(
-          children: <Widget>[
-            const SizedBox(
-              height: 25,
-            ),
-            const Image(
-              image: AssetImage(
-                'assets/blank-profile-picture.png',
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              const SizedBox(
+                height: 25,
               ),
-              width: 100,
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            const Text(
-              "สวัสดี",
-              style: TextStyle(
-                fontSize: 24,
+              const Image(
+                image: AssetImage(
+                  'assets/blank-profile-picture.png',
+                ),
+                width: 100,
               ),
-            ),
-            const Text(
-              "คุณแนน",
-              style: TextStyle(
-                fontSize: 24,
+              const SizedBox(
+                height: 10,
               ),
-            ),
-            const SizedBox(
-              height: 7.5,
-            ),
-            const Text(
-              "nannnyy16@gmail.com",
-              style: TextStyle(
-                fontSize: 16,
-              ),
-            ),
-            const SizedBox(
-              height: 15,
-            ),
-            Divider(
-              color: Colors.grey[400],
-              thickness: 3.0,
-            ),
-            Container(
-              alignment: Alignment.centerLeft,
-              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
-              child: const Text(
-                "ความปลอดภัย",
+              const Text(
+                "สวัสดี",
                 style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w700,
+                  fontSize: 24,
                 ),
               ),
-            ),
-            PrivacySettingBox(
-              icon: Icons.account_circle_outlined,
-              text: "เปลี่ยนชื่อบัญชี",
-              route: getAccountDialog(),
-            ),
-            const Divider(
-              color: Colors.grey,
-            ),
-            PrivacySettingBox(
-              icon: Icons.lock_outline_rounded,
-              text: "เปลี่ยนรหัสผ่าน",
-              route: getPasswordDialog(),
-            ),
-            const SizedBox(
-              height: 150,
-            ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                minimumSize: const Size(350, 50),
-                primary: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15.0),
+              const Text(
+                "คุณแนน",
+                style: TextStyle(
+                  fontSize: 24,
                 ),
-                side: const BorderSide(
-                  color: kMainColor,
-                ),
-                shadowColor: kMainColor,
               ),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => const LoginScreen(),
+              const SizedBox(
+                height: 7.5,
+              ),
+              const Text(
+                "nannnyy16@gmail.com",
+                style: TextStyle(
+                  fontSize: 16,
+                ),
+              ),
+              const SizedBox(
+                height: 15,
+              ),
+              Divider(
+                color: Colors.grey[400],
+                thickness: 3.0,
+              ),
+              Container(
+                alignment: Alignment.centerLeft,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+                child: const Text(
+                  "ความปลอดภัย",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700,
                   ),
-                );
-              },
-              child: Wrap(
-                children: const <Widget>[
-                  Icon(
-                    Icons.logout,
+                ),
+              ),
+              PrivacySettingBox(
+                icon: Icons.account_circle_outlined,
+                text: "เปลี่ยนชื่อบัญชี",
+                route: getAccountDialog(),
+              ),
+              const Divider(
+                color: Colors.grey,
+              ),
+              PrivacySettingBox(
+                icon: Icons.lock_outline_rounded,
+                text: "เปลี่ยนรหัสผ่าน",
+                route: getPasswordDialog(),
+              ),
+              const SizedBox(
+                height: 150,
+              ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  minimumSize: const Size(350, 50),
+                  primary: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.0),
+                  ),
+                  side: const BorderSide(
                     color: kMainColor,
-                    size: 24.0,
                   ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Text(
-                    'ออกจากระบบ',
-                    style: TextStyle(
-                      fontSize: 15,
-                      color: kMainColor,
+                  shadowColor: kMainColor,
+                ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const LoginScreen(),
                     ),
-                  ),
-                ],
+                  );
+                },
+                child: Wrap(
+                  children: const <Widget>[
+                    Icon(
+                      Icons.logout,
+                      color: kMainColor,
+                      size: 24.0,
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      'ออกจากระบบ',
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: kMainColor,
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

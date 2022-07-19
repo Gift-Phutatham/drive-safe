@@ -18,7 +18,7 @@ class DB {
     return await openDatabase(path, version: 1, onOpen: (db) {},
         onCreate: (Database db, int version) async {
       await db.execute("CREATE TABLE Record ("
-          "_id INTEGER PRIMARY KEY,"
+          "_id INTEGER,"
           "accident_date TEXT,"
           "accident_time TEXT,"
           "expw_step TEXT,"
@@ -32,9 +32,9 @@ class DB {
     });
   }
 
-  Future<int> insertRecord(Record record) async {
+  Future<void> insertRecord(Record record) async {
     Database db = await database;
-    return await db.insert("Record", record.toJson());
+    await db.insert("Record", record.toJson());
   }
 
   Future<List<Map<String, dynamic>>> getAllRecords() async {
@@ -42,29 +42,13 @@ class DB {
     return await db.query("Record");
   }
 
-  Future<List<Map<String, dynamic>>> getRecordById(int id) async {
-    Database db = await database;
-    return await db.query("Record", where: '_id = ?', whereArgs: [id]);
-  }
-
   Future<List<Map<String, dynamic>>> getRecordByExpw(String expw) async {
     Database db = await database;
     return await db.query("Record", where: 'expw_step = ?', whereArgs: [expw]);
   }
 
-  Future<int> deleteRecord(Record record) async {
-    Database db = await database;
-    return await db.delete("Record", where: '_id = ?', whereArgs: [record.id]);
-  }
-
   Future<int> deleteAllRecords() async {
     Database db = await database;
     return await db.delete("Record");
-  }
-
-  Future<int> updateRecord(Record record) async {
-    Database db = await database;
-    return await db.update("Record", record.toJson(),
-        where: '_id = ?', whereArgs: [record.id]);
   }
 }
