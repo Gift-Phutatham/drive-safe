@@ -488,7 +488,7 @@ class MyMapState extends State<MyMap> {
                   polylines: Set<Polyline>.of(polylines.values),
                 ),
                 Container(
-                  padding: const EdgeInsets.fromLTRB(5, 10, 10, 25),
+                  padding: const EdgeInsets.fromLTRB(5, 5, 10, 25),
                   child: Align(
                     alignment: Alignment.topLeft,
                     child: FutureBuilder<String>(
@@ -500,11 +500,10 @@ class MyMapState extends State<MyMap> {
                               return const CircularProgressIndicator();
                             default:
                               if (snapshot.hasError) {
-                                return Text('Error: ${snapshot.error}');
+                                return Text('ข้อผิดพลาด: ${snapshot.error}');
                               } else {
                                 return Text(
-                                  'updated: ${snapshot.data}',
-                                );
+                                    'อัพเดทข้อมูลล่าสุด: ${snapshot.data}');
                               }
                           }
                         }),

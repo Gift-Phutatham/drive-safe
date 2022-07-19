@@ -137,6 +137,31 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
             )
           : Stack(
               children: [
+                FutureBuilder<String>(
+                  future: _lastUpdate,
+                  builder:
+                      (BuildContext context, AsyncSnapshot<String> snapshot) {
+                    switch (snapshot.connectionState) {
+                      case ConnectionState.waiting:
+                        return const CircularProgressIndicator();
+                      default:
+                        if (snapshot.hasError) {
+                          return Text('ข้อผิดพลาด: ${snapshot.error}');
+                        } else {
+                          return SizedBox(
+                            height: 10,
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.fromLTRB(5.0, 1.0, 0.0, 0.0),
+                              child: Text(
+                                'อัพเดทข้อมูลล่าสุด: ${snapshot.data}',
+                              ),
+                            ),
+                          );
+                        }
+                    }
+                  },
+                ),
                 ListView.separated(
                   padding: const EdgeInsets.all(10.0),
                   itemCount: map.length,
@@ -253,27 +278,6 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                     height: 10,
                   ),
                 ),
-                FutureBuilder<String>(
-                    future: _lastUpdate,
-                    builder:
-                        (BuildContext context, AsyncSnapshot<String> snapshot) {
-                      switch (snapshot.connectionState) {
-                        case ConnectionState.waiting:
-                          return const CircularProgressIndicator();
-                        default:
-                          if (snapshot.hasError) {
-                            return Text('Error: ${snapshot.error}');
-                          } else {
-                            return Padding(
-                              padding:
-                                  const EdgeInsets.fromLTRB(4.0, 1.0, 0.0, 0.0),
-                              child: Text(
-                                'updated: ${snapshot.data}',
-                              ),
-                            );
-                          }
-                      }
-                    }),
               ],
             ),
       floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
