@@ -1,8 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:drive_safe/login_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'constants.dart';
-import 'login_screen.dart';
 import 'privacy_setting_box.dart';
 
 class MyAccount extends StatefulWidget {
@@ -14,6 +15,7 @@ class MyAccount extends StatefulWidget {
 
 class _MyAccountState extends State<MyAccount> {
   late FirebaseAuth _auth;
+  late FirebaseFirestore _firestore;
 
   final _formKey = GlobalKey<FormState>();
 
@@ -27,6 +29,7 @@ class _MyAccountState extends State<MyAccount> {
 
   void initFirebase() async {
     _auth = FirebaseAuth.instance;
+    _firestore = FirebaseFirestore.instance;
     loggedInUser = _auth.currentUser?.email ?? '';
   }
 
@@ -65,11 +68,33 @@ class _MyAccountState extends State<MyAccount> {
                   fontSize: 24,
                 ),
               ),
-              const Text(
-                "คุณแนน",
-                style: TextStyle(
-                  fontSize: 24,
-                ),
+              StreamBuilder<QuerySnapshot>(
+                stream: _firestore
+                    .collection(kAccountNameCollection)
+                    .where('email', isEqualTo: loggedInUser)
+                    .snapshots(),
+                builder: (BuildContext context,
+                    AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (snapshot.hasData) {
+                    final snap = snapshot.data!.docs;
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      primary: false,
+                      itemCount: snap.length,
+                      itemBuilder: (context, index) {
+                        return Text(
+                          snap[index]['accountName'],
+                          style: const TextStyle(
+                            fontSize: 24,
+                          ),
+                          textAlign: TextAlign.center,
+                        );
+                      },
+                    );
+                  } else {
+                    return const Text('');
+                  }
+                },
               ),
               const SizedBox(
                 height: 7.5,
@@ -164,6 +189,16 @@ class _MyAccountState extends State<MyAccount> {
       ),
     );
   }
+
+  // Future<String> getAccountName() async {
+  //   final accountNames = _firestore
+  //       .collection(kAccountNameCollection)
+  //       .where('email', isEqualTo: loggedInUser)
+  //       .get();
+  //   var a = await accountNames.then((value) => value.toString());
+  //   print(a);
+  //   return a;
+  // }
 
   InputBorder getBorder(Color color) {
     return OutlineInputBorder(
