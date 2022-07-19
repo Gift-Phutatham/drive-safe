@@ -1,42 +1,60 @@
+import 'dart:async';
+
 import 'package:drive_safe/favorite_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'api_service.dart';
 import 'constants.dart';
 import 'location_service.dart';
 import 'record_model.dart';
+import 'db.dart';
 
-class MapSample extends StatefulWidget {
-  const MapSample({Key? key}) : super(key: key);
+class MyMap extends StatefulWidget {
+  const MyMap({Key? key}) : super(key: key);
 
   @override
-  State<MapSample> createState() => MapSampleState();
+  State<MyMap> createState() => MyMapState();
 }
 
-class MapSampleState extends State<MapSample> {
+class MyMapState extends State<MyMap> {
   late GoogleMapController mapController;
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   final TextEditingController _searchController = TextEditingController();
-
   final LatLng _center = const LatLng(13.7563, 100.5018);
-
   late Set<Marker> markers = {};
-  static const LatLng showLocation = LatLng(13.7563, 100.5018);
   List searchList = [];
-
   late List<Record> records = [];
   late Map<ExpwStep, List<Record>> map = {};
+  late Future<String> _lastUpdate;
   var formatter = DateFormat.EEEE('th');
 
   @override
   void initState() {
+    print('here');
+    _lastUpdate = _prefs.then((SharedPreferences prefs) {
+      return prefs.getString('dateTime') ?? '';
+    });
+    DB.instance.initDB().then((value) => fetchData());
     super.initState();
-    initFunc();
   }
 
-  void initFunc() async {
+  void syncDate() async {
     await _getData();
+    await _getMarkers();
+    await _updateSyncDateTime();
+  }
+
+  void fetchData() async {
+    List<Map<String, dynamic>> results = await DB.instance.getAllRecords();
+    print(results.length);
+    setState(() {
+      records = results.map((result) => Record.fromJson(result)).toList();
+      records = records.where((record) => filterRecord(record)).toList();
+    });
+    fetchMap();
     await _getMarkers();
   }
 
@@ -47,26 +65,55 @@ class MapSampleState extends State<MapSample> {
     await Future.delayed(const Duration(seconds: 1)).then(
       (value) => setState(
         () {
+          records = [];
           for (var year in _record) {
             if (year != null) {
               records.addAll(year.result.records);
             }
           }
-
-          records = records.where((record) => filterRecord(record)).toList();
-          print("How many records?");
           print(records.length);
-
-          for (var element in records) {
-            if (map.containsKey(element.expwStep)) {
-              map[element.expwStep]?.add(element);
-            } else {
-              map[element.expwStep] = [element];
-            }
-          }
         },
       ),
     );
+    if (records.isNotEmpty) {
+      await DB.instance.deleteAllRecords();
+      List<Map<String, dynamic>> results = await DB.instance.getAllRecords();
+      print(results.length);
+    }
+    for (var record in records) {
+      await DB.instance.insertRecord(record);
+    }
+
+    setState(() {
+      records = records.where((record) => filterRecord(record)).toList();
+      print("How many records?");
+      print(records.length);
+    });
+
+    fetchMap();
+  }
+
+  void fetchMap() {
+    setState(() {
+      for (var element in records) {
+        if (map.containsKey(element.expwStep)) {
+          map[element.expwStep]?.add(element);
+        } else {
+          map[element.expwStep] = [element];
+        }
+      }
+    });
+  }
+
+  Future<void> _updateSyncDateTime() async {
+    final SharedPreferences prefs = await _prefs;
+    final String date = DateTime.now().toIso8601String();
+
+    setState(() {
+      _lastUpdate = prefs.setString('dateTime', date).then((bool success) {
+        return date;
+      });
+    });
   }
 
   bool filterRecord(Record record) {
@@ -207,6 +254,7 @@ class MapSampleState extends State<MapSample> {
     setState(() {
       markers = newMarker;
     });
+    print('done');
   }
 
   void _onMapCreated(GoogleMapController controller) {
@@ -371,14 +419,37 @@ class MapSampleState extends State<MapSample> {
                             ),
                             trailing: const Icon(Icons.favorite),
                           ),
-                        ),
-                      );
-                    },
-                  ),
-              ],
+                        );
+                      },
+                    ),
+                  Container(
+                    padding: const EdgeInsets.fromLTRB(5, 10, 10, 25),
+                    child: Align(
+                      alignment: Alignment.topLeft,
+                      child: Row(
+                        children: [
+                          Text('updated: $_lastUpdate'),
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
             ),
+          ],
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
+        floatingActionButton: FloatingActionButton(
+          child: Icon(
+            Icons.sync,
+            color: Colors.grey,
+            size: 25,
           ),
-        ],
+          backgroundColor: Colors.white,
+          onPressed: () {
+            syncDate();
+          },
+        ),
       ),
     );
   }
