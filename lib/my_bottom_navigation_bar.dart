@@ -16,7 +16,7 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
   int _selectedIndex = 0;
 
   static const List<Widget> _widgetOptions = <Widget>[
-    MapSample(),
+    MyMap(),
     DashBoardScreen(),
     MyAccount(),
   ];
