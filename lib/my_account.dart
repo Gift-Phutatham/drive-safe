@@ -16,10 +16,12 @@ class MyAccount extends StatefulWidget {
 class _MyAccountState extends State<MyAccount> {
   late FirebaseAuth _auth;
   late FirebaseFirestore _firestore;
+  late String loggedInUser;
 
   final _formKey = GlobalKey<FormState>();
 
-  late String loggedInUser;
+  String newAccountNameLabelText = 'ชื่อบัญชีใหม่';
+  String newAccountName = '';
 
   @override
   void initState() {
@@ -190,16 +192,6 @@ class _MyAccountState extends State<MyAccount> {
     );
   }
 
-  // Future<String> getAccountName() async {
-  //   final accountNames = _firestore
-  //       .collection(kAccountNameCollection)
-  //       .where('email', isEqualTo: loggedInUser)
-  //       .get();
-  //   var a = await accountNames.then((value) => value.toString());
-  //   print(a);
-  //   return a;
-  // }
-
   InputBorder getBorder(Color color) {
     return OutlineInputBorder(
       borderRadius: BorderRadius.circular(15.0),
@@ -207,7 +199,7 @@ class _MyAccountState extends State<MyAccount> {
     );
   }
 
-  Widget getTextFormField(String text) {
+  Widget getTextFormField(String labelText) {
     return SizedBox(
       width: 350,
       height: 80,
@@ -217,7 +209,7 @@ class _MyAccountState extends State<MyAccount> {
           focusedBorder: getBorder(kMainColor),
           errorBorder: getBorder(kRedColor),
           focusedErrorBorder: getBorder(kRedColor),
-          labelText: '$text*',
+          labelText: '$labelText*',
           labelStyle: const TextStyle(
             fontSize: 15,
           ),
@@ -229,9 +221,14 @@ class _MyAccountState extends State<MyAccount> {
               const EdgeInsets.symmetric(vertical: 15, horizontal: 25),
           errorStyle: const TextStyle(height: 0.75),
         ),
+        onChanged: (value) {
+          if (labelText == newAccountNameLabelText) {
+            newAccountName = value;
+          }
+        },
         validator: (String? value) {
           if (value == null || value.isEmpty) {
-            return 'กรุณากรอก$text';
+            return 'กรุณากรอก$labelText';
           }
           return null;
         },
@@ -243,6 +240,7 @@ class _MyAccountState extends State<MyAccount> {
     String text,
     Color foregroundColor,
     Color backgroundColor,
+    int category,
     bool validate,
   ) {
     return TextButton(
@@ -261,10 +259,23 @@ class _MyAccountState extends State<MyAccount> {
         ),
         minimumSize: MaterialStateProperty.all<Size>(const Size(165, 55)),
       ),
-      onPressed: () {
+      onPressed: () async {
         if (validate) {
           if (_formKey.currentState!.validate()) {
             Navigator.of(context).pop();
+            if (category == 0) {
+              final messages = await _firestore
+                  .collection(kAccountNameCollection)
+                  .where('email', isEqualTo: loggedInUser)
+                  .get();
+              for (var message in messages.docs) {
+                final data = {'accountName': newAccountName};
+                _firestore
+                    .collection(kAccountNameCollection)
+                    .doc(message.id)
+                    .set(data, SetOptions(merge: true));
+              }
+            }
           }
         } else {
           Navigator.of(context).pop();
@@ -316,7 +327,7 @@ class _MyAccountState extends State<MyAccount> {
               const SizedBox(
                 height: 25,
               ),
-              getTextFormField('ชื่อบัญชีใหม่'),
+              getTextFormField(newAccountNameLabelText),
             ],
           ),
         ),
@@ -329,6 +340,7 @@ class _MyAccountState extends State<MyAccount> {
               'บันทึก',
               Colors.white,
               kMainColor,
+              0,
               true,
             ),
             const SizedBox(
@@ -338,6 +350,7 @@ class _MyAccountState extends State<MyAccount> {
               'ยกเลิก',
               kMainColor,
               Colors.white,
+              0,
               false,
             ),
           ],
@@ -399,6 +412,7 @@ class _MyAccountState extends State<MyAccount> {
               'บันทึก',
               Colors.white,
               kMainColor,
+              1,
               true,
             ),
             const SizedBox(
@@ -408,6 +422,7 @@ class _MyAccountState extends State<MyAccount> {
               'ยกเลิก',
               kMainColor,
               Colors.white,
+              1,
               false,
             ),
           ],
