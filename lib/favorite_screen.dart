@@ -38,50 +38,62 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
         ),
         backgroundColor: kMainColor,
       ),
-      body: StreamBuilder<QuerySnapshot>(
-        stream: _firestore
-            .collection(kFavoriteCollection)
-            .where('email', isEqualTo: loggedInUser)
-            .snapshots(),
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (snapshot.hasData) {
-            final snap = snapshot.data!.docs;
-            return ListView.builder(
-              shrinkWrap: true,
-              primary: false,
-              itemCount: snap.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(
-                    snap[index]['location'],
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 14,
-                    ),
-                  ),
-                  subtitle: Text(
-                    snap[index]['address'],
-                    style: const TextStyle(
-                      fontSize: 13,
-                    ),
-                  ),
-                  trailing: IconButton(
-                    icon: const Icon(Icons.delete),
-                    color: kMainColor,
-                    onPressed: () async {
-                      await _firestore
-                          .collection(kFavoriteCollection)
-                          .doc(snap[index].id)
-                          .delete();
-                    },
-                  ),
+      body: Column(
+        children: [
+          const SizedBox(
+            height: 10,
+          ),
+          StreamBuilder<QuerySnapshot>(
+            stream: _firestore
+                .collection(kFavoriteCollection)
+                .where('email', isEqualTo: loggedInUser)
+                .snapshots(),
+            builder:
+                (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              if (snapshot.hasData) {
+                final snap = snapshot.data!.docs;
+                return ListView.builder(
+                  shrinkWrap: true,
+                  primary: false,
+                  itemCount: snap.length,
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      title: Text(
+                        snap[index]['location'],
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                      subtitle: Text(
+                        snap[index]['address'],
+                        style: const TextStyle(
+                          fontSize: 14,
+                        ),
+                      ),
+                      trailing: IconButton(
+                        icon: const Icon(
+                          Icons.delete,
+                          size: 40,
+                        ),
+                        color: kMainColor,
+                        onPressed: () async {
+                          await _firestore
+                              .collection(kFavoriteCollection)
+                              .doc(snap[index].id)
+                              .delete();
+                        },
+                      ),
+                      minVerticalPadding: 10,
+                    );
+                  },
                 );
-              },
-            );
-          } else {
-            return const CircularProgressIndicator();
-          }
-        },
+              } else {
+                return const Center(child: CircularProgressIndicator());
+              }
+            },
+          ),
+        ],
       ),
     );
   }
