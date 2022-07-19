@@ -293,24 +293,57 @@ class MyMapState extends State<MyMap> {
       context: context,
       builder: (BuildContext context) {
         return Container(
-          padding: const EdgeInsets.all(5),
-          child: Column(
+          padding: const EdgeInsets.all(10),
+          child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Align(
-                alignment: Alignment.centerRight,
-                child: IconButton(
-                  icon: const Icon(Icons.cancel),
-                  onPressed: () => Navigator.pop(context),
+              ElevatedButton(
+                style: ButtonStyle(
+                  padding: MaterialStateProperty.all<EdgeInsets>(
+                      const EdgeInsets.all(10)),
+                  foregroundColor:
+                      MaterialStateProperty.all<Color>(Colors.white),
+                  backgroundColor: MaterialStateProperty.all<Color>(kMainColor),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                  ),
+                  minimumSize:
+                      MaterialStateProperty.all<Size>(const Size(100, 45)),
                 ),
+                child: const Text('เส้นทาง'),
+                onPressed: () {
+                  Navigator.pop(context);
+                  getDirections(lat, lng, placeName);
+                },
+              ),
+              const SizedBox(
+                width: 30,
               ),
               ElevatedButton(
-                  child: const Text('เส้นทาง'),
-                  onPressed: () {
-                    Navigator.pop(context);
-                    getDirections(lat, lng, placeName);
-                  })
+                style: ButtonStyle(
+                  padding: MaterialStateProperty.all<EdgeInsets>(
+                      const EdgeInsets.all(10)),
+                  foregroundColor: MaterialStateProperty.all<Color>(kMainColor),
+                  backgroundColor:
+                      MaterialStateProperty.all<Color>(Colors.white),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                  ),
+                  side: MaterialStateProperty.all<BorderSide>(
+                    const BorderSide(color: kMainColor),
+                  ),
+                  minimumSize:
+                      MaterialStateProperty.all<Size>(const Size(100, 45)),
+                ),
+                child: const Text('ยกเลิก'),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              )
             ],
           ),
         );
