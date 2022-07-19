@@ -1,16 +1,19 @@
 import 'dart:async';
 
-import 'package:drive_safe/favorite_screen.dart';
+// import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
+// import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_polyline_points/flutter_polyline_points.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'api_service.dart';
 import 'constants.dart';
 import 'db.dart';
+import 'favorite_screen.dart';
 import 'location_service.dart';
 import 'record_model.dart';
 
@@ -35,6 +38,11 @@ class MyMapState extends State<MyMap> {
   Map<PolylineId, Polyline> polylines = {};
   PolylinePoints polylinePoints = PolylinePoints();
 
+  // late FirebaseAuth _auth;
+  // late FirebaseFirestore _firestore;
+  String? location;
+  String? address;
+
   @override
   void initState() {
     _lastUpdate = _prefs.then((SharedPreferences prefs) {
@@ -42,7 +50,14 @@ class MyMapState extends State<MyMap> {
     });
     DB.instance.initDB().then((value) => fetchData());
     super.initState();
+    // initFirebase();
   }
+
+  // void initFirebase() async {
+  //   await Firebase.initializeApp();
+  //   _auth = FirebaseAuth.instance;
+  //   _firestore = FirebaseFirestore.instance;
+  // }
 
   Future<void> syncDate() async {
     await _getData();

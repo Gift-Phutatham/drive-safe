@@ -176,6 +176,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
             errorStyle: const TextStyle(height: 0.75),
           ),
+          obscureText: labelText == passwordLabelText,
           onChanged: (value) {
             if (labelText == accountNameLabelText) {
               accountName = value;
