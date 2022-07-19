@@ -278,15 +278,15 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
             ),
       floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
       floatingActionButton: FloatingActionButton(
-        child: Icon(
-          Icons.sync,
-          color: Colors.grey,
-          size: 25,
-        ),
         backgroundColor: Colors.white,
         onPressed: () {
           _getData();
         },
+        child: const Icon(
+          Icons.sync,
+          color: Colors.grey,
+          size: 25,
+        ),
       ),
     );
   }

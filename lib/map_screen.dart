@@ -301,7 +301,7 @@ class MyMapState extends State<MyMap> {
               Align(
                 alignment: Alignment.centerRight,
                 child: IconButton(
-                  icon: Icon(Icons.cancel),
+                  icon: const Icon(Icons.cancel),
                   onPressed: () => Navigator.pop(context),
                 ),
               ),
@@ -351,11 +351,11 @@ class MyMapState extends State<MyMap> {
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Text('$placeName'),
+              Text(placeName),
               Align(
                 alignment: Alignment.centerRight,
                 child: IconButton(
-                  icon: Icon(Icons.cancel),
+                  icon: const Icon(Icons.cancel),
                   onPressed: () {
                     Navigator.pop(context);
                     setState(() {
@@ -372,7 +372,7 @@ class MyMapState extends State<MyMap> {
   }
 
   void addPolyLine(List<LatLng> polylineCoordinates) {
-    PolylineId id = PolylineId("poly");
+    PolylineId id = const PolylineId("poly");
     Polyline polyline = Polyline(
       polylineId: id,
       color: Colors.blue,
