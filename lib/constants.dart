@@ -9,7 +9,7 @@ const kYellowColor = Color(0xFFF4B000);
 const kLightYellowColor = Color(0xFFF5B819);
 const kGreenColor = Color(0xFF08A87B);
 const kFontFamily = 'Prompt';
-const kUsernameCollection = 'username';
+const kAccountNameCollection = 'account name';
 const kFavoriteCollection = 'favorite';
 
 class ApiConstants {

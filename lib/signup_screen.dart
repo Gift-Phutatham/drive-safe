@@ -1,5 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 import 'constants.dart';
@@ -14,6 +14,7 @@ class SignupScreen extends StatefulWidget {
 
 class _SignupScreenState extends State<SignupScreen> {
   late FirebaseAuth _auth;
+  late FirebaseFirestore _firestore;
 
   final _formKey = GlobalKey<FormState>();
 
@@ -34,8 +35,8 @@ class _SignupScreenState extends State<SignupScreen> {
   }
 
   void initFirebase() async {
-    await Firebase.initializeApp();
     _auth = FirebaseAuth.instance;
+    _firestore = FirebaseFirestore.instance;
   }
 
   @override
@@ -228,6 +229,11 @@ class _SignupScreenState extends State<SignupScreen> {
                 email: email,
                 password: password,
               );
+              Map<String, dynamic> data = {
+                'email': email,
+                'accountName': accountName,
+              };
+              _firestore.collection(kAccountNameCollection).add(data);
               showDialog<String>(
                 context: context,
                 builder: (BuildContext context) => getDialog(
