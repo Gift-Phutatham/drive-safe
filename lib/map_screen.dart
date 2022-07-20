@@ -562,7 +562,6 @@ class MyMapState extends State<MyMap> {
                       String eachAddress = searchList[index]
                               ['structured_formatting']['secondary_text'] ??
                           '';
-                      Color iconColor = Colors.grey;
                       return GestureDetector(
                         onTap: () async {
                           var place = await LocationService()
@@ -601,29 +600,33 @@ class MyMapState extends State<MyMap> {
                                 fontSize: 13,
                               ),
                             ),
-                            trailing: IconButton(
-                              icon: Icon(Icons.favorite, color: iconColor),
-                              onPressed: () async {
-                                location = eachLocation;
-                                address = eachAddress;
-                                var documentId = '$loggedInUser-$location';
-                                Map<String, dynamic> data = {
-                                  'email': loggedInUser,
-                                  'location': location,
-                                  'address': address,
-                                };
-                                _firestore
-                                    .collection(kFavoriteCollection)
-                                    .doc(documentId)
-                                    .set(data);
-                                DocumentSnapshot docRef = await _firestore
-                                    .collection(kFavoriteCollection)
-                                    .doc(documentId)
-                                    .get();
-                                setState(() {
-                                  iconColor =
-                                      docRef.exists ? kMainColor : Colors.grey;
-                                });
+                            trailing: FutureBuilder<bool>(
+                              future: isFavorite('$loggedInUser-$eachLocation'),
+                              builder: (BuildContext context,
+                                  AsyncSnapshot<bool> snapshot) {
+                                Color iconColor = Colors.grey;
+                                if (snapshot.hasData) {
+                                  iconColor = snapshot.data == true
+                                      ? kMainColor
+                                      : Colors.grey;
+                                  return IconButton(
+                                    icon:
+                                        Icon(Icons.favorite, color: iconColor),
+                                    onPressed: () async {
+                                      Map<String, dynamic> data = {
+                                        'email': loggedInUser,
+                                        'location': eachLocation,
+                                        'address': eachAddress,
+                                      };
+                                      _firestore
+                                          .collection(kFavoriteCollection)
+                                          .doc('$loggedInUser-$eachLocation')
+                                          .set(data);
+                                    },
+                                  );
+                                } else {
+                                  return const Text('');
+                                }
                               },
                             ),
                           ),
@@ -654,10 +657,9 @@ class MyMapState extends State<MyMap> {
     );
   }
 
-// isFavorite(documentId, loggedInUser) async {
-//   var docRef =
-//       await _firestore.collection(kFavoriteCollection).doc(documentId).get();
-//   print(docRef.exists);
-//   return docRef;
-// }
+  Future<bool> isFavorite(documentId) async {
+    var docRef =
+        await _firestore.collection(kFavoriteCollection).doc(documentId).get();
+    return docRef.exists;
+  }
 }
