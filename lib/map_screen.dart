@@ -192,6 +192,7 @@ class MyMapState extends State<MyMap> {
                                 style: const TextStyle(
                                   fontSize: 16,
                                   color: Colors.white,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
                               const Text(
@@ -210,32 +211,42 @@ class MyMapState extends State<MyMap> {
                       contentPadding:
                           const EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
                       content: Container(
-                        constraints: const BoxConstraints(maxHeight: 100),
+                        constraints: const BoxConstraints(maxHeight: 110),
                         color: Colors.white,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: <Widget>[
                             Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: <Widget>[
+                                const SizedBox(
+                                  height: 20,
+                                ),
                                 Text(
                                   formatter.format(today),
                                   style: TextStyle(
                                     color: dialogColor,
+                                    fontSize: 23,
                                   ),
+                                ),
+                                const SizedBox(
+                                  height: 5,
                                 ),
                                 Text(
                                   '${today.hour}:00 - ${today.hour + 1}:00',
                                   style: TextStyle(
                                     color: dialogColor,
+                                    fontSize: 22,
                                   ),
+                                ),
+                                const SizedBox(
+                                  height: 15,
                                 ),
                               ],
                             ),
                             Text(
                               map[key]!.length.toString(),
                               style: TextStyle(
-                                fontSize: 24,
+                                fontSize: 43,
                                 color: dialogColor,
                               ),
                             ),
