@@ -151,7 +151,7 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           obscureText: labelText == passwordLabelText,
 
-          /// Set the value so be further checked for authenticity
+          /// Get the value so be further checked for authenticity
           onChanged: (value) {
             if (labelText == emailLabelText) {
               email = value;
@@ -164,7 +164,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget getTextButton(String text, bool check) {
+  Widget getTextButton(String text, bool isLoginButton) {
     return TextButton(
       style: ButtonStyle(
         padding:
@@ -180,7 +180,7 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
       onPressed: () async {
         /// If the button is Login Button
-        if (check) {
+        if (isLoginButton) {
           /// Check for authenticity
           /// If there is no error, navigate into to the Map Screen.
           try {

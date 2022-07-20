@@ -79,6 +79,9 @@ class _MyAccountState extends State<MyAccount> {
                   fontSize: 24,
                 ),
               ),
+
+              /// Retrieve account name from firebase, from favorite collection
+              /// Check if the data belongs to the logged in user or not
               StreamBuilder<QuerySnapshot>(
                 stream: _firestore
                     .collection(kAccountNameCollection)
@@ -93,6 +96,7 @@ class _MyAccountState extends State<MyAccount> {
                       primary: false,
                       itemCount: snap.length,
                       itemBuilder: (context, index) {
+                        /// Get account name
                         return Text(
                           snap[index]['accountName'],
                           style: const TextStyle(
@@ -231,6 +235,8 @@ class _MyAccountState extends State<MyAccount> {
           errorStyle: const TextStyle(height: 0.75),
         ),
         obscureText: labelText.contains('รหัสผ่าน'),
+
+        /// Get the value so be further updated the user
         onChanged: (value) {
           if (labelText == newAccountNameLabelText) {
             newAccountName = value;
@@ -254,8 +260,7 @@ class _MyAccountState extends State<MyAccount> {
     String text,
     Color foregroundColor,
     Color backgroundColor,
-    int category,
-    bool validate,
+    bool isAccountButton,
   ) {
     return TextButton(
       style: ButtonStyle(
@@ -274,9 +279,13 @@ class _MyAccountState extends State<MyAccount> {
         minimumSize: MaterialStateProperty.all<Size>(const Size(165, 55)),
       ),
       onPressed: () async {
-        if (validate) {
+        /// If the button is Save Button
+        if (text == 'บันทึก') {
+          /// Validate if the textFormField is filled in or not
           if (_formKey.currentState!.validate()) {
-            if (category == 0) {
+            /// If the button is Change Account Name Button
+            if (isAccountButton) {
+              /// Update the Account Name
               final messages = await _firestore
                   .collection(kAccountNameCollection)
                   .where('email', isEqualTo: loggedInUser)
@@ -288,24 +297,39 @@ class _MyAccountState extends State<MyAccount> {
                     .doc(message.id)
                     .set(data, SetOptions(merge: true));
               }
+
+              /// Navigate back
               Navigator.of(context).pop();
-            } else {
+            }
+
+            /// If the button is Save Button
+            else {
+              /// If the password and confirmed password match
               if (newPassword == newPasswordConfirmed) {
+                /// Try to update password in firebase
+                /// If there is no error, navigate back.
                 currUser?.updatePassword(newPassword).then((_) {
                   Navigator.of(context).pop();
                 }).catchError((e) {
+                  /// If there is an error, display the error.
                   setState(() {
                     error = 'เปลี่ยนรหัสผ่านใหม่ไม่สำเร็จ กรุณาลองอีกครั้ง';
                   });
                 });
-              } else {
+              }
+
+              /// If the password and confirmed password do not match, display the error.
+              else {
                 setState(() {
                   error = 'รหัสผ่านใหม่ไม่ตรงกับยืนยันรหัสผ่านใหม่';
                 });
               }
             }
           }
-        } else {
+        }
+
+        /// If the button is Cancel Button, navigate back.
+        else {
           Navigator.of(context).pop();
           setState(() {
             error = '';
@@ -371,7 +395,6 @@ class _MyAccountState extends State<MyAccount> {
               'บันทึก',
               Colors.white,
               kMainColor,
-              0,
               true,
             ),
             const SizedBox(
@@ -381,8 +404,7 @@ class _MyAccountState extends State<MyAccount> {
               'ยกเลิก',
               kMainColor,
               Colors.white,
-              0,
-              false,
+              true,
             ),
           ],
         ),
@@ -450,8 +472,7 @@ class _MyAccountState extends State<MyAccount> {
               'บันทึก',
               Colors.white,
               kMainColor,
-              1,
-              true,
+              false,
             ),
             const SizedBox(
               width: 10,
@@ -460,7 +481,6 @@ class _MyAccountState extends State<MyAccount> {
               'ยกเลิก',
               kMainColor,
               Colors.white,
-              1,
               false,
             ),
           ],

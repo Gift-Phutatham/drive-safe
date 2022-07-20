@@ -44,8 +44,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
             height: 10,
           ),
 
-          /// Retrieve favorite places data from firebase
-          /// From favorite collection
+          /// Retrieve favorite places from firebase, from favorite collection
           /// Check if the data belongs to the logged in user or not
           StreamBuilder<QuerySnapshot>(
             stream: _firestore

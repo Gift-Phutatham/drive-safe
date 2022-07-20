@@ -184,6 +184,8 @@ class _SignupScreenState extends State<SignupScreen> {
             errorStyle: const TextStyle(height: 0.75),
           ),
           obscureText: labelText.contains('รหัสผ่าน'),
+
+          /// Get the value so be further created the user
           onChanged: (value) {
             if (labelText == accountNameLabelText) {
               accountName = value;
@@ -210,7 +212,7 @@ class _SignupScreenState extends State<SignupScreen> {
     String text,
     Color foregroundColor,
     Color backgroundColor,
-    bool validate,
+    bool isCreateAccountButton,
   ) {
     return TextButton(
       style: ButtonStyle(
@@ -229,9 +231,14 @@ class _SignupScreenState extends State<SignupScreen> {
         minimumSize: MaterialStateProperty.all<Size>(const Size(165, 55)),
       ),
       onPressed: () async {
-        if (validate) {
+        /// If the button is Create Account Button
+        if (isCreateAccountButton) {
+          /// Validate if the textFormField is filled in or not
           if (_formKey.currentState!.validate()) {
+            /// If the password and confirmed password match
             if (password == passwordConfirmed) {
+              /// Try to create user in firebase
+              /// If there is no error, display a success pop-up.
               try {
                 await _auth.createUserWithEmailAndPassword(
                   email: email,
@@ -250,18 +257,27 @@ class _SignupScreenState extends State<SignupScreen> {
                     kGreenColor,
                   ),
                 );
-              } on FirebaseAuthException catch (e) {
+              }
+
+              /// If there is an error, display the error.
+              on FirebaseAuthException catch (e) {
                 setState(() {
                   error = getMessageFromError(e.code);
                 });
               }
-            } else {
+            }
+
+            /// If the password and confirmed password do not match, display the error.
+            else {
               setState(() {
                 error = 'รหัสผ่านไม่ตรงกับยืนยันรหัสผ่าน';
               });
             }
           }
-        } else {
+        }
+
+        /// If the button is Cancel Button, navigate to Login Screen.
+        else {
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -332,6 +348,7 @@ class _SignupScreenState extends State<SignupScreen> {
     );
   }
 
+  /// From Firebase documentation
   String getMessageFromError(e) {
     switch (e) {
       case "email-already-in-use":
