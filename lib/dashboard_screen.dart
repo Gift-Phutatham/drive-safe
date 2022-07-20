@@ -138,7 +138,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
           : Stack(
               children: [
                 ListView.separated(
-                  padding: const EdgeInsets.all(10.0),
+                  padding: const EdgeInsets.fromLTRB(10.0, 20.0, 10.0, 10.0),
                   itemCount: map.length,
                   itemBuilder: (context, index) {
                     ExpwStep key = map.keys.elementAt(index);
