@@ -43,6 +43,10 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
           const SizedBox(
             height: 10,
           ),
+
+          /// Retrieve favorite places data from firebase
+          /// From favorite collection
+          /// Check if the data belongs to the logged in user or not
           StreamBuilder<QuerySnapshot>(
             stream: _firestore
                 .collection(kFavoriteCollection)
@@ -58,6 +62,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                   itemCount: snap.length,
                   itemBuilder: (context, index) {
                     return ListTile(
+                      /// Get both location and address
                       title: Text(
                         snap[index]['location'],
                         style: const TextStyle(
@@ -71,6 +76,8 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                           fontSize: 14,
                         ),
                       ),
+
+                      /// Delete the place after pressing on the delete icon
                       trailing: IconButton(
                         icon: const Icon(
                           Icons.delete,

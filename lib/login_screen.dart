@@ -150,6 +150,8 @@ class _LoginScreenState extends State<LoginScreen> {
             contentPadding: const EdgeInsets.symmetric(vertical: 15),
           ),
           obscureText: labelText == passwordLabelText,
+
+          /// Set the value so be further checked for authenticity
           onChanged: (value) {
             if (labelText == emailLabelText) {
               email = value;
@@ -177,7 +179,10 @@ class _LoginScreenState extends State<LoginScreen> {
         minimumSize: MaterialStateProperty.all<Size>(const Size(350, 50)),
       ),
       onPressed: () async {
+        /// If the button is Login Button
         if (check) {
+          /// Check for authenticity
+          /// If there is no error, navigate into to the Map Screen.
           try {
             await _auth.signInWithEmailAndPassword(
               email: email,
@@ -189,13 +194,19 @@ class _LoginScreenState extends State<LoginScreen> {
                 builder: (_) => const MyBottomNavigationBar(),
               ),
             );
-          } catch (e) {
+          }
+
+          /// If there is an error, display the error.
+          catch (e) {
             print(e);
             setState(() {
               error = '***อีเมลหรือรหัสผ่านไม่ถูกต้อง***';
             });
           }
-        } else {
+        }
+
+        /// If the button is Signup Button, navigate to Signup Screen.
+        else {
           Navigator.push(
             context,
             MaterialPageRoute(
