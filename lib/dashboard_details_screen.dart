@@ -37,7 +37,7 @@ class DashboardDetailsScreen extends StatelessWidget {
         child: Column(
           children: <Widget>[
             Container(
-              padding: const EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 20.0),
+              padding: const EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 15.0),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15.0),
                 border: Border.all(color: themeColor, width: 1),
