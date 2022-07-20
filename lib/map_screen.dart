@@ -188,7 +188,7 @@ class MyMapState extends State<MyMap> {
                           child: Column(
                             children: <Widget>[
                               Text(
-                                'ทางด่่วน$placeName',
+                                'ทางด่วน$placeName',
                                 style: const TextStyle(
                                   fontSize: 16,
                                   color: Colors.white,
