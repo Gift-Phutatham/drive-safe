@@ -41,7 +41,6 @@ class MyMapState extends State<MyMap> {
   late String loggedInUser;
   String? location;
   String? address;
-  Color iconColor = Colors.grey;
 
   @override
   void initState() {
@@ -563,6 +562,7 @@ class MyMapState extends State<MyMap> {
                       String eachAddress = searchList[index]
                               ['structured_formatting']['secondary_text'] ??
                           '';
+                      Color iconColor = Colors.grey;
                       return GestureDetector(
                         onTap: () async {
                           var place = await LocationService()
@@ -606,6 +606,7 @@ class MyMapState extends State<MyMap> {
                               onPressed: () async {
                                 location = eachLocation;
                                 address = eachAddress;
+                                var documentId = '$loggedInUser-$location';
                                 Map<String, dynamic> data = {
                                   'email': loggedInUser,
                                   'location': location,
@@ -613,13 +614,15 @@ class MyMapState extends State<MyMap> {
                                 };
                                 _firestore
                                     .collection(kFavoriteCollection)
-                                    .add(data);
+                                    .doc(documentId)
+                                    .set(data);
+                                DocumentSnapshot docRef = await _firestore
+                                    .collection(kFavoriteCollection)
+                                    .doc(documentId)
+                                    .get();
                                 setState(() {
-                                  if (iconColor == kMainColor) {
-                                    iconColor = Colors.grey;
-                                  } else {
-                                    iconColor = kMainColor;
-                                  }
+                                  iconColor =
+                                      docRef.exists ? kMainColor : Colors.grey;
                                 });
                               },
                             ),
@@ -650,4 +653,11 @@ class MyMapState extends State<MyMap> {
       ),
     );
   }
+
+// isFavorite(documentId, loggedInUser) async {
+//   var docRef =
+//       await _firestore.collection(kFavoriteCollection).doc(documentId).get();
+//   print(docRef.exists);
+//   return docRef;
+// }
 }
